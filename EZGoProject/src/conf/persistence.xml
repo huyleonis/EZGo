@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="EZGoProjectPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>project.ezgo.Entity.Country</class>
+    <class>project.ezgo.Entity.Comment</class>
+    <class>project.ezgo.Entity.Role</class>
+    <class>project.ezgo.Entity.DestinationMap</class>
+    <class>project.ezgo.Entity.Tour</class>
+    <class>project.ezgo.Entity.TransportMap</class>
+    <class>project.ezgo.Entity.HotelMap</class>
+    <class>project.ezgo.Entity.Account</class>
+    <class>project.ezgo.Entity.Transport</class>
+    <class>project.ezgo.Entity.Favorite</class>
+    <class>project.ezgo.Entity.Agenda</class>
+    <class>project.ezgo.Entity.Destination</class>
+    <class>project.ezgo.Entity.Discount</class>
+    <class>project.ezgo.Entity.Hotel</class>
+    <class>project.ezgo.Entity.ViewHistory</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=EZGo"/>
+      <property name="javax.persistence.jdbc.user" value="sa"/>
+      <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+      <property name="javax.persistence.jdbc.password" value="08021996"/>
+    </properties>
+  </persistence-unit>
+</persistence>

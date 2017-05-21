@@ -1,0 +1,35 @@
+<link rel="stylesheet" type="text/css" href="css/main.css">
+<script type="text/javascript" src="js/main.js"></script>
+
+<div class="container"> 
+	<div class="login-card" id="loginCard">
+		<form action="" method="POST">			
+			<img src="img/EZgo.png" class="logo" alt="EZgo">
+			<h3 class="title">Đăng nhập</h3>
+			<input type="email" class="form-control" name="email" placeholder="Email/Tên đăng nhập..." required="required" />
+			<input type="password" class="form-control" name="password" placeholder="Mật khẩu..." required="required" />
+			<button type="submit" class="btn btn-yellow" name="action" value="login">Đăng nhập</button>
+		</form>
+
+		<a onclick="openRegisterCard()"><i>Chưa có tài khoản? Đăng ký ngay.</i></a>
+	</div>
+
+	<div class="login-card register-card" id="registerCard">
+		<form action="" method="POST">						
+			<h3 class="title">Đăng ký mới</h3>
+			<label>Email <span style="color: red;">*</span></label>
+			<input type="email" class="form-control" name="email" placeholder="Email" required="required" />
+
+			<label>Tên Đăng nhập <span style="color: red;">*</span></label>
+			<input type="text" class="form-control" name="email" placeholder="Tên đăng nhập" required="required" />
+
+			<label>Mật khẩu <span style="color: red;">*</span></label>
+			<input type="password" class="form-control" name="password" placeholder="Mật khẩu" required="required" />
+			
+			<label>Xác nhận mật khẩu <span style="color: red;">*</span></label>
+			<input type="password" class="form-control" name="password" placeholder="Xác nhận mật khẩu" required="required" />
+			<button type="submit" class="btn btn-yellow" name="action" value="login">Gửi</button>
+		</form>
+	</div>
+
+</div>

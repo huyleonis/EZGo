@@ -1,0 +1,407 @@
+@font-face {
+	font-family: 'Banda';
+	src: url("font/Banda.otf");
+}
+
+@font-face {
+	font-family: 'Hapna';
+	src: url("font/Hapna.ttf");
+}
+
+@font-face {
+	font-family: Saigonese;
+	src: url("font/Saigonese.otf");
+}
+
+body {
+	font-family: Banda;
+	margin: 0;
+	color: #404040;
+	position: relative;
+}
+
+/*-------- Styling some general elements ---------*/
+.container {
+	width: 85%;
+	margin: auto;
+	position: relative;
+	box-sizing: border-box;
+	display: flex;
+
+	/*height: 400px;*/
+	/*background-color: gold;*/
+}
+
+@media screen and (max-width: 700px)  {
+	.container {
+		width: 96%;		
+	}
+}
+
+img.logo {
+	transform: scale(1.5);
+}
+
+/* Style the link */
+a {
+	text-decoration: none;
+	color: #404040;
+}
+
+a:hover {
+	color: #ee4035;	
+	cursor: pointer;
+}
+
+/* Style the form control in general */
+.form-control {
+	display: block;
+	font-family: Banda;
+	font-weight: bold;
+}
+
+/* Line to decorate title*/
+.title:before, .title:after {	
+	content: "";
+	height: 1px;
+	background-color: #7e7e7e;
+    position: absolute;
+    top: 50%;
+    width: 20%;
+}
+
+.title:before {
+	left: 0;
+}
+
+.title:after {
+	right: 0;
+}
+
+/* Style the input form */
+input.form-control[type="text"], input.form-control[type="email"], input.form-control[type="password"], input.form-control[type="number"], input.form-control[type="date"] {
+	width: 100%;
+	padding: 10px 10px;
+	margin: 0 0 25px 0;
+	border: solid 2px #ffffff;
+	outline: none;
+}
+
+@keyframes inputBorder {
+	100% {
+		border-bottom: solid 2px #f37736;
+		border-left: solid 2px #f37736;
+	}
+}
+
+input.form-control[type="text"]:focus, input.form-control[type="email"]:focus, input.form-control[type="password"]:focus, input.form-control[type="number"]:focus, input.form-control[type="date"]:focus {
+	animation: inputBorder 0.5s forwards;
+}	
+
+/* Style the label */
+label {
+	text-align: left;
+	display: inherit;
+	font-size: 0.85em;
+}
+
+/* Style the button */
+.form-control[type="submit"], .form-control[type="button"], .btn {
+	padding: 12px 20px;
+	margin: 20px 0;	
+	border: none;
+	font-size: 1.1em;
+	font-family: Banda;
+	font-weight: bold;
+	border-radius: 4px;
+	display: inline-block;
+	cursor: pointer;	
+}
+
+.btn:hover {
+	-webkit-transition-duration: 0.4s;
+	transition-duration: 0.4s;
+	-webkit-transition-property: width 0.4s;
+	transition-property: width 0.4s;
+}
+
+.btn-default {	
+	border: 2px solid #404040;
+	padding: 10px 18px;
+	background-color: #404040;
+	color: #ffffff;
+}
+
+.btn-default:hover {
+	border: 2px solid #404040;
+	background-color: #ffffff;
+	color: #404040;
+}
+
+.btn-red {
+	background-color: #ffb3ba;
+	color: black;
+}
+
+.btn-red:hover {
+	background-color: #ee4035;
+	color: white;
+}
+
+.btn-orange {
+	background-color: #ffdfba;
+	color: black;
+}
+
+.btn-orange:hover {
+	background-color: #f37736;
+	color: white;
+}
+
+.btn-yellow {
+	background-color: #ffffba;
+	color: black;
+}
+
+.btn-yellow:hover {
+	background-color: #ffc425;
+	color: brown;
+}
+
+.btn-green {
+	background-color: #baffc9;
+	color: black;
+}
+
+.btn-green:hover {
+	background-color: #7bc043;
+	color: #ffffff;
+}
+
+.btn-blue {
+	background-color: #bae1ff;
+	color: black;
+}
+
+.btn-blue:hover {
+	background-color: #0392cf;
+	color: #ffffff;
+}
+
+/**---------- Style for top menu navigation ---------**/
+
+/* Add background color for top menu */
+.top-menu {
+	background-color: #fc913a;
+	overflow: hidden;	
+}
+
+/* Remove margin and padding of list */
+.top-menu ul {
+	margin: 0;
+	padding: 0;
+	margin-left: 30px;
+}
+
+/* Style for text in menu */
+.top-menu a {
+	text-decoration: none;
+	font-weight: bold;
+	color: 	#fdf5c9;
+	float: left;	
+	text-align: center;
+	padding: 14px 17px;
+	display: block;
+	font-size: 17px;	
+}
+
+/* Style for text when mouse is hover in menu */
+.top-menu a:hover {
+	background-color: #ffcb85;
+	color: #6b3e26;
+}
+
+/* Hide the icon */
+.top-menu a.icon {
+	display: none;
+}
+
+/* Make the top menu responsive when resize browser and width less than 700px*/
+@media screen and (max-width: 700px) {
+	/* Remove padding, margin */
+	.top-menu ul {
+		margin-left: 0;
+	}
+	
+	/* Hide menu item, display icon */
+	.top-menu a { display: none;}
+	.top-menu a.icon {
+		display: block;
+		float: right;
+		cursor: pointer;
+	}
+
+	/* Class responsive will be added when user click on icon 3-horizontal-bars */
+	.top-menu.responsive {position: relative;}
+	.top-menu.responsive a.icon {
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+
+	.top-menu.responsive a {
+		float: none;
+		display: block;
+		text-align: left;
+	}
+}
+
+/**---------- Style for Slide in Home Page ---------**/
+
+/* Modify size, margin and padding of whole slide area*/
+.slide {
+	display: flex;
+	width: 80%;
+	margin: auto;
+	height: 300px;
+}
+
+/* Main slide, the largest image in slide */
+.slide-main {	
+	align-items: stretch;
+	width: 65%;
+	overflow: hidden;
+}
+
+/* List sub slides area contain 4 items */
+.slide-sub {
+	align-items: stretch;
+	position: relative;	
+	width: 35%;
+}
+
+/* Sub-slide items */
+.slide-sub-item {
+	float: left;
+	width: 49%;
+	height: 49%;
+	margin-top: 1%;
+	margin-left: 1%;
+	overflow: hidden;
+}
+
+/* Responsive when resize browser */
+@media screen and (max-width: 880px) {
+	.slide-main {
+		width: 77%;
+	}
+
+	.slide-sub {
+		width: 23%
+	}
+
+	.slide-sub-item {
+		width: 98%;
+		height: 32%;
+	}
+
+	.slide-sub-item:last-child {
+		display: none;
+	}
+}
+
+/* Responsive when resize browser */
+@media screen and (max-width: 650px) {
+
+	.slide-main {				
+		width: 100%;
+	}
+
+	.slide-sub {
+		display: none;
+	}
+}
+
+/* Make image zoom in when hover */
+.slide img {
+  -moz-transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.slide img:hover {
+  -moz-transform: scale(1.12);
+  -webkit-transform: scale(1.12);
+  transform: scale(1.12);
+}
+
+/** ----------- Login Card ----------- **/
+.login-card {	
+	padding: 35px 3%;
+	width: 35%;
+	margin-left: 10%;
+	margin-right: 0;
+	text-align: center;
+	background-color: #f1f1f1;
+	box-sizing: border-box;
+	align-items: stretch;
+	border-top:solid 4px #0392cf;
+
+	float: left;
+}
+
+@media screen and (max-width: 700px) {
+	.login-card {
+		width: 95%;
+		margin: auto;		
+		float: none;
+		padding: 25px 3%;
+		margin-bottom: 20px;
+	}
+
+	.login-card .form-control {
+		width: 90%;
+	}
+}
+
+/* Login title */
+.login-card h3 {
+	margin: 0 0  25px 0;
+	position: relative;
+	font-family: Saigonese;
+	text-align: center;	
+	font-weight: bolder;
+}
+
+/* Logo in login form, its width is 60%, therefore it should have margin left 20%
+to be placed in the center. */
+.login-card img {
+	width: 60%;
+	height: auto;
+	margin-left: 10%;
+}
+
+.login-card .btn[type="submit"] {
+	width: 100%;
+}
+
+.login-card a {
+	font-size: 0.85em;
+}
+
+/** ----------- Footer ----------- **/
+.footer {
+	width: 100%;
+	background-color: #a32020;
+	color: white;
+	box-sizing: border-box;
+	padding: 20px 30px;
+
+	text-align: center;
+}
+
+.footer h2 {
+	font-size: 2em;
+	margin: 10px auto;
+	font-weight: bolder;
+	font-stretch: ultra-expanded;
+}
