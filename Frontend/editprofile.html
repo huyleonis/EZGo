@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="css/main.css" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="vertical-menu">
+                <a href="accountinfo.html">Thông tin cá nhân</a>
+                <a href="editprofile.html" class="active">Sửa thông tin cá nhân</a>
+                <a href="changepassword.html">Đổi mật khẩu</a>
+            </div>
+
+            <div class="profile-info login-card">
+                <form action="" method="POST">						
+                    <h3 class="title">Chỉnh sửa thông tin</h3>
+                    <label>Ngày sinh <span style="color: red;">*</span></label>
+                    <input type="date" class="form-control" 
+                           name="birthday" required="required" />
+                    <label>Tiểu sử <span style="color: red;">*</span></label>
+                    <textarea class="form-control" name="description" rows="10" 
+                              cols="50" placeholder="Tiểu sử"></textarea>
+                    <label>Di động <span style="color: red;">*</span></label>
+                    <input type="number" class="form-control" name="phone" 
+                           placeholder="Số di động" required="required" />
+                    <label>Email <span style="color: red;">*</span></label>
+                    <input type="email" class="form-control" name="email" 
+                           placeholder="Email" required="required" />
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
