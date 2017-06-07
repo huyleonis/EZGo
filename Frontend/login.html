@@ -6,8 +6,12 @@
 		<form action="" method="POST">			
 			<img src="img/EZgo.png" class="logo" alt="EZgo">
 			<h3 class="title">Đăng nhập</h3>
-			<input type="email" class="form-control" name="email" placeholder="Email/Tên đăng nhập..." required="required" />
-			<input type="password" class="form-control" name="password" placeholder="Mật khẩu..." required="required" />
+			<label>Tên đăng nhập/Email:</label>
+			<input type="email" class="form-control" name="email" placeholder="Nhập email/tên đăng nhập..." required="required" />
+			<label>Mật khẩu:</label>
+			<input type="password" class="form-control" name="password" placeholder="Nhập mật khẩu..." required="required" />
+			
+			<label><input type="checkbox" name="remember"> Nhớ mật khẩu</label>
 			<button type="submit" class="btn btn-yellow" name="action" value="login">Đăng nhập</button>
 		</form>
 

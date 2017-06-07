@@ -192,15 +192,20 @@ label {
 
 /* Add background color for top menu */
 .top-menu {
-	background-color: #fc913a;
-	overflow: hidden;	
+	background-color: #fc913a;	
+	padding-left: 30px;
 }
 
-/* Remove margin and padding of list */
 .top-menu ul {
+	list-style-type: none;
+	overflow: hidden;
 	margin: 0;
 	padding: 0;
-	margin-left: 30px;
+}
+
+.top-menu li {
+	display: inline-block;
+	float: left;
 }
 
 /* Style for text in menu */
@@ -208,11 +213,44 @@ label {
 	text-decoration: none;
 	font-weight: bold;
 	color: 	#fdf5c9;
-	float: left;	
 	text-align: center;
 	padding: 14px 17px;
-	display: block;
 	font-size: 17px;	
+	display: block;
+}
+
+.top-menu > a:not(:nth-last-child(2)) {
+	border-right: 1px solid #fdf5c9;	
+}
+
+/* Style for the dropdown menu */
+li.dropdown {
+	position: relative;
+	display: inline-block;
+}
+
+.dropdown-content {
+	position: absolute;	
+	background-color: #ffdfba;
+	display: none;	
+	z-index: 1;	
+	color: #404040;
+}
+
+.dropdown-content a {
+	min-width: 160px;
+	color: #404040;
+	display: block;
+	text-align: left;
+}
+
+.dropdown:hover .dropdown-content {
+	display: block;
+}
+
+.dropdown:hover .dropdown-btn {
+	background-color: #ffcb85;
+	color: #6b3e26;
 }
 
 /* Style for text when mouse is hover in menu */
