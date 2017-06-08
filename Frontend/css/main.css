@@ -25,10 +25,10 @@ body {
 	margin: auto;
 	position: relative;
 	box-sizing: border-box;
-	display: block;
+	display: flex;
 
 	/*height: 400px;*/
-	background-color: gold;
+	/*background-color: gold;*/
 }
 
 @media screen and (max-width: 700px)  {
@@ -574,3 +574,187 @@ to be placed in the center. */
 	text-align: left;
 }
 
+
+
+/** -------------------------------------------- THULNN -------------------------------------------- **/
+
+/** ----------- Account Info ----------- **/
+
+.vertical-menu {
+    margin-top: 5px;
+    max-width: 35%;
+    min-width: 215px;
+    display: inline-block;
+    float: left;
+}
+
+.vertical-menu a {
+    background-color: #fc913a;
+    color: #fdf5c9;
+    border-left: 6px solid #CD6839;
+    display: block;
+    padding: 12px;
+    text-decoration: none;
+    margin-top: 2px;
+    font-weight: bold;
+}
+
+.vertical-menu a:hover {
+    background-color: #ffcb85;
+    color: #6b3e26;
+    border-left: 6px solid #FFA54F;
+}
+
+.vertical-menu a.active {
+    background-color: #ffcb85;
+    color: #6b3e26;
+    border-bottom: 3px solid #FFA54F;
+    border-left: 6px solid #FFA54F;
+    border-top: 3px solid #FFA54F;
+}
+
+.profile-info{
+    margin-left: 2%; 
+    width: 70%;
+}
+
+.profile-info dl {
+    width: 100%;
+    overflow: hidden;
+    padding: 0;
+    margin: 0
+}
+.profile-info dt {
+    float: left;
+    width: 25%;
+    /* adjust the width; make sure the total of both is 100% */
+    padding: 0;
+    margin: 0;
+}
+
+.basic-info dl:last-child{
+    padding-bottom: 20px;
+}
+
+.profile-info dd {
+    float: left;
+    width: 75%;
+    /* adjust the width; make sure the total of both is 100% */
+    padding: 0;
+    margin: 0
+}
+
+.profile-info textarea{
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+@media screen and (max-width:800px){
+    .profile-info{
+        margin-left: 2%; 
+        width: 100%;
+        float: left;
+        display: block;
+    }
+
+    .vertical-menu {
+        margin-top: 5px;
+        width: 100%;
+        float: left;
+        display: block;
+    }
+}
+
+/** ----------- Agenda Info ----------- **/
+.contact-agenda-info{
+    width: 20%
+}
+
+.contact-agenda-info img{
+    width: 100%;
+}
+
+.contact-agenda-info ul {
+    list-style-type: none;
+    margin: 0;
+    margin-top: 5px;
+    padding: 5px;
+    width: 95%;
+    background-color: #fc913a;
+}
+
+.contact-agenda-info li a {
+    display: block;
+    color: #fdf5c9;
+    padding: 8px 16px;
+    text-decoration: none;
+    background-color: #fc913a;
+}
+
+.contact-agenda-info li {
+    text-align: center;
+    border-bottom: 1px dashed #fdf5c9;
+}
+
+.contact-agenda-info li:last-child {
+    border-bottom: none;
+}
+
+.contact-agenda-info li a:hover{
+    background-color: #ffcb85;
+    color: #6b3e26;
+}
+
+.contact-agenda{
+    width: 40%;
+}
+
+.login-card .contact-agenda, .login-card .description-agenda{
+    text-align: left;
+}
+
+/** ----------- Tour Agenda ----------- **/
+.tour-agenda{
+    margin: 0 auto;
+    width: 100%;
+}
+
+.tour-agenda ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    text-align: center;
+}
+
+.tour-agenda li{
+    float: left;
+    width: 45%;
+    border-bottom: 1px solid #ffffff;
+}
+
+.tour-agenda li:nth-child(odd){
+    margin-right: 10%;
+}
+
+.tour-agenda li:nth-last-child(2), .tour-agenda li:last-child{
+    border-bottom: none
+}
+
+.tour-agenda h4{
+    font-size: 20px;
+    line-height: 22px;
+    font-weight: 700;
+    margin-top: 5px;
+    margin-bottom: -10px; 
+}
+
+.tour-image{
+    margin: 10px auto;
+    display: block;
+}
+
+.tour-agenda .btn[type="submit"] {
+    width: 70%;
+    margin-top: 0px;
+}
