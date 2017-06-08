@@ -36,6 +36,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Agenda.findByWebsite", query = "SELECT a FROM Agenda a WHERE a.website = :website")})
 public class Agenda implements Serializable {
 
+    @Column(name = "logo", length = 200)
+    private String logo;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -151,6 +154,14 @@ public class Agenda implements Serializable {
     @Override
     public String toString() {
         return "project.ezgo.Entity.Agenda[ agendaID=" + agendaID + " ]";
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
     
 }

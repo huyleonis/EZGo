@@ -17,19 +17,18 @@ body {
 	font-family: Banda;
 	margin: 0;
 	color: #404040;
-	position: relative;
 }
 
 /*-------- Styling some general elements ---------*/
 .container {
-	width: 85%;
+	width: 90%;
 	margin: auto;
 	position: relative;
 	box-sizing: border-box;
-	display: flex;
+	display: block;
 
 	/*height: 400px;*/
-	/*background-color: gold;*/
+	background-color: gold;
 }
 
 @media screen and (max-width: 700px)  {
@@ -119,10 +118,10 @@ label {
 }
 
 .btn:hover {
-	-webkit-transition-duration: 0.4s;
-	transition-duration: 0.4s;
-	-webkit-transition-property: width 0.4s;
-	transition-property: width 0.4s;
+	-webkit-transition-duration: 0.3s;
+	transition-duration: 0.3s;
+	-webkit-transition-property: width 0.3s;
+	transition-property: width 0.3s;
 }
 
 .btn-default {	
@@ -188,25 +187,23 @@ label {
 	color: #ffffff;
 }
 
+select {
+	padding: 12px 20px;
+	margin: 0 0 25px 0;
+	border: solid 0.2px #404040;
+	outline: none;
+	font-family: Banda;
+}
+
 /**---------- Style for top menu navigation ---------**/
 
 /* Add background color for top menu */
 .top-menu {
 	background-color: #fc913a;	
 	padding-left: 30px;
-}
-
-.top-menu ul {
-	list-style-type: none;
 	overflow: hidden;
-	margin: 0;
-	padding: 0;
 }
 
-.top-menu li {
-	display: inline-block;
-	float: left;
-}
 
 /* Style for text in menu */
 .top-menu a {
@@ -216,32 +213,48 @@ label {
 	text-align: center;
 	padding: 14px 17px;
 	font-size: 17px;	
-	display: block;
+
+	float: left;
 }
 
 .top-menu > a:not(:nth-last-child(2)) {
 	border-right: 1px solid #fdf5c9;	
 }
 
+/* Style for text when mouse is hover in menu */
+.top-menu a:hover {
+	background-color: #ffcb85;
+	color: #6b3e26;
+}
+
 /* Style for the dropdown menu */
-li.dropdown {
-	position: relative;
-	display: inline-block;
+.top-menu .dropdown {
+	float: left;
+	overflow: hidden;
+}
+
+.top-menu .dropdown .dropdown-btn {
+	overflow: hidden;
+	display: block;
+	float: none;
 }
 
 .dropdown-content {
 	position: absolute;	
-	background-color: #ffdfba;
 	display: none;	
-	z-index: 1;	
+	float: none;
+	min-width: 160px;
+
+	background-color: #ffdfba;
 	color: #404040;
 }
 
-.dropdown-content a {
-	min-width: 160px;
-	color: #404040;
-	display: block;
+.dropdown-content a {	
+	float: none;
 	text-align: left;
+	display: block;
+
+	color: #404040;
 }
 
 .dropdown:hover .dropdown-content {
@@ -249,12 +262,6 @@ li.dropdown {
 }
 
 .dropdown:hover .dropdown-btn {
-	background-color: #ffcb85;
-	color: #6b3e26;
-}
-
-/* Style for text when mouse is hover in menu */
-.top-menu a:hover {
 	background-color: #ffcb85;
 	color: #6b3e26;
 }
@@ -267,8 +274,9 @@ li.dropdown {
 /* Make the top menu responsive when resize browser and width less than 700px*/
 @media screen and (max-width: 700px) {
 	/* Remove padding, margin */
-	.top-menu ul {
+	.top-menu {
 		margin-left: 0;
+		padding-left: 0;
 	}
 	
 	/* Hide menu item, display icon */
@@ -280,14 +288,13 @@ li.dropdown {
 	}
 
 	/* Class responsive will be added when user click on icon 3-horizontal-bars */
-	.top-menu.responsive {position: relative;}
 	.top-menu.responsive a.icon {
 		position: absolute;
 		right: 0;
 		top: 0;
 	}
 
-	.top-menu.responsive a {
+	.top-menu.responsive a, .top-menu.responsive .dropdown, .top-menu.responsive .dropdown a {
 		float: none;
 		display: block;
 		text-align: left;
@@ -443,3 +450,127 @@ to be placed in the center. */
 	font-weight: bolder;
 	font-stretch: ultra-expanded;
 }
+
+/** ------------ Tour Summary Card ----------**/
+.tour-card {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6);
+	margin: 1.5%;
+	text-align: center;
+	display: inline-block;
+	width: 30%;
+	box-sizing: border-box;
+	position: relative;
+	float: left;
+
+	background-color: white;
+}
+
+.tour-card img {
+	min-height: 200px;
+	max-height: 200px;
+}
+
+.tour-card .tour-card-content {
+	height: 280px;
+}
+
+.tour-card .departure {
+	background-color: rgba(64, 64, 64, 0.8);	
+	color: white;
+	width: 90%;
+	padding: 3px 15px 3px 10px;
+	text-align: left;
+	position: absolute;
+	top: 170px;
+	left: 0;
+}
+
+.tour-card .tour-card-price {
+	text-align: justify;
+	display: inline-block;
+	width: 80%;
+	margin: auto;
+}
+
+.tour-card .tour-card-price strong {
+	text-align: left;
+	float: right;
+}
+
+.tour-card .tour-card-price strong .amount {
+	font-weight: bolder;
+	font-size: 1.4em;
+	color: #ee4035;
+}
+
+.tour-card .tour-card-price strong .curr {
+	font-weight: bolder;
+	font-size: 1.2em;
+	color: #ee4035;
+}
+
+.tour-card .tour-card-price strong .old-amount {
+	text-decoration: line-through;
+	margin-top: 5px;
+	font-weight: 100;
+	font-size: 0.9em;
+}
+
+.tour-card .tour-card-descripiton {
+	text-align: left;
+	padding: 0px 10px;
+	font-size: 0.9em;
+}
+
+.tour-card .tour-card-descripiton .agency {
+	font-size: 1.1em;
+	color: #0392cf;
+	font-weight: bolder;
+	font-style: italic;
+}
+
+.tour-card .tour-card-descripiton .agency:hover {
+	color: #f37736;
+	text-decoration: underline;
+}
+
+@media screen and (max-width: 950px) {
+	.tour-card {
+		width: 45%;
+		margin: 2.5%;
+	}
+}
+
+@media screen and (max-width: 650px) {
+	.tour-card {
+		width: 90%;
+		margin: 5%;
+	}
+
+	.tour-card img {
+		min-height: 250px;
+	}
+
+	.tour-card .departure {
+		top: 215px;
+	}
+
+	.tour-card .tour-card-content {
+		height: 250px;
+	}
+}
+
+/** --------------- Search bar ----------------- **/
+.search-bar {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	background-color: #f1f1f1;
+	width: 80%;
+	padding: 20px;
+	margin: auto;
+	text-align: center;
+}
+
+.search-bar h3 {
+	text-align: left;
+}
+

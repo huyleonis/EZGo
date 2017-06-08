@@ -35,6 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Destination.findByDescription", query = "SELECT d FROM Destination d WHERE d.description = :description")})
 public class Destination implements Serializable {
 
+    @Column(name = "picture", length = 200)
+    private String picture;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -131,6 +134,14 @@ public class Destination implements Serializable {
     @Override
     public String toString() {
         return "project.ezgo.Entity.Destination[ destinationID=" + destinationID + " ]";
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
     
 }

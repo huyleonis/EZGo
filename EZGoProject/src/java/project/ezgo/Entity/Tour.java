@@ -39,6 +39,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Tour.findByLink", query = "SELECT t FROM Tour t WHERE t.link = :link")})
 public class Tour implements Serializable {
 
+    @Column(name = "picture", length = 200)
+    private String picture;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -231,6 +234,14 @@ public class Tour implements Serializable {
     @Override
     public String toString() {
         return "project.ezgo.Entity.Tour[ tourID=" + tourID + " ]";
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
     
 }
