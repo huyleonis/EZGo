@@ -14,13 +14,23 @@ function openMenu() {
 }
 
 
-function openRegisterCard() {
-	var registerCard = document.getElementById("registerCard");
-	var email = document.querySelectorAll(".register-card input[type='email']");
+/**
+* Function used to toggle opening/closing filter bar
+*/
+function openFilter() {
+	var filter = document.getElementById("filterContent");
 
-	email[0].focus();
+	if (filter.className === "filter-content") {
+		filter.className += " filter-active";
+	} else {
+		filter.className = "filter-content";
+	}
+}
 
-	
+function changePrice(val) {
+	var maxPrice = document.getElementById("maxPrice");
 
-	
+	val = val/1000000;
+	debugger
+	maxPrice.innerHTML = val;
 }

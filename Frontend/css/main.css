@@ -574,7 +574,51 @@ to be placed in the center. */
 	text-align: left;
 }
 
+.search-bar input {
+	border-radius: 20px;
+}
 
+/** --------------- Filters ---------------- **/
+.filter {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	background-color: #f1f1f1;
+	width: 80%;
+	padding: 20px;
+	margin: auto;
+}
+
+.filter > h4 {
+	margin-bottom: 5px;
+}
+
+.filter-content {
+	display: flex;
+	overflow: hidden;
+	float: left;
+	height: 0px;
+
+	-webkit-transition: height 2s; /* Safari */
+    transition: height 2s;
+}
+
+.filter-content > div {
+	display: inline-block;
+	align-items: stretch;
+	margin: 0px 22px;	
+}
+
+.filter label {
+	display: inline;
+}
+
+.filter h5 {
+	margin: 0;
+	margin-bottom: 5px;	
+}
+
+.filter-active {
+	height: auto;
+}
 
 /** -------------------------------------------- THULNN -------------------------------------------- **/
 
