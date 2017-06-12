@@ -1,0 +1,831 @@
+@font-face {
+    font-family: 'Banda';
+    src: url("font/Banda.otf");
+}
+
+@font-face {
+    font-family: 'Hapna';
+    src: url("font/Hapna.ttf");
+}
+
+@font-face {
+    font-family: Saigonese;
+    src: url("font/Saigonese.otf");
+}
+
+body {
+    font-family: Banda;
+    margin: 0;
+    color: #404040;
+    background-color: #fdf5c9;
+}
+
+/*-------- Styling some general elements ---------*/
+.container {
+    width: 90%;
+    margin: auto;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+
+    /*height: 400px;*/
+    /*background-color: gold;*/
+}
+
+@media screen and (max-width: 700px)  {
+    .container {
+        width: 96%;		
+    }
+}
+
+img.logo {
+    transform: scale(1.5);    
+}
+
+/* Style the link */
+a {
+    text-decoration: none;
+    color: #404040;
+}
+
+a:hover {
+    color: #ee4035;	
+    cursor: pointer;
+}
+
+/* Style the form control in general */
+.form-control {
+    display: block;
+    font-family: Banda;
+    font-weight: bold;
+}
+
+/* Line to decorate title*/
+.title:before, .title:after {	
+    content: "";
+    height: 1px;
+    background-color: #7e7e7e;
+    position: absolute;
+    top: 50%;
+    width: 20%;
+}
+
+.title:before {
+    left: 0;
+}
+
+.title:after {
+    right: 0;
+}
+
+/* Style the input form */
+input.form-control[type="text"], input.form-control[type="email"], input.form-control[type="password"], input.form-control[type="number"], input.form-control[type="date"] {
+    width: 100%;
+    padding: 10px 10px;
+    margin: 0 0 25px 0;
+    border: solid 2px #ffffff;
+    outline: none;
+}
+
+@keyframes inputBorder {
+    100% {
+        border-bottom: solid 2px #f37736;
+        border-left: solid 2px #f37736;
+    }
+}
+
+input.form-control[type="text"]:focus, input.form-control[type="email"]:focus, input.form-control[type="password"]:focus, input.form-control[type="number"]:focus, input.form-control[type="date"]:focus {
+    animation: inputBorder 0.5s forwards;
+}	
+
+/* Style the label */
+label {
+    text-align: left;
+    display: inherit;
+    font-size: 0.85em;
+}
+
+/* Style the button */
+.form-control[type="submit"], .form-control[type="button"], .btn {
+    padding: 12px 20px;
+    margin: 20px 0;	
+    border: none;
+    font-size: 1.1em;
+    font-family: Banda;
+    font-weight: bold;
+    border-radius: 4px;
+    display: inline-block;
+    cursor: pointer;	
+}
+
+.btn:hover {
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: width 0.3s;
+    transition-property: width 0.3s;
+}
+
+.btn-default {	
+    border: 2px solid #404040;
+    padding: 10px 18px;
+    background-color: #404040;
+    color: #ffffff;
+}
+
+.btn-default:hover {
+    border: 2px solid #404040;
+    background-color: #ffffff;
+    color: #404040;
+}
+
+.btn-red {
+    background-color: #ffb3ba;
+    color: black;
+}
+
+.btn-red:hover {
+    background-color: #ee4035;
+    color: white;
+}
+
+.btn-orange {
+    background-color: #ffdfba;
+    color: black;
+}
+
+.btn-orange:hover {
+    background-color: #f37736;
+    color: white;
+}
+
+.btn-yellow {
+    background-color: #ffffba;
+    color: black;
+}
+
+.btn-yellow:hover {
+    background-color: #ffc425;
+    color: brown;
+}
+
+.btn-green {
+    background-color: #baffc9;
+    color: black;
+}
+
+.btn-green:hover {
+    background-color: #7bc043;
+    color: #ffffff;
+}
+
+.btn-blue {
+    background-color: #bae1ff;
+    color: black;
+}
+
+.btn-blue:hover {
+    background-color: #0392cf;
+    color: #ffffff;
+}
+
+select {
+    padding: 12px 20px;
+    margin: 0 0 25px 0;
+    border: solid 0.2px #404040;
+    outline: none;
+    font-family: Banda;
+}
+
+/**---------- Style for top menu navigation ---------**/
+
+/* Add background color for top menu */
+.top-menu {
+    background-color: #fc913a;	
+    padding-left: 30px;
+    overflow: hidden;
+    z-index: 100;
+}
+
+
+/* Style for text in menu */
+.top-menu a {
+    text-decoration: none;
+    font-weight: bold;
+    color: 	#fdf5c9;
+    text-align: center;
+    padding: 14px 17px;
+    font-size: 17px;	
+
+    float: left;
+}
+
+.top-menu > a:not(:nth-last-child(2)) {
+    border-right: 1px solid #fdf5c9;	
+}
+
+/* Style for text when mouse is hover in menu */
+.top-menu a:hover {
+    background-color: #ffcb85;
+    color: #6b3e26;
+}
+
+/* Style for the dropdown menu */
+.top-menu .dropdown {
+    float: left;
+    overflow: hidden;
+}
+
+.top-menu .dropdown .dropdown-btn {
+    overflow: hidden;
+    display: block;
+    float: none;
+}
+
+.dropdown-content {
+    position: absolute;	
+    display: none;	
+    float: none;
+    min-width: 160px;
+
+    background-color: #ffdfba;
+    color: #404040;
+    z-index: 100;
+}
+
+.dropdown-content a {	
+    float: none;
+    text-align: left;
+    display: block;
+
+    color: #404040;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropdown-btn {
+    background-color: #ffcb85;
+    color: #6b3e26;
+}
+
+/* Hide the icon */
+.top-menu a.icon {
+    display: none;
+}
+
+/* Make the top menu responsive when resize browser and width less than 700px*/
+@media screen and (max-width: 700px) {
+    /* Remove padding, margin */
+    .top-menu {
+        margin-left: 0;
+        padding-left: 0;
+    }
+
+    /* Hide menu item, display icon */
+    .top-menu a { display: none;}
+    .top-menu a.icon {
+        display: block;
+        float: right;
+        cursor: pointer;
+    }
+
+    /* Class responsive will be added when user click on icon 3-horizontal-bars */
+    .top-menu.responsive a.icon {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    .top-menu.responsive a, .top-menu.responsive .dropdown, .top-menu.responsive .dropdown a {
+        float: none;
+        display: block;
+        text-align: left;
+    }
+}
+
+/**---------- Style for Slide in Home Page ---------**/
+
+/* Modify size, margin and padding of whole slide area*/
+.slide {
+    display: flex;
+    width: 80%;
+    margin: auto;
+    height: 300px;
+}
+
+/* Main slide, the largest image in slide */
+.slide-main {	
+    align-items: stretch;
+    width: 65%;
+    overflow: hidden;
+}
+
+/* List sub slides area contain 4 items */
+.slide-sub {
+    align-items: stretch;
+    position: relative;	
+    width: 35%;
+}
+
+/* Sub-slide items */
+.slide-sub-item {
+    float: left;
+    width: 49%;
+    height: 49%;
+    margin-top: 1%;
+    margin-left: 1%;
+    overflow: hidden;
+}
+
+/* Responsive when resize browser */
+@media screen and (max-width: 880px) {
+    .slide-main {
+        width: 77%;
+    }
+
+    .slide-sub {
+        width: 23%
+    }
+
+    .slide-sub-item {
+        width: 98%;
+        height: 32%;
+    }
+
+    .slide-sub-item:last-child {
+        display: none;
+    }
+}
+
+/* Responsive when resize browser */
+@media screen and (max-width: 650px) {
+
+    .slide-main {				
+        width: 100%;
+    }
+
+    .slide-sub {
+        display: none;
+    }
+}
+
+/* Make image zoom in when hover */
+.slide img {
+    -moz-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+.slide img:hover {
+    -moz-transform: scale(1.12);
+    -webkit-transform: scale(1.12);
+    transform: scale(1.12);
+}
+
+/** ----------- Login Card ----------- **/
+.login-card {	
+    padding: 35px 3%;
+    width: 40%;
+    margin:auto;
+    text-align: center;
+    background-color: #f1f1f1;
+    box-sizing: border-box;
+    align-items: stretch;
+    border-top:solid 4px #0392cf;
+
+    float: left;
+}
+
+@media screen and (max-width: 700px) {
+    .login-card {
+        width: 95%;
+        margin: auto;		
+        float: none;
+        padding: 25px 3%;
+        margin-bottom: 20px;
+    }
+
+    .login-card .form-control {
+        width: 90%;
+    }
+}
+
+/* Login title */
+.login-card h3 {
+    margin: 0 0  25px 0;
+    position: relative;
+    font-family: Saigonese;
+    text-align: center;	
+    font-weight: bolder;
+}
+
+/* Logo in login form, its width is 60%, therefore it should have margin left 20%
+to be placed in the center. */
+.login-card img {
+    width: 60%;
+    height: auto;
+    margin:auto;
+}
+
+.login-card .btn[type="submit"] {
+    width: 100%;
+}
+
+.login-card a {
+    font-size: 0.85em;
+}
+
+/** ----------- Footer ----------- **/
+.footer {
+    width: 100%;
+    background-color: #a32020;
+    color: white;
+    box-sizing: border-box;
+    padding: 3px 30px;
+
+    text-align: center;
+}
+
+.footer h2 {
+    font-size: 2em;
+    margin: 10px auto;
+    font-weight: bolder;
+    font-stretch: ultra-expanded;
+}
+
+/** ------------ Tour Summary Card ----------**/
+.tour-view {
+    display: block;    
+}
+
+.tour-card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6);
+    margin: 1.5%;
+    text-align: center;
+    display: inline-block;
+    width: 30%;
+    box-sizing: border-box;
+    position: relative;
+    float: left;
+
+    background-color: white;
+}
+
+.tour-card img {
+    min-height: 200px;
+    max-height: 200px;
+}
+
+.tour-card .tour-card-content {
+    height: 245px;
+}
+
+.tour-card .departure {
+    background-color: rgba(64, 64, 64, 0.8);	
+    color: white;
+    width: 90%;
+    padding: 3px 15px 3px 10px;
+    text-align: left;
+    position: absolute;
+    top: 170px;
+    left: 0;
+}
+
+.tour-card .tour-card-price {
+    text-align: justify;
+    display: inline-block;
+    width: 80%;
+    margin: auto;
+}
+
+.tour-card .tour-card-price strong {
+    text-align: left;
+    float: right;
+}
+
+.tour-card .tour-card-price strong .amount {
+    font-weight: bolder;
+    font-size: 1.4em;
+    color: #ee4035;
+}
+
+.tour-card .tour-card-price strong .curr {
+    font-weight: bolder;
+    font-size: 1.2em;
+    color: #ee4035;
+}
+
+.tour-card .tour-card-price strong .old-amount {
+    text-decoration: line-through;
+    margin-top: 5px;
+    font-weight: 100;
+    font-size: 0.9em;
+}
+
+.tour-card .tour-card-descripiton {
+    text-align: left;
+    padding: 0px 10px;
+    font-size: 0.9em;
+}
+
+.tour-card .tour-card-descripiton .agency {
+    font-size: 1.1em;
+    color: #0392cf;
+    font-weight: bolder;
+    font-style: italic;
+}
+
+.tour-card .tour-card-descripiton .agency:hover {
+    color: #f37736;
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 950px) {
+    .tour-card {
+        width: 45%;
+        margin: 2.5%;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .tour-card {
+        width: 90%;
+        margin: 5%;
+    }
+
+    .tour-card img {
+        min-height: 250px;
+    }
+
+    .tour-card .departure {
+        top: 215px;
+    }
+
+    .tour-card .tour-card-content {
+        height: 250px;
+    }
+}
+
+/** --------------- Search bar ----------------- **/
+.search-bar {    
+    background-color: #f1f1f1;
+    width: 90%;
+    padding: 20px;
+    padding-bottom: 0;
+    margin: auto;
+    text-align: center;
+}
+
+.search-bar h3, .search-bar h4 {
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+.search-bar input {
+    border-radius: 20px 0 0 20px;
+}
+
+.search-bar .btn {
+    margin-top: 3px;
+}
+
+/** --------------- Filters ---------------- **/
+.filter {
+	background-color: #f1f1f1;
+	width: 90%;
+	padding: 20px;
+        padding-top: 0;
+	margin: auto;
+}
+
+.filter > h4 {
+	margin-bottom: 5px;
+}
+
+.filter-content {
+    display: flex;
+    overflow: hidden;
+    float: left;
+    height: 0px;
+
+    -webkit-transition: height 2s; /* Safari */
+    transition: height 2s;
+}
+
+.filter-content > div {
+    display: inline-block;
+    align-items: stretch;
+    margin: 0px 22px;	
+}
+
+.filter label {
+    display: inline;
+}
+
+.filter h5 {
+    margin: 0;
+    margin-bottom: 5px;	
+}
+
+.filter-active {
+    height: auto;
+}
+
+/** -------------------------------------------- THULNN -------------------------------------------- **/
+
+/** ----------- Account Info ----------- **/
+
+.vertical-menu {
+    margin-top: 5px;
+    max-width: 35%;
+    min-width: 215px;
+    display: inline-block;
+    float: left;
+}
+
+.vertical-menu a {
+    background-color: #fc913a;
+    color: #fdf5c9;
+    border-left: 6px solid #CD6839;
+    display: block;
+    padding: 12px;
+    text-decoration: none;
+    margin-top: 2px;
+    font-weight: bold;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    -webkit-transition-property: width 0.4s;
+    transition-property: width 0.4s;
+}
+
+.vertical-menu a:hover {
+    background-color: #ffcb85;
+    color: #6b3e26;
+    border-left: 6px solid #FFA54F;
+}
+
+.vertical-menu a.active {
+    background-color: #ffcb85;
+    color: #6b3e26;
+    border-bottom: 3px solid #FFA54F;
+    border-left: 6px solid #FFA54F;
+    border-top: 3px solid #FFA54F;
+}
+
+.profile-info{
+    margin-left: 2%; 
+    width: 70%;
+}
+
+.profile-info dl {
+    width: 100%;
+    overflow: hidden;
+    padding: 0;
+    margin: 0
+}
+.profile-info dt {
+    float: left;
+    width: 25%;
+    /* adjust the width; make sure the total of both is 100% */
+    padding: 0;
+    margin: 0;
+}
+
+.basic-info dl:last-child{
+    padding-bottom: 20px;
+}
+
+.profile-info dd {
+    float: left;
+    width: 75%;
+    /* adjust the width; make sure the total of both is 100% */
+    padding: 0;
+    margin: 0
+}
+
+.profile-info textarea{
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.tabcontent{
+    display: none;
+}
+
+#view-acc-info{
+    display: block;
+}
+
+@media screen and (max-width:800px){
+    .profile-info{
+        margin-left: 2%; 
+        width: 100%;
+        float: left;
+        display: block;
+    }
+
+    .vertical-menu {
+        margin-top: 5px;
+        width: 100%;
+        float: left;
+        display: block;
+    }
+}
+
+/** ----------- Agenda Info ----------- **/
+.contact-agenda-info{
+    width: 20%
+}
+
+.contact-agenda-info img{
+    width: 100%;
+}
+
+.contact-agenda-info ul {
+    list-style-type: none;
+    margin: 0;
+    margin-top: 5px;
+    padding: 5px;
+    width: 95%;
+    background-color: #fc913a;
+}
+
+.contact-agenda-info li a {
+    display: block;
+    color: #fdf5c9;
+    padding: 8px 16px;
+    text-decoration: none;
+    background-color: #fc913a;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    -webkit-transition-property: width 0.4s;
+    transition-property: width 0.4s;
+}
+
+.contact-agenda-info li {
+    text-align: center;
+    border-bottom: 1px dashed #fdf5c9;
+}
+
+.contact-agenda-info li:last-child {
+    border-bottom: none;
+}
+
+.contact-agenda-info li a:hover{
+    background-color: #ffcb85;
+    color: #6b3e26;
+}
+
+.contact-agenda{
+    width: 40%;
+}
+
+.login-card .contact-agenda, .login-card .description-agenda{
+    text-align: left;
+}
+
+/** ----------- Tour Agenda ----------- **/
+.tour-agenda{
+    margin: 0 auto;
+    width: 100%;
+}
+
+.tour-agenda ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    text-align: center;
+}
+
+.tour-agenda li{
+    float: left;
+    width: 45%;
+    border-bottom: 1px solid #ffffff;
+}
+
+.tour-agenda li:nth-child(odd){
+    margin-right: 10%;
+}
+
+.tour-agenda li:nth-last-child(2), .tour-agenda li:last-child{
+    border-bottom: none
+}
+
+.tour-agenda h4{
+    font-size: 20px;
+    line-height: 22px;
+    font-weight: 700;
+    margin-top: 5px;
+    margin-bottom: -10px; 
+}
+
+.tour-image{
+    margin: 10px auto;
+    display: block;
+}
+
+.tour-agenda .btn[type="submit"] {
+    width: 70%;
+    margin-top: 0px;
+}
