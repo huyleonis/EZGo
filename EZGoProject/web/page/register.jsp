@@ -28,7 +28,7 @@
             <input type="password" class="form-control" name="repassword" placeholder="Xác nhận mật khẩu" required="required" />
             
             <font color="red" id="registerError" style="display:none;">Lỗi: Email không đúng cú pháp</font>
-            <button type="submit" class="btn btn-green" name="action" value="login">Gửi</button>
+            <button type="submit" class="btn btn-green" name="action" value="Register">Gửi</button>
         </form>
     </div>
 </div>
