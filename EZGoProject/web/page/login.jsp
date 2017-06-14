@@ -12,16 +12,16 @@
 
 <div class="container"> 
     <div class="login-card" id="loginCard">
-        <form action="" method="POST">			
+        <form action="process" method="POST">			
             <img src="img/EZgo.png" class="logo" alt="EZgo">
             <h3 class="title">Đăng nhập</h3>
             <label>Tên đăng nhập/Email:</label>
-            <input type="email" class="form-control" name="email" placeholder="Nhập email/tên đăng nhập..." required="required" />
+            <input type="text" class="form-control" name="email" placeholder="Nhập email/tên đăng nhập..." required="required" />
             <label>Mật khẩu:</label>
             <input type="password" class="form-control" name="password" placeholder="Nhập mật khẩu..." required="required" />
 
             <label><input type="checkbox" name="remember"> Nhớ mật khẩu</label>
-            <button type="submit" class="btn btn-green" name="action" value="login">Đăng nhập</button>
+            <button type="submit" class="btn btn-green" name="action" value="Login">Đăng nhập</button>
         </form>
 
         <a href="?p=register"><i>Chưa có tài khoản? Đăng ký ngay.</i></a>

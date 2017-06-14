@@ -7,24 +7,22 @@ package project.ezgo.Servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import project.ezgo.BLO.AccountMng;
-import project.ezgo.Entity.Account;
 
 /**
  *
  * @author hp
  */
-public class Login extends HttpServlet {
-
+@WebServlet(name = "ProcessServlet", urlPatterns = {"/process"})
+public class ProcessServlet extends HttpServlet {
     private final String index = ".";
-    private final String login = "?p=login";
-
+    private final String loginServlet = "/login";
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,52 +36,18 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-
-        String url = login;
-        String error = null;
+        String url = index;
+        
         try {
-            String email = request.getParameter("email");
-            String password = request.getParameter("password");
-            String remember = request.getParameter("remember");
-
-            if (email != null && password != null) {
-
-                AccountMng mng = new AccountMng();
-
-                boolean result = mng.checkLogin(email, password);
-
-                if (result) {
-                    Account a = mng.findAccount(email);
-
-                    HttpSession session = request.getSession(true);
-                    session.setAttribute("ACCOUNT_ID", a.getAccountID());
-                    session.setAttribute("ACCOUNT_FULLNAME", a.getFullname());
-                    url = index;
-                    
-                    if (remember != null) {
-                        Cookie ckUsename = new Cookie("ACC_USERNAME", a.getUsername());
-                        Cookie ckPassword = new Cookie("ACC_PASSWORD", a.getPassword());
-                        ckUsename.setMaxAge(60 * 60 * 24 * 30);
-                        ckPassword.setMaxAge(60 * 60 * 24 * 30);
-                        response.addCookie(ckUsename);
-                        response.addCookie(ckPassword);
-                    } // end if check remember
-
-                } else { //end if check login result
-                    error = "Email/Mật khẩu không chính xác";
-                }//end else check login result
-
-            } else { //end if check null
-                error = "Email/Mật khẩu không gửi được";
-            }// end else check null
+            String btn = request.getParameter("action");
             
-            if (error != null) {
-                HttpSession session = request.getSession();
-                session.setAttribute("LOGIN_ERROR", error);
+            if (btn.equals("Login")) {
+                url = loginServlet;
             }
             
-            response.sendRedirect(url);
         } finally {
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
             out.close();
         }
     }

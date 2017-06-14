@@ -31,8 +31,7 @@
             <c:otherwise>
                 <c:import url="page/index.jsp" charEncoding="utf-8" />
             </c:otherwise>
-        </c:choose>
-        <!-- ?p=login -->
+        </c:choose>        
         
         <c:import url="view/footer.jsp" charEncoding="utf-8"/>
     </body>

@@ -7,7 +7,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<c:set var="account" value="${sessionScope.account}"/>
+<c:set var="fullname" value="${sessionScope.ACCOUNT_FULLNAME}"/>
+<c:set var="accId" value="${sessionScope.ACCOUNT_ID}"/>
+
 
 <div class="top-menu" id="topMenu">
 
@@ -19,11 +21,11 @@
     <div class="dropdown">
         <a class="dropdown-btn" ><i class="fa fa-user-circle" style="font-size: 21px;"></i></a>
         <div class="dropdown-content">
-            <c:if test="${empty account}">
+            <c:if test="${empty accId}">
                 <a href="?p=login">Đăng nhập</a>
                 <a href="?p=register">Đăng ký</a>				
             </c:if>
-            <c:if test="${not empty account}">
+            <c:if test="${not empty accId}">
                 <a href="?p=account">Thông tin tài khoản</a>
                 <a href="logout">Đăng xuất</a>				
             </c:if>

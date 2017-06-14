@@ -47,11 +47,33 @@ public class AccountMng implements Serializable {
         query.setParameter("username", username);
         
         try {
-            Account account = (Account) query.getSingleResult();
-            return account.getPassword().equals(password);                
-        } catch (NoResultException e) {            
+            String pwd = (String) query.getSingleResult();
+            return pwd.equals(password);                
+        } catch (NoResultException e) { 
+            System.out.println("No result match email/username " + username 
+                    + " - Error: " + e);
             return false;
         }               
+    }
+
+    public Account findAccount(String username) {
+        EntityManager em = emf.createEntityManager();
+        
+        String jpql = "SELECT a FROM Account a WHERE a.username = :username OR a.email = :email";
+        Query query  = em.createQuery(jpql);
+        
+        query.setParameter("email", username);
+        query.setParameter("username", username);
+        
+        try {
+            Account account = (Account) query.getSingleResult();
+            return account;                
+        } catch (NoResultException e) { 
+            System.out.println("No result match email/username " + username 
+                    + " - Error: " + e);
+            return null;
+        }   
+        
     }
     
 }
