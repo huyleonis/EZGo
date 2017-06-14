@@ -22,8 +22,8 @@ import project.ezgo.Entity.Account;
  */
 @WebServlet(name = "RegisterServlet", urlPatterns = {"/register"})
 public class RegisterServlet extends HttpServlet {
-    private String loginPage = "login.jsp";
-    private String registerPage = "register.jsp";
+    private String loginPage = "?p=login";
+    private String registerPage = "?p=register";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -60,6 +60,7 @@ public class RegisterServlet extends HttpServlet {
             log("Registration fail - Error: " + e);
             error = "Xảy ra lỗi, xin hãy thử lại sau!";
         } finally{
+            request.setAttribute("ERROR", error);
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
         }

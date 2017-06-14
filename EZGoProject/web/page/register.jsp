@@ -13,19 +13,19 @@
 <div class="container"> 
 
     <div class="login-card register-card" id="registerCard">
-        <form action="" method="POST">						
+        <form action="ProcessServlet" method="POST">						
             <h3 class="title">Đăng ký mới</h3>
             <label>Email <span style="color: red;">*</span></label>
             <input type="email" class="form-control" name="email" placeholder="Email" required="required" />
 
             <label>Tên Đăng nhập <span style="color: red;">*</span></label>
-            <input type="text" class="form-control" name="email" placeholder="Tên đăng nhập" required="required" />
+            <input type="text" class="form-control" name="username" placeholder="Tên đăng nhập" required="required" />
 
             <label>Mật khẩu <span style="color: red;">*</span></label>
             <input type="password" class="form-control" name="password" placeholder="Mật khẩu" required="required" />
 
             <label>Xác nhận mật khẩu <span style="color: red;">*</span></label>
-            <input type="password" class="form-control" name="password" placeholder="Xác nhận mật khẩu" required="required" />
+            <input type="password" class="form-control" name="repassword" placeholder="Xác nhận mật khẩu" required="required" />
             
             <font color="red" id="registerError" style="display:none;">Lỗi: Email không đúng cú pháp</font>
             <button type="submit" class="btn btn-green" name="action" value="login">Gửi</button>
