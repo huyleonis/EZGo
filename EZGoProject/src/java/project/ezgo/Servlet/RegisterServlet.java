@@ -7,11 +7,14 @@ package project.ezgo.Servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import project.ezgo.BLO.AccountMng;
+import project.ezgo.Entity.Account;
 
 /**
  *
@@ -19,7 +22,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "RegisterServlet", urlPatterns = {"/register"})
 public class RegisterServlet extends HttpServlet {
-
+    private String loginPage = "login.jsp";
+    private String registerPage = "register.jsp";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -32,17 +36,32 @@ public class RegisterServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        String email = request.getParameter("email");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String error = "";
+        String url = registerPage;
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet RegisterServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet RegisterServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            AccountMng manager = new AccountMng();
+            if (manager.findAccount(email)!=null) {
+                error = "Lỗi: Email này đã tồn tại!";
+            } else if (manager.findAccount(username)!=null) {
+                error = "Lỗi: Tên đăng nhập này đã tồn tại!";
+            } else {
+                boolean createResult = manager.createNewAccount(new Account(Integer.BYTES, username, password, email));
+                if (!createResult) {
+                    error = "Xảy ra lỗi, xin vui lòng thử lại sau!";
+                } else {
+                    url = loginPage;
+                }
+            }
+            request.setAttribute("ERROR", error);
+        } catch(Exception e){
+            log("Registration fail - Error: " + e);
+            error = "Xảy ra lỗi, xin hãy thử lại sau!";
+        } finally{
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
         }
     }
 
