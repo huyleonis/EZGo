@@ -641,6 +641,10 @@ to be placed in the center. */
     text-decoration: none;
     margin-top: 2px;
     font-weight: bold;
+	-webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    -webkit-transition-property: width 0.4s;
+    transition-property: width 0.4s;
 }
 
 .vertical-menu a:hover {
@@ -693,6 +697,14 @@ to be placed in the center. */
     margin-bottom: 15px;
 }
 
+.tabcontent{
+    display: none;
+}
+
+#view-acc-info{
+    display: block;
+}
+
 @media screen and (max-width:800px){
     .profile-info{
         margin-left: 2%; 
@@ -733,6 +745,10 @@ to be placed in the center. */
     padding: 8px 16px;
     text-decoration: none;
     background-color: #fc913a;
+	-webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    -webkit-transition-property: width 0.4s;
+    transition-property: width 0.4s;
 }
 
 .contact-agenda-info li {
