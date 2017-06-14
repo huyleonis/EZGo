@@ -75,5 +75,13 @@ public class AccountMng implements Serializable {
         }   
         
     }
+
+    public Account getAccountById(String id) {
+        EntityManager em = emf.createEntityManager();
+        
+        Account result = em.find(Account.class, Integer.parseInt(id));
+        
+        return result;
+    }
     
 }

@@ -19,14 +19,23 @@
     <a href="#" >Tour nước ngoài</a>
     <a href="#" >Khuyến mãi</a>
     <div class="dropdown">
-        <a class="dropdown-btn" ><i class="fa fa-user-circle" style="font-size: 21px;"></i></a>
+        <a class="dropdown-btn" >
+            <i class="fa fa-user-circle" style="font-size: 21px;"></i> 
+            <c:if test="${not empty fullname}">
+                ${fullname}
+            </c:if>
+        </a>
         <div class="dropdown-content">
             <c:if test="${empty accId}">
                 <a href="?p=login">Đăng nhập</a>
                 <a href="?p=register">Đăng ký</a>				
             </c:if>
             <c:if test="${not empty accId}">
-                <a href="?p=account">Thông tin tài khoản</a>
+                <c:url var="accountInfo" value="process">
+                    <c:param name="action" value="AccountInfo"/>
+                    <c:param name="id" value="${accId}"/>
+                </c:url>
+                <a href="${accountInfo}">Thông tin tài khoản</a>
                 <a href="logout">Đăng xuất</a>				
             </c:if>
         </div>

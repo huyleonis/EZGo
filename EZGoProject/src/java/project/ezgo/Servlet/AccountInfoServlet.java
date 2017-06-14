@@ -13,17 +13,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import project.ezgo.BLO.AccountMng;
+import project.ezgo.Entity.Account;
 
 /**
  *
  * @author hp
  */
-@WebServlet(name = "ProcessServlet", urlPatterns = {"/process"})
-public class ProcessServlet extends HttpServlet {
-    private final String index = ".";
-    private final String loginServlet = "/login";
-    private final String accountInfoServlet = "/AccountInfo";
-    
+@WebServlet(name = "AccountInfoServlet", urlPatterns = {"/AccountInfo"})
+public class AccountInfoServlet extends HttpServlet {
+    private final String accountInfoPage = "?p=account";
+    private final String loginPage = "?p=login";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,22 +36,19 @@ public class ProcessServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        String url = index;
-        
-        try {
-            String btn = request.getParameter("action");
+        try (PrintWriter out = response.getWriter()) {
+            String id = request.getParameter("id");
             
-            if (btn.equals("Login")) {
-                url = loginServlet;
-            } else if (btn.equals("AccountInfo")) {
-                url = accountInfoServlet;
-            }
+            Account account = (new AccountMng()).getAccountById(id);
+            String url = loginPage;
             
-        } finally {
+            if (account != null) {
+                request.setAttribute("ACCOUNT", account);
+                url = accountInfoPage;
+            }            
+            
             RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
-            out.close();
+            rd.forward(request, response);                    
         }
     }
 

@@ -6,10 +6,13 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
+<c:set var="account" value="${requestScope.ACCOUNT}" />
 
 <c:import url="view/logo.jsp" charEncoding="utf-8"/>
 <hr/>
-
+<br/>
 <div class="container">
     <div class="vertical-menu">
         <a href="#" class="tablinks active"
@@ -27,31 +30,36 @@
             <div class="basic-info">
                 <dl>
                     <dt>Tên tài khoản</dt>
-                    <dd>Alexander Rebak</dd>
+                    <dd>${account.username}</dd>
+                </dl>
+                <dl>    
+                    <dt>Họ tên</dt>
+                    <dd>${account.fullname}</dd>
                 </dl>
                 <dl>
                     <dt>Ngày sinh</dt>
-                    <dd>01/01/1990</dd>
+                    <dd>
+                        <fmt:formatDate value="${account.birthday}" 
+                                        pattern="dd/MM/yyyy" var="formattedDate"/>
+                        ${formattedDate}
+                    </dd>
                 </dl>
-                <dl>    
-                    <dt>Tiểu sử</dt>
-                    <dd>text text text</dd>
-                </dl>
+                
             </div>
 
             <h3 class="title">Thông tin liên lạc</h3>
             <div class="contact-info">
                 <dl>
                     <dt>Di động</dt>
-                    <dd>0908124125</dd>
+                    <dd>${account.phone}</dd>
                 </dl>
                 <dl>
                     <dt>Email</dt>
-                    <dd>alexander@gmail.com</dd>
+                    <dd>${account.email}</dd>
                 </dl>
                 <dl>
-                    <dt>Facebook</dt>
-                    <dd>alexander@facebook.com</dd>
+                    <dt>Địa chỉ hiện tại</dt>
+                    <dd>${account.address}</dd>
                 </dl>
             </div>
         </div>
@@ -95,3 +103,4 @@
         </div>
     </div>
 </div>
+<br/>

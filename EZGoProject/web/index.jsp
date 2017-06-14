@@ -22,6 +22,9 @@
         <c:import url="view/navigator.jsp" charEncoding="utf-8"/>
         <c:set value="${param.p}" var="page"/>
         <c:choose>
+            <c:when test="${page == 'account'}">
+                <c:import url="page/accountinfo.jsp" charEncoding="utf-8" />
+            </c:when>
             <c:when test="${page == 'login'}">
                 <c:import url="page/login.jsp" charEncoding="utf-8" />
             </c:when>
