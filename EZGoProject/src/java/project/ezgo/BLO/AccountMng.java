@@ -36,52 +36,62 @@ public class AccountMng implements Serializable {
             em.close();
         }
     }
-    
+
     public boolean checkLogin(String username, String password) {
         EntityManager em = emf.createEntityManager();
-        
+
         String jpql = "SELECT a.password FROM Account a WHERE a.username = :username OR a.email = :email";
-        Query query  = em.createQuery(jpql);
-        
+        Query query = em.createQuery(jpql);
+
         query.setParameter("email", username);
         query.setParameter("username", username);
-        
+
         try {
             String pwd = (String) query.getSingleResult();
-            return pwd.equals(password);                
-        } catch (NoResultException e) { 
-            System.out.println("No result match email/username " + username 
+            return pwd.equals(password);
+        } catch (NoResultException e) {
+            System.out.println("No result match email/username " + username
                     + " - Error: " + e);
             return false;
-        }               
+        }
     }
 
     public Account findAccount(String username) {
         EntityManager em = emf.createEntityManager();
-        
+
         String jpql = "SELECT a FROM Account a WHERE a.username = :username OR a.email = :email";
-        Query query  = em.createQuery(jpql);
-        
+        Query query = em.createQuery(jpql);
+
         query.setParameter("email", username);
         query.setParameter("username", username);
-        
+
         try {
             Account account = (Account) query.getSingleResult();
-            return account;                
-        } catch (NoResultException e) { 
-            System.out.println("No result match email/username " + username 
+            return account;
+        } catch (NoResultException e) {
+            System.out.println("No result match email/username " + username
                     + " - Error: " + e);
             return null;
-        }   
-        
+        }
+
     }
 
     public Account getAccountById(String id) {
         EntityManager em = emf.createEntityManager();
-        
+
         Account result = em.find(Account.class, Integer.parseInt(id));
-        
+
         return result;
     }
-    
+
+    public boolean createNewAccount(Account account) {
+        try {
+            persist(account);
+            return true;
+        } catch(Exception e){
+            System.out.println("Cannot create new account - Error: " + e);
+            return false;
+        }
+    }
+
 }
