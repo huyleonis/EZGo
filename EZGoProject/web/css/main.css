@@ -829,3 +829,53 @@ to be placed in the center. */
     width: 70%;
     margin-top: 0px;
 }
+
+/** ----------- Agenda card Summary ----------- **/
+
+.summary-agenda-card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6);
+    margin: 1.5%;
+    text-align: center;
+    display: inline-block;
+    width: 30%;
+    box-sizing: border-box;
+    position: relative;
+    float: left;
+
+    background-color: white;
+}
+
+.summary-agenda-card img {
+    min-height: 200px;
+    max-height: 200px;
+}
+
+.summary-agenda-card .agenda-card-content {
+    height: 160px;
+}
+
+@media screen and (max-width: 950px) {
+    .summary-agenda-card {
+        width: 45%;
+        margin: 2.5%;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .summary-agenda-card {
+        width: 90%;
+        margin: 5%;
+    }
+
+    .summary-agenda-card img {
+        min-height: 250px;
+    }
+
+    .summary-agenda-card .departure {
+        top: 215px;
+    }
+
+    .summary-agenda-card .agenda-card-content {
+        height: 170px;
+    }
+}
