@@ -3,10 +3,10 @@
 <!--id, tên, hình, giá, agenda-->
 
 <xsd:schema version="1.0"
-           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-           targetNamespace="http://xml.netbeans.org/schema/tours"
-           xmlns="http://xml.netbeans.org/schema/tours"
-           elementFormDefault="qualified">
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://xml.netbeans.org/schema/tours"
+            xmlns="http://xml.netbeans.org/schema/tours"
+            elementFormDefault="qualified">
     <xsd:element name="tours">
         <xsd:complexType>
             <xsd:sequence>
@@ -18,7 +18,7 @@
                             <xsd:element name="agendaID" type="xsd:int"/>
                             <xsd:element name="picture" type="xsd:string"/>
                         </xsd:sequence>                   
-                        <xsd:attribute name="tourID" type="xsd:int" use="required"/>
+                        <xsd:attribute name="tourID" type="xsd:int" use="required"/>     
                     </xsd:complexType>
                 </xsd:element>
             </xsd:sequence>
