@@ -88,8 +88,25 @@ public class AccountMng implements Serializable {
         try {
             persist(account);
             return true;
-        } catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Cannot create new account - Error: " + e);
+            return false;
+        }
+    }
+
+    public boolean removeAccount(String accountID) {
+        try {
+            EntityManager em = emf.createEntityManager();
+            Account account = em.find(Account.class, accountID);
+            if (account != null) {
+                em.getTransaction();
+                em.remove(account);
+                em.getTransaction().commit();
+                return true;
+            }
+            return false;
+        } catch (Exception ex) {
+            System.out.println("Cannot remove account - Error: " + ex);
             return false;
         }
     }
