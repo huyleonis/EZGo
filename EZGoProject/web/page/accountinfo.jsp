@@ -117,8 +117,9 @@
                     <input type="text" name="kw" placeholder="Nhập từ khóa..." class="form-control" style="width:60%; display: inline;">
                     <select name="category">
                         <option>Tìm kiếm theo...</option>
-                        <option value="tour">ID</option>
-                        <option value="destination">Tên</option>
+                        <option value="findusername">Tên đăng nhập</option>
+                        <option value="findemail">Email</option>
+                        <option value="findname">Họ tên</option>
                     </select>
                     <button type="submit" name="action" value="Search" class="btn btn-default">
                         Tìm kiếm

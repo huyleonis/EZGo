@@ -36,19 +36,19 @@ public class AccountInfoServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            String id = request.getParameter("id");
-            
+        PrintWriter out = response.getWriter();
+        String id = request.getParameter("id");
+        String url = loginPage;
+        try{
             Account account = (new AccountMng()).getAccountById(id);
-            String url = loginPage;
-            
             if (account != null) {
                 request.setAttribute("ACCOUNT", account);
                 url = accountInfoPage;
-            }            
-            
+            }                       
+        } finally{
             RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);                    
+            rd.forward(request, response);   
+            out.close();
         }
     }
 
