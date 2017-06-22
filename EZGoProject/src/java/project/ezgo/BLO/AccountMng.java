@@ -145,7 +145,18 @@ public class AccountMng implements Serializable {
         return result;
     }
     
-    public boolean updatePassword(int id, String newPassword){
-        return false;
+    public boolean updatePassword(int accountID, String newPassword){
+        try{
+            EntityManager em = emf.createEntityManager();
+            Account account = em.find(Account.class, accountID);
+            account.setPassword(newPassword);
+            em.getTransaction().begin();
+            em.merge(account);
+            em.getTransaction().commit();
+            return true;
+        }  catch(Exception ex){
+            System.out.println(ex);
+            return false;
+        }  
     }
 }
