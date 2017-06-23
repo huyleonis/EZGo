@@ -7,23 +7,24 @@ package project.ezgo.Servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import project.ezgo.BLO.AccountMng;
 
 /**
  *
  * @author Dells
  */
-@WebServlet(name = "FindAccountServlet", urlPatterns = {"/findacc"})
-public class FindAccountServlet extends HttpServlet {
+@WebServlet(name = "UpdateAccountServlet", urlPatterns = {"/updateaccountinfo"})
+public class UpdateAccountServlet extends HttpServlet {
+
     String managePage = "?p=accountinfo";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,22 +38,23 @@ public class FindAccountServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String choice = request.getParameter("category").trim();
-        String findValue = request.getParameter("kw").trim();
-        String url = managePage;
-        try{
+        String birthday = request.getParameter("birthday");
+        String phone = request.getParameter("phone");
+        String email = request.getParameter("email");
+        HttpSession session = request.getSession();
+        String accountID = (String) session.getAttribute("ACCOUNT_ID");
+        try {
             AccountMng manager = new AccountMng();
-            List listAccount = new ArrayList();
-            if(choice.equalsIgnoreCase("findusername")){
-                listAccount = manager.findAccountByUsername(findValue);
-            } else if(choice.equalsIgnoreCase("findemail")){
-                listAccount = manager.findAccountByEmail(findValue);
-            } else{
-                listAccount = manager.findAccountByFullname(findValue);
+            boolean result = manager.updateinfo(accountID, birthday, phone, email);
+            if (!result) {
+                request.setAttribute("ERROR", "Lỗi xảy ra, vui lòng thử lại sau!");
             }
-            request.setAttribute("RESULT", listAccount);
-        } finally{
-            RequestDispatcher rd = request.getRequestDispatcher(url);
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+            request.setAttribute("ERROR", "Lỗi xảy ra, vui lòng thử lại sau!");
+        } finally {
+            RequestDispatcher rd = request.getRequestDispatcher(managePage);
             rd.forward(request, response);
             out.close();
         }

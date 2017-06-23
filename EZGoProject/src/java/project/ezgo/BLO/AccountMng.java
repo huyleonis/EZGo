@@ -6,6 +6,9 @@
 package project.ezgo.BLO;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -111,8 +114,8 @@ public class AccountMng implements Serializable {
             return false;
         }
     }
-    
-    public List findAccountByUsername(String username){
+
+    public List findAccountByUsername(String username) {
         EntityManager em = emf.createEntityManager();
 
         String jpql = "SELECT a FROM Account a WHERE a.username LIKE :username";
@@ -122,8 +125,8 @@ public class AccountMng implements Serializable {
         List result = query.getResultList();
         return result;
     }
-    
-    public List findAccountByEmail(String email){
+
+    public List findAccountByEmail(String email) {
         EntityManager em = emf.createEntityManager();
 
         String jpql = "SELECT a FROM Account a WHERE a.email = :email";
@@ -134,7 +137,7 @@ public class AccountMng implements Serializable {
         return result;
     }
 
-    public List findAccountByFullname(String fullname){
+    public List findAccountByFullname(String fullname) {
         EntityManager em = emf.createEntityManager();
 
         String jpql = "SELECT a FROM Account a WHERE a.fullname = :fullname";
@@ -144,19 +147,37 @@ public class AccountMng implements Serializable {
         List result = query.getResultList();
         return result;
     }
-    
-    public boolean updatePassword(int accountID, String newPassword){
-        try{
+
+    public boolean updatePassword(String accountID, String newPassword) {
+        try {
             EntityManager em = emf.createEntityManager();
-            Account account = em.find(Account.class, accountID);
+            Account account = em.find(Account.class, Integer.parseInt(accountID));
             account.setPassword(newPassword);
             em.getTransaction().begin();
             em.merge(account);
             em.getTransaction().commit();
             return true;
-        }  catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex);
             return false;
-        }  
+        }
+    }
+
+    public boolean updateinfo(String accountID, String birthday, String phone, String email) {
+        try {
+            EntityManager em = emf.createEntityManager();
+            Account account = em.find(Account.class, Integer.parseInt(accountID));
+            SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+            account.setBirthday(formatter.parse(birthday));
+            account.setPhone(phone);
+            account.setEmail(email);
+            em.getTransaction().begin();
+            em.merge(account);
+            em.getTransaction().commit();
+            return true;
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return false;
+        }
     }
 }

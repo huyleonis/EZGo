@@ -79,9 +79,9 @@
                 <label>Ngày sinh <span style="color: red;">*</span></label>
                 <input type="date" class="form-control" 
                        name="birthday" required="required" />
-                <label>Tiểu sử <span style="color: red;">*</span></label>
+<!--                <label>Tiểu sử <span style="color: red;">*</span></label>
                 <textarea class="form-control" name="description" rows="10" 
-                          cols="50" placeholder="Tiểu sử"></textarea>
+                          cols="50" placeholder="Tiểu sử"></textarea>-->
                 <label>Di động <span style="color: red;">*</span></label>
                 <input type="number" class="form-control" name="phone" 
                        placeholder="Số di động" required="required" />
@@ -103,7 +103,7 @@
                        name="newpass" required="required" />
                 <label>Xác nhận mật khẩu <span style="color: red;">*</span></label>
                 <input type="password" class="form-control" 
-                       name="newpass" required="required" />
+                       name="renewpass" required="required" />
                 <button type="submit" class="btn btn-yellow" 
                         name="action" value="changepass">Đổi mật khẩu</button>
             </form>
