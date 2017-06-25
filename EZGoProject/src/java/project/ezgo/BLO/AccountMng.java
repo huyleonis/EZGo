@@ -6,6 +6,10 @@
 package project.ezgo.BLO;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -88,10 +92,92 @@ public class AccountMng implements Serializable {
         try {
             persist(account);
             return true;
-        } catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Cannot create new account - Error: " + e);
             return false;
         }
     }
 
+    public boolean removeAccount(String accountID) {
+        try {
+            EntityManager em = emf.createEntityManager();
+            Account account = em.find(Account.class, accountID);
+            if (account != null) {
+                em.getTransaction();
+                em.remove(account);
+                em.getTransaction().commit();
+                return true;
+            }
+            return false;
+        } catch (Exception ex) {
+            System.out.println("Cannot remove account - Error: " + ex);
+            return false;
+        }
+    }
+
+    public List findAccountByUsername(String username) {
+        EntityManager em = emf.createEntityManager();
+
+        String jpql = "SELECT a FROM Account a WHERE a.username LIKE :username";
+        Query query = em.createQuery(jpql);
+
+        query.setParameter("username", "%" + username + "%");
+        List result = query.getResultList();
+        return result;
+    }
+
+    public List findAccountByEmail(String email) {
+        EntityManager em = emf.createEntityManager();
+
+        String jpql = "SELECT a FROM Account a WHERE a.email = :email";
+        Query query = em.createQuery(jpql);
+
+        query.setParameter("username", "%" + email + "%");
+        List result = query.getResultList();
+        return result;
+    }
+
+    public List findAccountByFullname(String fullname) {
+        EntityManager em = emf.createEntityManager();
+
+        String jpql = "SELECT a FROM Account a WHERE a.fullname = :fullname";
+        Query query = em.createQuery(jpql);
+
+        query.setParameter("username", "%" + fullname + "%");
+        List result = query.getResultList();
+        return result;
+    }
+
+    public boolean updatePassword(String accountID, String newPassword) {
+        try {
+            EntityManager em = emf.createEntityManager();
+            Account account = em.find(Account.class, Integer.parseInt(accountID));
+            account.setPassword(newPassword);
+            em.getTransaction().begin();
+            em.merge(account);
+            em.getTransaction().commit();
+            return true;
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return false;
+        }
+    }
+
+    public boolean updateinfo(String accountID, String birthday, String phone, String email) {
+        try {
+            EntityManager em = emf.createEntityManager();
+            Account account = em.find(Account.class, Integer.parseInt(accountID));
+            SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+            account.setBirthday(formatter.parse(birthday));
+            account.setPhone(phone);
+            account.setEmail(email);
+            em.getTransaction().begin();
+            em.merge(account);
+            em.getTransaction().commit();
+            return true;
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return false;
+        }
+    }
 }

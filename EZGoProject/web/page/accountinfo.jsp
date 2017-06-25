@@ -21,6 +21,13 @@
            onclick="openAccountInfoTab(event, 'edit-acc-info'); return false;">Sửa thông tin cá nhân</a>
         <a href="#" class="tablinks"
            onclick="openAccountInfoTab(event, 'change-pass'); return false;">Đổi mật khẩu</a>
+        <hr/>
+        <a href="#" class="tablinks"
+           onclick="openAccountInfoTab(event, 'manage-acc'); return false;">Quản lý tài khoản</a>
+        <a href="#" class="tablinks"
+           onclick="openAccountInfoTab(event, 'manage-tour'); return false;">Quản lý Tour</a>
+        <a href="#" class="tablinks"
+           onclick="openAccountInfoTab(event, 'manage-agenda'); return false;">Quản lý Công ty du lịch</a>
     </div>
 
     <div class="profile-info login-card">            
@@ -44,7 +51,7 @@
                         ${formattedDate}
                     </dd>
                 </dl>
-                
+
             </div>
 
             <h3 class="title">Thông tin liên lạc</h3>
@@ -72,9 +79,9 @@
                 <label>Ngày sinh <span style="color: red;">*</span></label>
                 <input type="date" class="form-control" 
                        name="birthday" required="required" />
-                <label>Tiểu sử <span style="color: red;">*</span></label>
+<!--                <label>Tiểu sử <span style="color: red;">*</span></label>
                 <textarea class="form-control" name="description" rows="10" 
-                          cols="50" placeholder="Tiểu sử"></textarea>
+                          cols="50" placeholder="Tiểu sử"></textarea>-->
                 <label>Di động <span style="color: red;">*</span></label>
                 <input type="number" class="form-control" name="phone" 
                        placeholder="Số di động" required="required" />
@@ -96,11 +103,94 @@
                        name="newpass" required="required" />
                 <label>Xác nhận mật khẩu <span style="color: red;">*</span></label>
                 <input type="password" class="form-control" 
-                       name="newpass" required="required" />
+                       name="renewpass" required="required" />
                 <button type="submit" class="btn btn-yellow" 
                         name="action" value="changepass">Đổi mật khẩu</button>
             </form>
         </div>
+
+        <!--------------------- Tab manage account ------------------>
+        <div class="tabcontent" id="manage-acc" >
+            <div class="search-bar">
+                <label><h3> Quản lý tài khoản: </h3></label>
+                <form>
+                    <input type="text" name="kw" placeholder="Nhập từ khóa..." class="form-control" style="width:60%; display: inline;">
+                    <select name="category">
+                        <option>Tìm kiếm theo...</option>
+                        <option value="findusername">Tên đăng nhập</option>
+                        <option value="findemail">Email</option>
+                        <option value="findname">Họ tên</option>
+                    </select>
+                    <button type="submit" name="action" value="Search" class="btn btn-default">
+                        Tìm kiếm
+                    </button>
+                </form>
+
+                <div class="table-wrapper">
+
+                    <div class="table">
+                        <div class="row header">
+                            <div class="cell">
+                                Username
+                            </div>
+                            <div class="cell">
+                                Email
+                            </div>
+                            <div class="cell">
+                                Fullname
+                            </div>
+                            <div class="cell">
+                                Role
+                            </div>
+                            <div class="cell">
+                                Action
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="cell">
+                                LukePeter
+                            </div>
+                            <div class="cell">
+                                FreelancerLuke@gmail.com
+                            </div>
+                            <div class="cell">
+                                Luke Peters
+                            </div>
+                            <div class="cell">
+                                User
+                            </div>
+                            <div class="cell">
+                                <button type="submit" class="btn btn-orange" 
+                                        name="action" value="changepass">Xóa</button>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="cell">
+                                LukePeter
+                            </div>
+                            <div class="cell">
+                                FreelancerLuke@gmail.com
+                            </div>
+                            <div class="cell">
+                                Luke Peters
+                            </div>
+                            <div class="cell">
+                                User
+                            </div>
+                            <div class="cell">
+                                <button type="submit" class="btn btn-orange" 
+                                        name="action" value="changepass">Xóa</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
     </div>
 </div>
 <br/>
