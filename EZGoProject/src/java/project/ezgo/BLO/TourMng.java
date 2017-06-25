@@ -23,7 +23,7 @@ import project.ezgo.Entity.Tour;
 public class TourMng implements Serializable {
 
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("EZGoProjectPU");
-    EntityManager em;
+    EntityManager em = emf.createEntityManager();
 
     public void persist(Object object) {
         em = emf.createEntityManager();
@@ -76,8 +76,7 @@ public class TourMng implements Serializable {
                 tour.setName(listTours.get(i).getName());
                 tour.setDuration(listTours.get(i).getDuration());
                 tour.setPrice(listTours.get(i).getPrice());
-                tour.setRating(listTours.get(i).getRating());
-                tour.setDiscountID(listTours.get(i).getDiscountID());
+                tour.setRating(listTours.get(i).getRating());                
                 tour.setDescription(listTours.get(i).getDescription());
                 tour.setAgendaID(listTours.get(i).getAgendaID());
                 tour.setLink(listTours.get(i).getLink());
@@ -86,6 +85,13 @@ public class TourMng implements Serializable {
         }
     }
     
+    public List<Tour> getPopularTour() {
+        String sql = "SELECT t FROM Tour t ORDER BY t.popularity DESC";
+        Query q = em.createQuery(sql);
+        q.setMaxResults(200);
+        List<Tour> result = q.getResultList();
+        return result;
+    }
     
     
 }

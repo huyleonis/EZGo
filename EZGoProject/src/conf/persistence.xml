@@ -14,7 +14,6 @@
     <class>project.ezgo.Entity.Favorite</class>
     <class>project.ezgo.Entity.Agenda</class>
     <class>project.ezgo.Entity.Destination</class>
-    <class>project.ezgo.Entity.Discount</class>
     <class>project.ezgo.Entity.Hotel</class>
     <class>project.ezgo.Entity.ViewHistory</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>

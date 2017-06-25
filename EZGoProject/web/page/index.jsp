@@ -7,6 +7,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x"%>
 
 <c:import url="view/logo_simple.jsp" charEncoding="utf-8"/>
 <c:import url="view/slide.jsp" charEncoding="utf-8"/>
@@ -88,6 +89,14 @@
     </div>
 </div>
 
+<c:set var="list" value="${sessionScope.LIST_TOUR}"/>
+<c:if test="${not empty list}">
+    <c:import charEncoding="utf-8" url="xslt/tourCard.xsl" var="tourCard" />
+    <x:transform doc="${list}" xslt="${tourCard}"/>
+</c:if>
+
+
+<%--
 <div class="container tour-view">
     <div class="tour-card">
         <img src="img/thai-lan.jpg" alt="Thái Lan" width="100%">
@@ -296,6 +305,6 @@
             </button>
         </div>
     </div>
-</div>
+</div>--%>
 
 <div class="container"></div>

@@ -8,6 +8,7 @@ package project.ezgo.Entity;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,8 +19,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
@@ -27,7 +33,19 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "Tour", catalog = "EZGo", schema = "dbo")
-@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "tour", propOrder = {
+    "picture",
+    "name",
+    "duration",
+    "price",
+    "currency",
+    "oldPrice",
+    "departure",
+    "agency",
+    "agencyId",
+    "link"
+})
 @NamedQueries({
     @NamedQuery(name = "Tour.findAll", query = "SELECT t FROM Tour t")
     , @NamedQuery(name = "Tour.findByTourID", query = "SELECT t FROM Tour t WHERE t.tourID = :tourID")
@@ -39,44 +57,82 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Tour.findByLink", query = "SELECT t FROM Tour t WHERE t.link = :link")})
 public class Tour implements Serializable {
 
+    @Column(name = "popularity")
+    @XmlTransient
+    private Integer popularity;
+
+    @Column(name = "oldPrice")
+    @XmlElement(name = "old-price")
+    private BigInteger oldPrice;        
+
     @Column(name = "picture", length = 200)
+    @XmlElement(name = "img-link", required = true)
     private String picture;
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @Column(name = "tourID", nullable = false)
+    @XmlTransient
     private Integer tourID;
-    @Column(name = "name", length = 20)
+
+    @Column(name = "name", length = 100)
+    @XmlElement(required = true)
     private String name;
+
     @Column(name = "duration", length = 20)
+    @XmlElement(required = true)
     private String duration;
+
     @Column(name = "price")
+    @XmlElement(name = "current-price", required = true)
     private BigInteger price;
+
     @Column(name = "rating")
+    @XmlTransient
     private Integer rating;
-    @Column(name = "description", length = 100)
+
+    @Column(name = "description", length = 4000)
+    @XmlTransient
     private String description;
+
+    @Column(name = "departureDay")
+    @Temporal(TemporalType.DATE)
+    @XmlTransient
+    private Date departureDay;
+    
     @Column(name = "link", length = 500)
+    @XmlElement(required = true)
     private String link;
+
     @OneToMany(mappedBy = "tourID")
+    @XmlTransient
     private Collection<Favorite> favoriteCollection;
+
     @OneToMany(mappedBy = "tourID")
+    @XmlTransient
     private Collection<Comment> commentCollection;
+
     @OneToMany(mappedBy = "tourID")
+    @XmlTransient
     private Collection<HotelMap> hotelMapCollection;
+
     @OneToMany(mappedBy = "tourID")
+    @XmlTransient
     private Collection<TransportMap> transportMapCollection;
+
     @OneToMany(mappedBy = "tourID")
+    @XmlTransient
     private Collection<ViewHistory> viewHistoryCollection;
+
     @OneToMany(mappedBy = "tourID")
+    @XmlTransient
     private Collection<DestinationMap> destinationMapCollection;
+
     @JoinColumn(name = "agendaID", referencedColumnName = "agendaID")
     @ManyToOne
+    @XmlTransient
     private Agenda agendaID;
-    @JoinColumn(name = "discountID", referencedColumnName = "discountID")
-    @ManyToOne
-    private Discount discountID;
 
     public Tour() {
     }
@@ -91,6 +147,35 @@ public class Tour implements Serializable {
 
     public void setTourID(Integer tourID) {
         this.tourID = tourID;
+    }
+
+    public Date getDepartureDay() {
+        return departureDay;
+    }
+
+    public void setDepartureDay(Date departureDay) {
+        this.departureDay = departureDay;
+    }
+    
+    @XmlElement(name = "departure", required = true, defaultValue = "Tp. H\u1ed3 Ch\u00ed Minh")
+    public String getDeparture() {
+        String result = "Tp. H\u1ed3 Ch\u00ed Minh";
+        for (DestinationMap des : destinationMapCollection) {
+            if (des.getIsDeparture()) {
+                result = des.getDestinationID().getName();
+            }
+        }
+        return result;
+    }
+    
+    @XmlElement(name ="agency", required = true)
+    public String getAgency() {
+        return agendaID.getName();
+    }
+    
+    @XmlElement(name ="agencyId", required = true)
+    public Integer getAgencyId() {
+        return agendaID.getAgendaID();
     }
 
     public String getName() {
@@ -203,14 +288,6 @@ public class Tour implements Serializable {
         this.agendaID = agendaID;
     }
 
-    public Discount getDiscountID() {
-        return discountID;
-    }
-
-    public void setDiscountID(Discount discountID) {
-        this.discountID = discountID;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -243,5 +320,30 @@ public class Tour implements Serializable {
     public void setPicture(String picture) {
         this.picture = picture;
     }
+
+    public BigInteger getOldPrice() {
+        return oldPrice;
+    }
+
+    public void setOldPrice(BigInteger oldPrice) {
+        this.oldPrice = oldPrice;
+    }
+
+    public Integer getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(Integer popularity) {
+        this.popularity = popularity;
+    }
     
+    @XmlElement(name = "currency")
+    public String getCurrency() {
+        if (price.longValue() > 1000000) {
+            return "VND";
+        } else {
+            return "USD";
+        }
+    }
+
 }
