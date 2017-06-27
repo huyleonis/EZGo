@@ -77,7 +77,6 @@ public class TourMng implements Serializable {
                 tour.setDuration(listTours.get(i).getDuration());
                 tour.setPrice(listTours.get(i).getPrice());
                 tour.setRating(listTours.get(i).getRating());                
-                tour.setDescription(listTours.get(i).getDescription());
                 tour.setAgendaID(listTours.get(i).getAgendaID());
                 tour.setLink(listTours.get(i).getLink());
                 // generate object

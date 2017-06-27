@@ -53,7 +53,6 @@ import javax.xml.bind.annotation.XmlType;
     , @NamedQuery(name = "Tour.findByDuration", query = "SELECT t FROM Tour t WHERE t.duration = :duration")
     , @NamedQuery(name = "Tour.findByPrice", query = "SELECT t FROM Tour t WHERE t.price = :price")
     , @NamedQuery(name = "Tour.findByRating", query = "SELECT t FROM Tour t WHERE t.rating = :rating")
-    , @NamedQuery(name = "Tour.findByDescription", query = "SELECT t FROM Tour t WHERE t.description = :description")
     , @NamedQuery(name = "Tour.findByLink", query = "SELECT t FROM Tour t WHERE t.link = :link")})
 public class Tour implements Serializable {
 
@@ -72,13 +71,17 @@ public class Tour implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "tourID", nullable = false)
+    @Column(name = "tourID", nullable = false, length = 50)
     @XmlTransient
-    private Integer tourID;
+    private String tourID;
 
     @Column(name = "name", length = 100)
     @XmlElement(required = true)
     private String name;
+    
+    @Column(name = "departure", length = 100)
+    @XmlElement(name = "departure", required = true, defaultValue = "Tp. H\u1ed3 Ch\u00ed Minh")
+    private String departure;
 
     @Column(name = "duration", length = 20)
     @XmlElement(required = true)
@@ -92,9 +95,13 @@ public class Tour implements Serializable {
     @XmlTransient
     private Integer rating;
 
-    @Column(name = "description", length = 4000)
+    @Column(name = "schedule", length = 4000)
     @XmlTransient
-    private String description;
+    private String schedule;
+    
+    @Column(name = "policy", length = 4000)
+    @XmlTransient
+    private String policy;
 
     @Column(name = "departureDay")
     @Temporal(TemporalType.DATE)
@@ -115,19 +122,7 @@ public class Tour implements Serializable {
 
     @OneToMany(mappedBy = "tourID")
     @XmlTransient
-    private Collection<HotelMap> hotelMapCollection;
-
-    @OneToMany(mappedBy = "tourID")
-    @XmlTransient
-    private Collection<TransportMap> transportMapCollection;
-
-    @OneToMany(mappedBy = "tourID")
-    @XmlTransient
     private Collection<ViewHistory> viewHistoryCollection;
-
-    @OneToMany(mappedBy = "tourID")
-    @XmlTransient
-    private Collection<DestinationMap> destinationMapCollection;
 
     @JoinColumn(name = "agendaID", referencedColumnName = "agendaID")
     @ManyToOne
@@ -137,15 +132,43 @@ public class Tour implements Serializable {
     public Tour() {
     }
 
-    public Tour(Integer tourID) {
+    public Tour(String tourID) {
         this.tourID = tourID;
     }
 
-    public Integer getTourID() {
+    public String getPolicy() {
+        return policy;
+    }
+
+    public void setPolicy(String policy) {
+        this.policy = policy;
+    }
+
+    
+    
+    public String getDeparture() {
+        return departure;
+    }
+
+    public void setDeparture(String departure) {
+        this.departure = departure;
+    }
+
+    public String getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(String schedule) {
+        this.schedule = schedule;
+    }
+    
+    
+
+    public String getTourID() {
         return tourID;
     }
 
-    public void setTourID(Integer tourID) {
+    public void setTourID(String tourID) {
         this.tourID = tourID;
     }
 
@@ -157,16 +180,7 @@ public class Tour implements Serializable {
         this.departureDay = departureDay;
     }
     
-    @XmlElement(name = "departure", required = true, defaultValue = "Tp. H\u1ed3 Ch\u00ed Minh")
-    public String getDeparture() {
-        String result = "Tp. H\u1ed3 Ch\u00ed Minh";
-        for (DestinationMap des : destinationMapCollection) {
-            if (des.getIsDeparture()) {
-                result = des.getDestinationID().getName();
-            }
-        }
-        return result;
-    }
+    
     
     @XmlElement(name ="agency", required = true)
     public String getAgency() {
@@ -210,14 +224,6 @@ public class Tour implements Serializable {
         this.rating = rating;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getLink() {
         return link;
     }
@@ -243,25 +249,7 @@ public class Tour implements Serializable {
     public void setCommentCollection(Collection<Comment> commentCollection) {
         this.commentCollection = commentCollection;
     }
-
-    @XmlTransient
-    public Collection<HotelMap> getHotelMapCollection() {
-        return hotelMapCollection;
-    }
-
-    public void setHotelMapCollection(Collection<HotelMap> hotelMapCollection) {
-        this.hotelMapCollection = hotelMapCollection;
-    }
-
-    @XmlTransient
-    public Collection<TransportMap> getTransportMapCollection() {
-        return transportMapCollection;
-    }
-
-    public void setTransportMapCollection(Collection<TransportMap> transportMapCollection) {
-        this.transportMapCollection = transportMapCollection;
-    }
-
+    
     @XmlTransient
     public Collection<ViewHistory> getViewHistoryCollection() {
         return viewHistoryCollection;
@@ -269,15 +257,6 @@ public class Tour implements Serializable {
 
     public void setViewHistoryCollection(Collection<ViewHistory> viewHistoryCollection) {
         this.viewHistoryCollection = viewHistoryCollection;
-    }
-
-    @XmlTransient
-    public Collection<DestinationMap> getDestinationMapCollection() {
-        return destinationMapCollection;
-    }
-
-    public void setDestinationMapCollection(Collection<DestinationMap> destinationMapCollection) {
-        this.destinationMapCollection = destinationMapCollection;
     }
 
     public Agenda getAgendaID() {

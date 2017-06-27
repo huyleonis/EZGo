@@ -7,5 +7,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <h1 style="color: #7bc043; text-align: center;">        
     <img src="img/logo.png" class="logo" height="75px" width="auto" style="vertical-align: middle;"/>
-    Easy Go, Easy Traveling, Easy Discovery
+    Easy Go, Easy Traveling, Easy Discover the World
 </h1>

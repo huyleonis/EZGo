@@ -11,7 +11,7 @@
     </div>
     <div>
         <h1 style="color: #7bc043;">        
-            Easy Go, Easy Traveling, Easy Discovery
+            Easy Go, Easy Traveling, Easy Discover the World
         </h1>
 
         <p><b>[A]</b>: Tòa nhà Innovation, Công viên Phần mềm Quang Trung, Q12, Tp.HCM </p>

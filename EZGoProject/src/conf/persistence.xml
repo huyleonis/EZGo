@@ -8,7 +8,6 @@
     <class>project.ezgo.Entity.DestinationMap</class>
     <class>project.ezgo.Entity.Tour</class>
     <class>project.ezgo.Entity.TransportMap</class>
-    <class>project.ezgo.Entity.HotelMap</class>
     <class>project.ezgo.Entity.Account</class>
     <class>project.ezgo.Entity.Transport</class>
     <class>project.ezgo.Entity.Favorite</class>

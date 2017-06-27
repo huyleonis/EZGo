@@ -13,7 +13,7 @@
     <xsl:decimal-format name="vnd" decimal-separator="," grouping-separator="."/>
     <xsl:template match="tours">        
         <div class="container tour-view">
-            <xsl:for-each select="tour">
+            <xsl:for-each select="tour[position()&lt;16]">
                 <div class="tour-card">
                     <img src="{.//img-link}" alt="Thái Lan" width="100%"/>
                     <div class="tour-card-content">
