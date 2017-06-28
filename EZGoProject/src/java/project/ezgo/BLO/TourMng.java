@@ -92,5 +92,13 @@ public class TourMng implements Serializable {
         return result;
     }
     
+    public List<Tour> getPromotion(){
+        String sql = "SELECT t FROM Tour t ORDER BY ((t.oldPrice-t.price)/t.oldPrice) DESC";
+        Query q = em.createQuery(sql);
+        q.setMaxResults(50);
+        List<Tour> result = q.getResultList();
+        return result;
+    }
+    
     
 }

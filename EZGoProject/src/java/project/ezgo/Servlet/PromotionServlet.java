@@ -7,11 +7,17 @@ package project.ezgo.Servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import project.ezgo.BLO.TourMng;
+import project.ezgo.Entity.ListTour;
+import project.ezgo.Util.XMLUtil;
 
 /**
  *
@@ -19,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "PromotionServlet", urlPatterns = {"/promotion"})
 public class PromotionServlet extends HttpServlet {
-
+    private final String promotionPage = "promotion.jsp";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -32,17 +38,37 @@ public class PromotionServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet PromotionServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet PromotionServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        PrintWriter out = response.getWriter();
+        try {
+            HttpSession session = request.getSession();          
+            boolean stillAvailable = false;           
+            if (session != null) {                             
+                Date lastUpdate = (Date) session.getAttribute("LAST_UPDATE");
+                String xml = (String) session.getAttribute("LIST_TOUR");
+                if (xml != null && lastUpdate != null) {
+                    Date now = new Date();
+                    long diff = Math.abs(now.getTime() - lastUpdate.getTime());
+                    long diffDay = diff / (1000*60*60*24);
+                    if (diffDay < 1) {
+                        stillAvailable = true;
+                    }
+                }                
+            }         
+            if (!stillAvailable) {
+                TourMng manager = new TourMng();
+                ListTour list = new ListTour(manager.getPromotion());
+                String xml = XMLUtil.marshalToXmlString(list);
+                session = request.getSession(true);
+                session.setAttribute("LIST_TOUR", xml);
+                session.setAttribute("LAST_UPDATE", new Date());
+            }
+            RequestDispatcher rd = request.getRequestDispatcher(promotionPage);
+            rd.forward(request, response);
+        } catch(Exception e){
+            log("JAXB Exception: " + e.getMessage());
+            e.printStackTrace();
+        } finally{
+            out.close();
         }
     }
 
