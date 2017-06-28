@@ -34,17 +34,20 @@ import javax.xml.bind.annotation.XmlType;
 @Entity
 @Table(name = "Tour", catalog = "EZGo", schema = "dbo")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tour", propOrder = {
-    "picture",
+@XmlType(name = "tour", propOrder = {    
+    "tourID",
     "name",
+    "picture",
     "duration",
     "price",
-    "currency",
     "oldPrice",
+    "currency",
     "departure",
-    "agency",
-    "agencyId",
-    "link"
+    "agenda",
+    "agendaId",
+    "link",
+    "schedule",
+    "policy",
 })
 @NamedQueries({
     @NamedQuery(name = "Tour.findAll", query = "SELECT t FROM Tour t")
@@ -57,7 +60,7 @@ import javax.xml.bind.annotation.XmlType;
 public class Tour implements Serializable {
 
     @Column(name = "popularity")
-    @XmlTransient
+    @XmlElement(name = "popularity")
     private Integer popularity;
 
     @Column(name = "oldPrice")
@@ -72,10 +75,10 @@ public class Tour implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "tourID", nullable = false, length = 50)
-    @XmlTransient
+    @XmlElement(name = "id")
     private String tourID;
 
-    @Column(name = "name", length = 100)
+    @Column(name = "name", length = 200)
     @XmlElement(required = true)
     private String name;
     
@@ -143,9 +146,7 @@ public class Tour implements Serializable {
     public void setPolicy(String policy) {
         this.policy = policy;
     }
-
-    
-    
+        
     public String getDeparture() {
         return departure;
     }
@@ -160,9 +161,7 @@ public class Tour implements Serializable {
 
     public void setSchedule(String schedule) {
         this.schedule = schedule;
-    }
-    
-    
+    }        
 
     public String getTourID() {
         return tourID;
@@ -178,16 +177,14 @@ public class Tour implements Serializable {
 
     public void setDepartureDay(Date departureDay) {
         this.departureDay = departureDay;
-    }
+    }        
     
-    
-    
-    @XmlElement(name ="agency", required = true)
+    @XmlElement(name ="agenda", required = true)
     public String getAgency() {
         return agendaID.getName();
     }
     
-    @XmlElement(name ="agencyId", required = true)
+    @XmlElement(name ="agendaId", required = true)
     public Integer getAgencyId() {
         return agendaID.getAgendaID();
     }
@@ -290,7 +287,7 @@ public class Tour implements Serializable {
     @Override
     public String toString() {
         return "project.ezgo.Entity.Tour[ tourID=" + tourID + " ]";
-    }
+    }        
 
     public String getPicture() {
         return picture;
