@@ -12,29 +12,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
-import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -274,8 +266,9 @@ public class SaigonToursParser implements Runnable {
                 if (t != null) {
                     System.out.println("Parse successfully tour #" + k);
                     k++;
+                    result.add(t);
                 }
-                result.add(t);
+                
             } catch (IOException | ParseException | XMLStreamException | StringIndexOutOfBoundsException e) {
                 System.out.println("Parse Error: ");
                 System.out.println("-- Link: " + url);

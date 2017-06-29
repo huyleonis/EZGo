@@ -56,14 +56,32 @@ public class TourMng implements Serializable {
     }
     
     public boolean removeTour(int tourID){
-        Tour tour = em.find(Tour.class, tourID);
+        Tour tour = em.find(Tour.class, tourID);                
+                
         if(tour!=null){
             em.getTransaction().begin();
             em.remove(tour);
             em.getTransaction().commit();
             return false;
         }
-        return false;
+        return true;
+    }
+    
+    public boolean deleteTour(Tour t) {
+        
+        String path = t.getPicture();
+        
+        try {
+            em.getTransaction().begin();
+            em.remove(t);
+            em.getTransaction().commit();
+            
+            //implement delete img here
+            
+        } catch (Exception e) {
+        }
+        
+        return true;
     }
     
     public void LoadDataFromDBtoXML(String xmlFileName, String realPath){

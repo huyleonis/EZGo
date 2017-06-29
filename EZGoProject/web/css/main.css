@@ -491,31 +491,31 @@ to be placed in the center. */
     left: 0;
 }
 
-.tour-card .tour-card-price {
+.tour-card-price {
     text-align: justify;
-    display: inline-block;
+    display: inline;
     width: 80%;
     margin: auto;
 }
 
-.tour-card .tour-card-price strong {
+.tour-card-price strong {
     text-align: left;
     float: right;
 }
 
-.tour-card .tour-card-price strong .amount {
+.tour-card-price strong .amount {
     font-weight: bolder;
     font-size: 1.4em;
     color: #ee4035;
 }
 
-.tour-card .tour-card-price strong .curr {
+.tour-card-price strong .curr {
     font-weight: bolder;
     font-size: 1.2em;
     color: #ee4035;
 }
 
-.tour-card .tour-card-price strong .old-amount {
+.tour-card-price strong .old-amount {
     text-decoration: line-through;
     margin-top: 5px;
     font-weight: 100;
@@ -599,15 +599,15 @@ to be placed in the center. */
 
 /** --------------- Filters ---------------- **/
 .filter {
-	background-color: #f1f1f1;
-	width: 90%;
-	padding: 20px;
-        padding-top: 0;
-	margin: auto;
+    background-color: #f1f1f1;
+    width: 90%;
+    padding: 20px;
+    padding-top: 0;
+    margin: auto;
 }
 
 .filter > h4 {
-	margin-bottom: 5px;
+    margin-bottom: 5px;
 }
 
 .filter-content {
@@ -938,5 +938,103 @@ to be placed in the center. */
 
     .summary-agenda-card .agenda-card-content {
         height: 170px;
+    }
+}
+
+/** ----------------- Tour Detail ------------------ **/
+
+.tour-info {
+    background-color: #ffffba;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    float: left;
+}
+
+.tour-info .tour-thumbnail {
+    width: 45%;
+    border: 5px #FFA54F ridge;
+}
+
+.tour-info .tour-thumbnail img {
+    width: 100%;
+    height: 320px;
+}
+
+.tour-info-detail {
+    width: 35%;
+    margin-left: 5%;    
+}
+
+.tour-info-detail table {
+    font-size: 1.3em;
+    width: 100%;
+}
+
+.tour-info button {
+    background: none;
+    outline: none;
+    border: none;
+}
+
+.tour-info button:hover {
+    cursor: pointer;
+} 
+
+
+.tour-info .agency {
+    font-size: 1.1em;
+    color: #0392cf;
+    font-weight: bolder;
+    font-style: italic;
+}
+
+.tour-info .agency:hover {
+    color: #f37736;
+    text-decoration: underline;
+}
+
+.tab-pane {
+    display: none;    
+}
+
+.tab-active {
+    display: block;
+}
+
+.tab-button {
+    display: block;
+}
+
+.tab-button button {
+    background: none;
+    outline: none;
+    border: none;
+    padding-bottom: 7px;
+    border-bottom: 2px solid #404040;
+    margin-left: 10px;
+    font-size: 1.3em;
+    font-weight: bolder;
+    font-family: Saigonese;
+}
+
+.tab-button button:hover {
+    border-top: 2px solid #404040 ;
+    border-bottom: 2px solid #404040 ;
+    background: #404040;
+    color: white;
+    cursor: pointer;
+
+}
+
+.tab-button button.tab-button-active {
+    border-bottom: 2px solid #a32020;
+    border-top: 2px solid #a32020;
+}
+
+@media screen and (max-width: 650px) {
+    .tour-info .tour-thumbnail {
+        width: 90%;
     }
 }
