@@ -51,6 +51,7 @@ public class FindAccountServlet extends HttpServlet {
                 listAccount = manager.findAccountByFullname(findValue);
             }
             request.setAttribute("RESULT", listAccount);
+            request.setAttribute("currentTab", "manage-acc");
         } finally{
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

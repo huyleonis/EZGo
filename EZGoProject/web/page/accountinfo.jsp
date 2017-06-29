@@ -121,7 +121,7 @@
                         <option value="findemail">Email</option>
                         <option value="findname">Họ tên</option>
                     </select>
-                    <button type="submit" name="action" value="Search" class="btn btn-default">
+                    <button type="submit" name="action" value="SearchAccount" class="btn btn-default">
                         Tìm kiếm
                     </button>
                 </form>
@@ -184,10 +184,10 @@
                                         name="action" value="changepass">Xóa</button>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    </div> <!--End table div-->
+                </div> <!--End table wrapper div-->
+            </div> <!--End search div-->
+        </div> <!--End manage account tab div-->
 
 
 

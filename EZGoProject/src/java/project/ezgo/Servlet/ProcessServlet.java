@@ -24,6 +24,7 @@ public class ProcessServlet extends HttpServlet {
     private final String loginServlet = "/login";
     private final String accountInfoServlet = "/AccountInfo";
     private final String registerServlet = "/register";
+    private final String findAccountServlet = "/findacc";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -48,6 +49,8 @@ public class ProcessServlet extends HttpServlet {
                 url = accountInfoServlet;
             } else if(btn.equals("Register")){
                 url = registerServlet;
+            } else if(btn.equals("SearchAccount")){
+                url = findAccountServlet;
             }
             
         } finally {
