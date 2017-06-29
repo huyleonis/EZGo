@@ -60,7 +60,7 @@ import javax.xml.bind.annotation.XmlType;
 public class Tour implements Serializable {
 
     @Column(name = "popularity")
-    @XmlElement(name = "popularity")
+    @XmlTransient
     private Integer popularity;
 
     @Column(name = "oldPrice")
@@ -99,11 +99,11 @@ public class Tour implements Serializable {
     private Integer rating;
 
     @Column(name = "schedule", length = 4000)
-    @XmlTransient
+    @XmlElement
     private String schedule;
     
     @Column(name = "policy", length = 4000)
-    @XmlTransient
+    @XmlElement
     private String policy;
 
     @Column(name = "departureDay")
@@ -180,12 +180,12 @@ public class Tour implements Serializable {
     }        
     
     @XmlElement(name ="agenda", required = true)
-    public String getAgency() {
+    public String getAgenda() {
         return agendaID.getName();
     }
     
     @XmlElement(name ="agendaId", required = true)
-    public Integer getAgencyId() {
+    public Integer getAgendaId() {
         return agendaID.getAgendaID();
     }
 

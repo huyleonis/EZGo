@@ -15,6 +15,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import project.ezgo.Parser.SaigonToursParser;
+import project.ezgo.Parser.VietSunTravel;
 
 /**
  *
@@ -30,6 +31,7 @@ public class EzgoContextListener implements ServletContextListener {
         
         scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(new SaigonToursParser(realPath), 0, 30, TimeUnit.DAYS);
+//        scheduler.scheduleAtFixedRate(new VietSunTravel(realPath), 0, 30, TimeUnit.DAYS);
     }
 
     @Override

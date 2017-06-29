@@ -251,7 +251,7 @@ public class SaigonToursParser implements Runnable {
 
         System.out.println("Begin get tours' urls");
         for (String page : pages) {
-            for (int j = 1; j <= 40; j++) {
+            for (int j = 1; j <= 1; j++) {
                 try {
                     urls.addAll(getListTourLink(page + "?curPg=" + j));
                 } catch (IOException | XMLStreamException e) {
@@ -290,7 +290,6 @@ public class SaigonToursParser implements Runnable {
     private void downloadImage(String imgUrl, String filePath) throws MalformedURLException, FileNotFoundException, IOException {
         URL url = new URL(imgUrl.replace(" ", "%20"));
         InputStream is = url.openStream();
-
         File f = new File(filePath);
         if (f.exists()) {
             return;
