@@ -94,7 +94,7 @@ public class SaigonToursParser implements Runnable {
     private List<String> getListTourLink(String url) throws IOException, XMLStreamException {
         List<String> result = new ArrayList<>();
         String html = getHtml(url).replace(" & ", " và ");
-        if (html.contains("<table>")) {
+        if (!html.contains("<table>")) {
             return result;
         }
         html = html.substring(html.indexOf("<table>") - 1, html.indexOf("</table>") + 10);
@@ -251,7 +251,7 @@ public class SaigonToursParser implements Runnable {
 
         System.out.println("Begin get tours' urls");
         for (String page : pages) {
-            for (int j = 1; j <= 50; j++) {
+            for (int j = 1; j <= 40; j++) {
                 try {
                     urls.addAll(getListTourLink(page + "?curPg=" + j));
                 } catch (IOException | XMLStreamException e) {
