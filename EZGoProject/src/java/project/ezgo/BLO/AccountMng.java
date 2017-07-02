@@ -132,7 +132,7 @@ public class AccountMng implements Serializable {
         String jpql = "SELECT a FROM Account a WHERE a.email = :email";
         Query query = em.createQuery(jpql);
 
-        query.setParameter("username", "%" + email + "%");
+        query.setParameter("email", "%" + email + "%");
         List result = query.getResultList();
         return result;
     }
@@ -143,7 +143,7 @@ public class AccountMng implements Serializable {
         String jpql = "SELECT a FROM Account a WHERE a.fullname = :fullname";
         Query query = em.createQuery(jpql);
 
-        query.setParameter("username", "%" + fullname + "%");
+        query.setParameter("fullname", "%" + fullname + "%");
         List result = query.getResultList();
         return result;
     }

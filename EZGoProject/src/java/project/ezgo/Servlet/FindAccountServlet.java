@@ -23,7 +23,7 @@ import project.ezgo.BLO.AccountMng;
  */
 @WebServlet(name = "FindAccountServlet", urlPatterns = {"/findacc"})
 public class FindAccountServlet extends HttpServlet {
-    String managePage = "?p=accountinfo";
+    private String managePage = "?p=accountinfo";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,7 +39,6 @@ public class FindAccountServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String choice = request.getParameter("category").trim();
         String findValue = request.getParameter("kw").trim();
-        String url = managePage;
         try{
             AccountMng manager = new AccountMng();
             List listAccount = new ArrayList();
@@ -47,13 +46,14 @@ public class FindAccountServlet extends HttpServlet {
                 listAccount = manager.findAccountByUsername(findValue);
             } else if(choice.equalsIgnoreCase("findemail")){
                 listAccount = manager.findAccountByEmail(findValue);
+                System.out.println(listAccount.toString());
             } else{
                 listAccount = manager.findAccountByFullname(findValue);
             }
-            request.setAttribute("RESULT", listAccount);
+            request.setAttribute("LISTACCOUNT", listAccount);
             request.setAttribute("currentTab", "manage-acc");
         } finally{
-            RequestDispatcher rd = request.getRequestDispatcher(url);
+            RequestDispatcher rd = request.getRequestDispatcher(managePage);
             rd.forward(request, response);
             out.close();
         }

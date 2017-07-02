@@ -43,6 +43,7 @@ public class DeleteAccountServlet extends HttpServlet {
             if(!result){
                 request.setAttribute("ERROR", "Lỗi xảy ra, vui lòng thử lại sau!");
             } 
+            request.setAttribute("currentTab", "manage-acc");
         } finally{
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

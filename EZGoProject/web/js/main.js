@@ -35,6 +35,25 @@ function changePrice(val) {
 	maxPrice.innerHTML = val;
 }
 
+function switchTab(tab) {
+    var btnPolicy = document.getElementById("button-policy");
+    var btnSchedule = document.getElementById("button-schedule");
+    var tabPolicy = document.getElementById("policy");
+    var tabSchedule = document.getElementById("schedule");
+    
+    if (tab == "policy") {
+        btnPolicy.className = "tab-button-active";
+        tabPolicy.className = "tab-pane tab-active";
+        btnSchedule.className = "";
+        tabSchedule.className = "tab-pane";
+    } else {
+        btnSchedule.className = "tab-button-active";
+        tabSchedule.className = "tab-pane tab-active";
+        btnPolicy.className = "";
+        tabPolicy.className = "tab-pane";
+    }
+}
+
 //--------------------------------THULNN-------------------------------------
 function openAccountInfoTab(evt, tabName) {
     var i, tabcontent, tablinks;

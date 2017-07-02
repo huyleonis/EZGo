@@ -79,9 +79,9 @@
                 <label>Ngày sinh <span style="color: red;">*</span></label>
                 <input type="date" class="form-control" 
                        name="birthday" required="required" />
-<!--                <label>Tiểu sử <span style="color: red;">*</span></label>
-                <textarea class="form-control" name="description" rows="10" 
-                          cols="50" placeholder="Tiểu sử"></textarea>-->
+                <!--                <label>Tiểu sử <span style="color: red;">*</span></label>
+                                <textarea class="form-control" name="description" rows="10" 
+                                          cols="50" placeholder="Tiểu sử"></textarea>-->
                 <label>Di động <span style="color: red;">*</span></label>
                 <input type="number" class="form-control" name="phone" 
                        placeholder="Số di động" required="required" />
@@ -126,71 +126,78 @@
                     </button>
                 </form>
 
-                <div class="table-wrapper">
+                <c:set var="accountList" value="${requestScope.LISTACCOUNT}"/>
+                <c:if test="${not empty accountList}">
+                    <div class="table-wrapper">
+                        <div class="table">
+                            <div class="row header">
+                                <div class="cell">
+                                    Username
+                                </div>
+                                <div class="cell">
+                                    Email
+                                </div>
+                                <div class="cell">
+                                    Fullname
+                                </div>
+                                <div class="cell">
+                                    Role
+                                </div>
+                                <div class="cell">
+                                    Action
+                                </div>
+                            </div>
 
-                    <div class="table">
-                        <div class="row header">
-                            <div class="cell">
-                                Username
-                            </div>
-                            <div class="cell">
-                                Email
-                            </div>
-                            <div class="cell">
-                                Fullname
-                            </div>
-                            <div class="cell">
-                                Role
-                            </div>
-                            <div class="cell">
-                                Action
-                            </div>
-                        </div>
+                            <c:forEach var="item" items="${userList}">
+                                <form action="process" method="POST">
+                                    <div class="row">
+                                        <div class="cell">
+                                            ${item.username}
+                                            <input type="hidden" name="accountID" value="${item.accountID}" />
+                                        </div>
+                                        <div class="cell">
+                                            ${item.email}
+                                        </div>
+                                        <div class="cell">
+                                            ${item.fullname}
+                                        </div>
+                                        <div class="cell">
+                                            ${item.roleID}
+                                        </div>
+                                        <div class="cell">
+                                            <button type="submit" class="btn btn-orange" 
+                                                    name="action" value="RemoveAccount">Xóa</button>
+                                        </div>
+                                    </div>
+                                </form>
 
-                        <div class="row">
-                            <div class="cell">
-                                LukePeter
-                            </div>
-                            <div class="cell">
-                                FreelancerLuke@gmail.com
-                            </div>
-                            <div class="cell">
-                                Luke Peters
-                            </div>
-                            <div class="cell">
-                                User
-                            </div>
-                            <div class="cell">
-                                <button type="submit" class="btn btn-orange" 
-                                        name="action" value="changepass">Xóa</button>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="cell">
-                                LukePeter
-                            </div>
-                            <div class="cell">
-                                FreelancerLuke@gmail.com
-                            </div>
-                            <div class="cell">
-                                Luke Peters
-                            </div>
-                            <div class="cell">
-                                User
-                            </div>
-                            <div class="cell">
-                                <button type="submit" class="btn btn-orange" 
-                                        name="action" value="changepass">Xóa</button>
-                            </div>
-                        </div>
-                    </div> <!--End table div-->
-                </div> <!--End table wrapper div-->
-            </div> <!--End search div-->
-        </div> <!--End manage account tab div-->
+                            </c:forEach>
 
 
 
+<!--                            <div class="row">
+                                <div class="cell">
+                                    LukePeter
+                                </div>
+                                <div class="cell">
+                                    FreelancerLuke@gmail.com
+                                </div>
+                                <div class="cell">
+                                    Luke Peters
+                                </div>
+                                <div class="cell">
+                                    User
+                                </div>
+                                <div class="cell">
+                                    <button type="submit" class="btn btn-orange" 
+                                            name="action" value="changepass">Xóa</button>
+                                </div>
+                            </div>-->
+                        </div> <!--End table div-->
+                    </div> <!--End table wrapper div-->
+                </div> <!--End search div-->
+            </div> <!--End manage account tab div-->
+        </c:if>
     </div>
 </div>
 <br/>

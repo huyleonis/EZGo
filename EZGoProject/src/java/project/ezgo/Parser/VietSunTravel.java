@@ -120,7 +120,7 @@ public class VietSunTravel implements Runnable {
 
                 if (event.isStartElement()) {
                     StartElement tag = (StartElement) event;
-                    if (tag.getName().getLocalPart().equals("<div class=\"each_product\">")) {
+                    if (tag.getName().getLocalPart().equals("<div class=\"each_product\">")) { // get attribute
                         rowFlag = true;
                     } else if (rowFlag && tag.getName().getLocalPart().equals("a")) {
                         String href = tag.getAttributeByName(new QName("href")).getValue();
