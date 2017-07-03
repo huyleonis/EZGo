@@ -82,30 +82,12 @@ public class TourMng implements Serializable {
         }
         
         return true;
-    }
-    
-    public void LoadDataFromDBtoXML(String xmlFileName, String realPath){
-        List<Tour> listTours = getAllTours();
-        if(listTours!=null){
-            Tour tour = null;
-            for(int i=0; i<listTours.size(); i++){
-                tour = new Tour();
-                tour.setTourID(listTours.get(i).getTourID());
-                tour.setName(listTours.get(i).getName());
-                tour.setDuration(listTours.get(i).getDuration());
-                tour.setPrice(listTours.get(i).getPrice());
-                tour.setRating(listTours.get(i).getRating());                
-                tour.setAgendaID(listTours.get(i).getAgendaID());
-                tour.setLink(listTours.get(i).getLink());
-                // generate object
-            }
-        }
-    }
+    }  
     
     public List<Tour> getPopularTour() {
         String sql = "SELECT t FROM Tour t ORDER BY t.popularity DESC";
         Query q = em.createQuery(sql);
-        q.setMaxResults(200);
+        q.setMaxResults(70);
         List<Tour> result = q.getResultList();
         return result;
     }
@@ -116,6 +98,12 @@ public class TourMng implements Serializable {
         q.setMaxResults(50);
         List<Tour> result = q.getResultList();
         return result;
+    }
+
+    public Tour getTourById(String id) {
+        Tour t = em.find(Tour.class, id);
+        
+        return t;
     }
     
     

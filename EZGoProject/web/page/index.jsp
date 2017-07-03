@@ -89,6 +89,7 @@
     </div>
 </div>
 
+<h2>Các tour nổi bật</h2>
 <c:set var="list" value="${sessionScope.LIST_TOUR}"/>
 <c:if test="${not empty list}">
     <c:import charEncoding="utf-8" url="xslt/tourCard.xsl" var="tourCard" />

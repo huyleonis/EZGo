@@ -31,6 +31,9 @@
             <c:when test="${page == 'register'}">
                 <c:import url="page/register.jsp" charEncoding="utf-8" />
             </c:when>
+            <c:when test="${page == 'tourDetail'}">
+                <c:import url="page/tourdetail.jsp" charEncoding="utf-8" />
+            </c:when>
             <c:otherwise>
                 <c:import url="page/index.jsp" charEncoding="utf-8" />
             </c:otherwise>
