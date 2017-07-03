@@ -10,14 +10,20 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
     <xsl:output method="html" indent="yes"/>
-    <xsl:decimal-format name="vnd" decimal-separator="," grouping-separator="."/>
+    <xsl:decimal-format name="vnd" decimal-separator="," grouping-separator="."/>    
     <xsl:template match="tours">        
+        <xsl:param name="accId"/>
         <div class="container tour-view">
             
             <xsl:for-each select="tour[position()&lt;16]">
                 <xsl:variable name="link">process?action=TourDetail&amp;id=<xsl:value-of select=".//id"/></xsl:variable>
                 <div class="tour-card">
-                    <img src="{.//img-link}" alt="Thái Lan" width="100%"/>
+                    <img src="{.//img-link}" title="{.//name}" width="100%"/>
+                    <xsl:if test="$accId != ''">
+                        <img src="img/star.png" width="80" height="80" 
+                         class="favorite" title="Thêm vào danh sách yêu thích" onclick="toggleFavorite({.//id})"/>
+                    </xsl:if>
+                    
                     <div class="tour-card-content">
                         <a href="{$link}">
                             <h2>

@@ -476,6 +476,22 @@ to be placed in the center. */
     max-height: 200px;
 }
 
+.tour-card .favorite {
+    min-height: 30px;
+    min-width: 30px;
+    width: 30px;
+    height: 30px;
+    opacity: 0.5;        
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+
+.tour-card .favorite:hover {
+    cursor: pointer;    
+    opacity: 1;
+}
+
 .tour-card .tour-card-content {
     height: 270px;
 }

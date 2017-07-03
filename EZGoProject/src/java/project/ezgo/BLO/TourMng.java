@@ -6,6 +6,7 @@
 package project.ezgo.BLO;
 
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
@@ -67,7 +68,7 @@ public class TourMng implements Serializable {
         return true;
     }
     
-    public boolean deleteTour(Tour t) {
+    public boolean deleteTour(Tour t, String realPath) {
         
         String path = t.getPicture();
         
@@ -76,9 +77,13 @@ public class TourMng implements Serializable {
             em.remove(t);
             em.getTransaction().commit();
             
-            //implement delete img here
-            
+            //implement delete img here            
+            File f = new File(realPath + path);
+            if (f.exists()) {
+                f.delete();
+            }
         } catch (Exception e) {
+            return false;
         }
         
         return true;
@@ -106,5 +111,13 @@ public class TourMng implements Serializable {
         return t;
     }
     
+    public List<Tour> getToursByAgenda(int agendaId) {
+        String sql = "SELECT t FROM Tour t WHERE t.agendaID = :id";
+        Query q = em.createQuery(sql);
+        q.setParameter("id", agendaId);
+
+        List<Tour> result = q.getResultList();
+        return result;
+    }
     
 }

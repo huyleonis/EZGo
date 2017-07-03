@@ -10,6 +10,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -38,6 +40,7 @@ public class ViewHistory implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "historyID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer historyID;
     @Column(name = "recentViewed")
     @Temporal(TemporalType.TIMESTAMP)

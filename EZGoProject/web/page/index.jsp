@@ -89,11 +89,13 @@
     </div>
 </div>
 
-<h2>Các tour nổi bật</h2>
+<h1 style="text-align: center; font-size: 2.5em;">Các tour nổi bật</h1>
 <c:set var="list" value="${sessionScope.LIST_TOUR}"/>
 <c:if test="${not empty list}">
     <c:import charEncoding="utf-8" url="xslt/tourCard.xsl" var="tourCard" />
-    <x:transform doc="${list}" xslt="${tourCard}"/>
+    <x:transform doc="${list}" xslt="${tourCard}">
+        <x:param name="accId" value="${sessionScope.ACCOUNT_ID}"/>
+    </x:transform>
 </c:if>
 
 

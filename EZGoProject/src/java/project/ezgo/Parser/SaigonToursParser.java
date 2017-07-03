@@ -34,6 +34,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
+import project.ezgo.BLO.TourMng;
 import project.ezgo.Constant.ExternalLink;
 import project.ezgo.Constant.RegionConstant;
 import project.ezgo.Entity.Agenda;
@@ -248,55 +249,6 @@ public class SaigonToursParser implements Runnable {
         return tour;
     }
 
-    private List<Tour> parseHtml() {
-
-        List<Tour> result = new ArrayList<>();
-        List<String> urls = new ArrayList<>();
-
-        for (int i = 0; i < pages.length; i++) {
-            System.out.println("Begin get tours' urls from page: " + pages[i]);
-            for (int j = 3; j <= 10; j++) {
-                try {
-                    urls.addAll(getListTourLink(pages[i] + "?curPg=" + j));
-                } catch (IOException | XMLStreamException e) {
-                    System.out.println("Parse Error: ");
-                    System.out.println("-- Link: " + pages[i] + "?curPg=" + j);
-                    System.out.println("-- Message: " + e.getMessage());
-                    System.out.println("-- Cause: " + e.getCause());
-                    e.printStackTrace();
-                }
-            }
-
-            System.out.println("Done get tours' url, there are " + urls.size() + " urls");
-
-            System.out.println("Begin get Tour");
-            int k = 1;
-            for (String url : urls) {
-                try {
-                    Tour t = getTourFromUrl(url);
-                    if (t != null) {
-                        if (i == 0) {
-                            t.setRegion(domestic);
-                        } else if (i == 1) {
-                            t.setRegion(abroad);
-                        }
-                        System.out.println("Parse successfully tour #" + k);
-                        k++;
-                        result.add(t);
-                    }
-
-                } catch (IOException | ParseException | XMLStreamException | StringIndexOutOfBoundsException e) {
-                    System.out.println("Parse Error: ");
-                    System.out.println("-- Link: " + url);
-                    System.out.println("-- Message: " + e.getMessage());
-                    System.out.println("-- Cause: " + e.getCause());
-                }
-            }
-        }
-
-        return result;
-    }
-
     private void downloadImage(String imgUrl, String filePath) throws MalformedURLException, FileNotFoundException, IOException {
         URL url = new URL(imgUrl.replace(" ", "%20"));
         InputStream is = url.openStream();
@@ -323,21 +275,6 @@ public class SaigonToursParser implements Runnable {
     public void run() {
         EntityManager em = emf.createEntityManager();
 
-        //delete expired tours
-        String sql = "SELECT t FROM Tour t WHERE t.agendaID = :id";
-        Query q = em.createQuery(sql);
-        q.setParameter("id", agenda);
-
-        List<Tour> result = q.getResultList();
-        Date now = new Date();
-        em.getTransaction().begin();
-        for (Tour tour : result) {
-            if (tour.getDepartureDay().before(now)) {
-                em.remove(tour);
-            }
-        }
-        em.getTransaction().commit();
-
         //parse new tours
         System.out.println("Begin Parse tour");
 
@@ -352,7 +289,6 @@ public class SaigonToursParser implements Runnable {
                     System.out.println("Parse Error: ");
                     System.out.println("-- Link: " + pages[i] + "?curPg=" + j);
                     System.out.println("-- Message: " + e.getMessage());
-                    System.out.println("-- Cause: " + e.getCause());
                     e.printStackTrace();
                 }//end try catch parse get urls
             }// end for parse get urls
@@ -376,15 +312,29 @@ public class SaigonToursParser implements Runnable {
                         String id = tour.getTourID();
                         Tour t = (Tour) em.find(Tour.class, id);
                         if (t != null) {
-                            System.out.println("Existing ID: " + id);
+                            System.out.println("---------------------------------  Existing ID: " + id);
+                            Date now = new Date();
+                            if (t.getDepartureDay().before(now)) {
+                                t.setDepartureDay(tour.getDepartureDay());
+                                try {
+                                    em.getTransaction().begin();
+                                    em.merge(t);
+                                    em.getTransaction().commit();
+                                    System.out.println("--------------------------------- Update successfully tour #" + ++l);
+                                } catch (Exception e) {
+                                    System.out.println("SQL Error when update: ");
+                                    System.out.println("-- Tour: " + tour.getLink());
+                                    System.out.println("-- Message: " + e.getMessage());
+                                }//end persist tour to DB
+                            }
                         } else {
                             try {
                                 em.getTransaction().begin();
                                 em.persist(tour);
                                 em.getTransaction().commit();
-                                System.out.println("Save successfully tour #" + ++l);
+                                System.out.println("--------------------------------- Save successfully tour #" + ++l);
                             } catch (Exception e) {
-                                System.out.println("SQL Error: ");
+                                System.out.println("SQL Error when save tour: ");
                                 System.out.println("-- Tour: " + tour.getLink());
                                 System.out.println("-- Message: " + e.getMessage());
                             }//end persist tour to DB
@@ -396,16 +346,28 @@ public class SaigonToursParser implements Runnable {
                     System.out.println("Parse Error: ");
                     System.out.println("-- Link: " + url);
                     System.out.println("-- Message: " + e.getMessage());
-                    System.out.println("-- Cause: " + e.getCause());
                 } //end try catch parse tour
             }// end for urls list
             System.out.println("Parse tour finished! There are " + k + " tours parsed");
         }// end for pages
 
+        //delete expired tours                
+        TourMng tourMng = new TourMng();
+        List<Tour> result = tourMng.getToursByAgenda(agenda.getAgendaID());
+        
+        Date now = new Date();
+        em.getTransaction().begin();
+        for (Tour tour : result) {
+            if (tour.getDepartureDay().before(now)) {
+                tourMng.deleteTour(tour, realPath);
+            }
+        }
+        em.getTransaction().commit();
+
         try {
             em.close();
         } catch (Exception e) {
-            System.out.println("SQL Error: " + e.getMessage());
+            System.out.println("SQL Error when close: " + e.getMessage());
         }
     }
 

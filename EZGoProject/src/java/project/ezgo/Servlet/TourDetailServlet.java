@@ -13,7 +13,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import project.ezgo.BLO.TourMng;
+import project.ezgo.BLO.ViewHistoryMng;
 import project.ezgo.Entity.Tour;
 
 /**
@@ -22,6 +24,7 @@ import project.ezgo.Entity.Tour;
  */
 @WebServlet(name = "TourDetailServlet", urlPatterns = {"/tour-detail"})
 public class TourDetailServlet extends HttpServlet {
+
     private final String index = "fgh";
     private final String tourDetailView = ".?p=tourDetail";
 
@@ -38,24 +41,34 @@ public class TourDetailServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        
+
         try {
             String url = index;
             String id = request.getParameter("id");
-            
+
             if (id != null) {
                 TourMng mng = new TourMng();
                 Tour t = mng.getTourById(id);
-                
+
                 if (t != null) {
-                    request.setAttribute("TOUR", t);                    
+                    request.setAttribute("TOUR", t);
                     url = tourDetailView;
+
+                    //save to history
+                    HttpSession session = request.getSession(false);
+                    if (session != null) {
+                        Integer accId = (Integer) session.getAttribute("ACCOUNT_ID");
+                        if (accId != null) {
+                            ViewHistoryMng historyMng = new ViewHistoryMng();
+                            historyMng.updateHistory(id, accId);
+                        }
+                    }
                 }
             }
-            
+
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
-                        
+
         } finally {
             out.close();
         }
