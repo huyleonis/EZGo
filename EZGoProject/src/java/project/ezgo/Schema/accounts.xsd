@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<xs:schema version="1.0"
+            xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://xml.netbeans.org/schema/accounts"
+            xmlns="http://xml.netbeans.org/schema/accouns"
+            elementFormDefault="qualified">
+    <xs:element name="accounts" type="ListAccount"/> 
+    <xs:complexType name="accountList">
+        <xs:sequence>
+            <xs:element name="account" type="Account" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Account">
+        <xs:sequence>
+            <xs:element name="roleID" type="xs:int"/>
+            <xs:element name="username" type="xs:string"/>
+            <xs:element name="password" type="xs:string"/>
+            <xs:element name="email" type="xs:string"/>
+            <xs:element name="fullname" type="xs:string" default=""/>
+            <xs:element name="birthday" type="xs:date" default=""/>
+            <xs:element name="address" type="xs:string" default=""/>            
+            <xs:element name="phone" type="xs:string" default=""/>              
+        </xs:sequence>
+        <xs:attribute name="accountID" type="xs:int"/>
+    </xs:complexType>
+</xs:schema>
