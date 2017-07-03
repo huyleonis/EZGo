@@ -36,6 +36,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Agenda.findByWebsite", query = "SELECT a FROM Agenda a WHERE a.website = :website")})
 public class Agenda implements Serializable {
 
+    @Column(name = "popularity")
+    private Integer popularity;
+
     @Column(name = "logo", length = 200)
     private String logo;
 
@@ -162,6 +165,14 @@ public class Agenda implements Serializable {
 
     public void setLogo(String logo) {
         this.logo = logo;
+    }
+
+    public Integer getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(Integer popularity) {
+        this.popularity = popularity;
     }
     
 }

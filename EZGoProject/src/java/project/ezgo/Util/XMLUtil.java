@@ -19,9 +19,8 @@ public class XMLUtil {
     public static String marshalToXmlString(Object obj) throws JAXBException {
         
         JAXBContext context = JAXBContext.newInstance(obj.getClass());
-        Marshaller mar = context.createMarshaller();
-        
-        mar.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+        Marshaller mar = context.createMarshaller();        
+        //mar.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
         
         StringWriter sw = new StringWriter();
         mar.marshal(obj, sw);

@@ -46,8 +46,8 @@ import javax.xml.bind.annotation.XmlType;
     "agenda",
     "agendaId",
     "link",
-    "schedule",
-    "policy",
+    "popularity",
+    "regionType",
 })
 @NamedQueries({
     @NamedQuery(name = "Tour.findAll", query = "SELECT t FROM Tour t")
@@ -58,6 +58,11 @@ import javax.xml.bind.annotation.XmlType;
     , @NamedQuery(name = "Tour.findByRating", query = "SELECT t FROM Tour t WHERE t.rating = :rating")
     , @NamedQuery(name = "Tour.findByLink", query = "SELECT t FROM Tour t WHERE t.link = :link")})
 public class Tour implements Serializable {
+
+    @JoinColumn(name = "region", referencedColumnName = "regionID")
+    @ManyToOne    
+    @XmlTransient
+    private Region region;
 
     @Column(name = "popularity")
     @XmlTransient
@@ -133,6 +138,11 @@ public class Tour implements Serializable {
     private Agenda agendaID;
 
     public Tour() {
+    }
+    
+    @XmlElement(name = "region", required = true, type = Integer.class)
+    public int getRegionType() {
+        return region.getRegionID();
     }
 
     public Tour(String tourID) {
@@ -320,6 +330,14 @@ public class Tour implements Serializable {
         } else {
             return "USD";
         }
+    }
+
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
     }
 
 }

@@ -5,6 +5,7 @@
  */
 package project.ezgo.Servlet;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -13,8 +14,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 import project.ezgo.BLO.AccountMng;
 import project.ezgo.Entity.Account;
+import project.ezgo.Entity.ListAccount;
 
 /**
  *
@@ -36,12 +40,29 @@ public class RegisterServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
         String email = request.getParameter("email");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String error = "";
         String url = registerPage;
-        try (PrintWriter out = response.getWriter()) {
+        try {
+            Account account = new Account();
+            account.setUsername(username);
+            account.setEmail(email);
+            account.setPassword(password);
+            
+            ListAccount listAccounts = new ListAccount();
+            listAccounts.getList().add(account);
+            
+            JAXBContext context = JAXBContext.newInstance(account.getClass(), listAccounts.getClass());
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            marshaller.marshal(listAccounts, new File("src/conf/java/project/ezgo/XML/accounts.xml"));
+            
+            
+            // lưu xuống DB
             AccountMng manager = new AccountMng();
             if (manager.findAccount(email)!=null) {
                 error = "Lỗi: Email này đã tồn tại!";
@@ -55,7 +76,6 @@ public class RegisterServlet extends HttpServlet {
                     url = loginPage;
                 }
             }
-            request.setAttribute("ERROR", error);
         } catch(Exception e){
             log("Registration fail - Error: " + e);
             error = "Xảy ra lỗi, xin hãy thử lại sau!";
@@ -63,6 +83,7 @@ public class RegisterServlet extends HttpServlet {
             request.setAttribute("ERROR", error);
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
+            out.close();
         }
     }
 

@@ -34,7 +34,10 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
+import project.ezgo.Constant.ExternalLink;
+import project.ezgo.Constant.RegionConstant;
 import project.ezgo.Entity.Agenda;
+import project.ezgo.Entity.Region;
 import project.ezgo.Entity.Tour;
 
 /**
@@ -44,12 +47,13 @@ import project.ezgo.Entity.Tour;
 public class SaigonToursParser implements Runnable {
 
     private final String[] pages = new String[]{
-        "http://saigontours.asia/danh-muc-tour/du-lich-ngoai-nuoc.html",
-        "http://saigontours.asia/danh-muc-tour/du-lich-trong-nuoc.html"
-    };
+        ExternalLink.SAIGONTOURS_DOMESTIC.url(),
+        ExternalLink.SAIGONTOURS_ABROAD.url(),};
 
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("EZGoProjectPU");
     Agenda agenda;
+    Region domestic;
+    Region abroad;
     String realPath;
 
     public SaigonToursParser(String realPath) {
@@ -63,6 +67,10 @@ public class SaigonToursParser implements Runnable {
         if (result != null) {
             agenda = (Agenda) result;
         }
+
+        domestic = em.find(Region.class, RegionConstant.DOMESTIC.getValue());
+        abroad = em.find(Region.class, RegionConstant.ABROAD.getValue());
+
     }
 
     private String getHtml(String urlPath)
@@ -105,7 +113,7 @@ public class SaigonToursParser implements Runnable {
 
         XMLEventReader iterator = fac.createXMLEventReader(new StringReader(html));
 
-        boolean rowFlag = false;        
+        boolean rowFlag = false;
         while (iterator.hasNext()) {
 
             try {
@@ -233,6 +241,10 @@ public class SaigonToursParser implements Runnable {
             this.downloadImage(imgUrl, realPath + path);
             tour.setPicture(path);
         }
+
+        int pop = calculatePopularity(tour);
+        tour.setPopularity(pop);
+        tour.setRating(3);
         return tour;
     }
 
@@ -241,39 +253,44 @@ public class SaigonToursParser implements Runnable {
         List<Tour> result = new ArrayList<>();
         List<String> urls = new ArrayList<>();
 
-        System.out.println("Begin get tours' urls");
-        for (String page : pages) {
-            for (int j = 1; j <= 1; j++) {
+        for (int i = 0; i < pages.length; i++) {
+            System.out.println("Begin get tours' urls from page: " + pages[i]);
+            for (int j = 3; j <= 10; j++) {
                 try {
-                    urls.addAll(getListTourLink(page + "?curPg=" + j));
+                    urls.addAll(getListTourLink(pages[i] + "?curPg=" + j));
                 } catch (IOException | XMLStreamException e) {
                     System.out.println("Parse Error: ");
-                    System.out.println("-- Link: " + page + "?curPg=" + j);
+                    System.out.println("-- Link: " + pages[i] + "?curPg=" + j);
                     System.out.println("-- Message: " + e.getMessage());
                     System.out.println("-- Cause: " + e.getCause());
                     e.printStackTrace();
                 }
-
             }
-        }
-        System.out.println("Done get tours' url, there are " + urls.size() + " urls");
 
-        System.out.println("Begin get Tour");
-        int k = 1;
-        for (String url : urls) {
-            try {
-                Tour t = getTourFromUrl(url);
-                if (t != null) {
-                    System.out.println("Parse successfully tour #" + k);
-                    k++;
-                    result.add(t);
+            System.out.println("Done get tours' url, there are " + urls.size() + " urls");
+
+            System.out.println("Begin get Tour");
+            int k = 1;
+            for (String url : urls) {
+                try {
+                    Tour t = getTourFromUrl(url);
+                    if (t != null) {
+                        if (i == 0) {
+                            t.setRegion(domestic);
+                        } else if (i == 1) {
+                            t.setRegion(abroad);
+                        }
+                        System.out.println("Parse successfully tour #" + k);
+                        k++;
+                        result.add(t);
+                    }
+
+                } catch (IOException | ParseException | XMLStreamException | StringIndexOutOfBoundsException e) {
+                    System.out.println("Parse Error: ");
+                    System.out.println("-- Link: " + url);
+                    System.out.println("-- Message: " + e.getMessage());
+                    System.out.println("-- Cause: " + e.getCause());
                 }
-                
-            } catch (IOException | ParseException | XMLStreamException | StringIndexOutOfBoundsException e) {
-                System.out.println("Parse Error: ");
-                System.out.println("-- Link: " + url);
-                System.out.println("-- Message: " + e.getMessage());
-                System.out.println("-- Cause: " + e.getCause());
             }
         }
 
@@ -283,6 +300,7 @@ public class SaigonToursParser implements Runnable {
     private void downloadImage(String imgUrl, String filePath) throws MalformedURLException, FileNotFoundException, IOException {
         URL url = new URL(imgUrl.replace(" ", "%20"));
         InputStream is = url.openStream();
+
         File f = new File(filePath);
         if (f.exists()) {
             return;
@@ -322,30 +340,68 @@ public class SaigonToursParser implements Runnable {
 
         //parse new tours
         System.out.println("Begin Parse tour");
-        List<Tour> list = parseHtml();
-        System.out.println("Parse tour finished! There are " + list.size() + " tours parsed");
 
-        System.out.println("Begin save tour");
-        int k = 1;
-        for (Tour tour : list) {
-            String id = tour.getTourID();
-            Tour t = (Tour) em.find(Tour.class, id);
-            if (t != null) {
-                System.out.println("Existing ID: " + id);
-            } else {
+        List<String> urls = new ArrayList<>();
+
+        for (int i = 0; i < pages.length; i++) {
+            System.out.println("Begin get tours' urls from page: " + pages[i]);
+            for (int j = 1; j <= 10; j++) {
                 try {
-                    em.getTransaction().begin();
-                    em.persist(tour);
-                    em.getTransaction().commit();
-                    System.out.println("Save successfully tour #" + k++);
-                } catch (Exception e) {
-                    System.out.println("SQL Error: ");
-                    System.out.println("-- Tour: " + tour.getLink());
+                    urls.addAll(getListTourLink(pages[i] + "?curPg=" + j));
+                } catch (IOException | XMLStreamException e) {
+                    System.out.println("Parse Error: ");
+                    System.out.println("-- Link: " + pages[i] + "?curPg=" + j);
                     System.out.println("-- Message: " + e.getMessage());
-                }
-            }
-        }
-        System.out.println("Save tour finished! There are " + (k - 1) + " tours saved");
+                    System.out.println("-- Cause: " + e.getCause());
+                    e.printStackTrace();
+                }//end try catch parse get urls
+            }// end for parse get urls
+
+            System.out.println("Done get tours' url, there are " + urls.size() + " urls");
+
+            System.out.println("Begin get Tour");
+            int k = 0;
+            int l = 0;
+            for (String url : urls) {
+                try {
+                    Tour tour = getTourFromUrl(url);
+                    if (tour != null) {
+                        if (i == 0) {
+                            tour.setRegion(domestic);
+                        } else if (i == 1) {
+                            tour.setRegion(abroad);
+                        }//end set region
+                        System.out.println("Parse successfully tour #" + ++k);
+
+                        String id = tour.getTourID();
+                        Tour t = (Tour) em.find(Tour.class, id);
+                        if (t != null) {
+                            System.out.println("Existing ID: " + id);
+                        } else {
+                            try {
+                                em.getTransaction().begin();
+                                em.persist(tour);
+                                em.getTransaction().commit();
+                                System.out.println("Save successfully tour #" + ++l);
+                            } catch (Exception e) {
+                                System.out.println("SQL Error: ");
+                                System.out.println("-- Tour: " + tour.getLink());
+                                System.out.println("-- Message: " + e.getMessage());
+                            }//end persist tour to DB
+                        }//end if tour not duplicate
+
+                    }// end save tour
+
+                } catch (IOException | ParseException | XMLStreamException | StringIndexOutOfBoundsException e) {
+                    System.out.println("Parse Error: ");
+                    System.out.println("-- Link: " + url);
+                    System.out.println("-- Message: " + e.getMessage());
+                    System.out.println("-- Cause: " + e.getCause());
+                } //end try catch parse tour
+            }// end for urls list
+            System.out.println("Parse tour finished! There are " + k + " tours parsed");
+        }// end for pages
+
         try {
             em.close();
         } catch (Exception e) {
@@ -390,5 +446,36 @@ public class SaigonToursParser implements Runnable {
         }
 
         return result;
+    }
+
+    private int calculatePopularity(Tour tour) {
+        int agendaPop = agenda.getPopularity();
+        int dayPop = 45;
+        int discountPop = 0;
+
+        long price = tour.getPrice().longValue();
+        long oldPrice = tour.getOldPrice().longValue();
+        long discount = (oldPrice - price) * 100 / oldPrice;
+
+        if (discount <= 3) {
+            discountPop = 0;
+        } else if (discount <= 10) {
+            discountPop = 5;
+        } else if (discount <= 30) {
+            discountPop = 10;
+        } else if (discount <= 50) {
+            discountPop = 20;
+        } else {
+            discountPop = 30;
+        }
+
+        Date now = new Date();
+        Date tourDay = tour.getDepartureDay();
+        long diff = Math.abs(tourDay.getTime() - now.getTime());
+        diff = diff / (1000 * 60 * 60 * 24);
+
+        dayPop -= diff;
+
+        return agendaPop + dayPop + discountPop;
     }
 }

@@ -20,8 +20,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
@@ -29,7 +33,18 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "Account", catalog = "EZGo", schema = "dbo")
-@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "account", propOrder = {    
+    "accountID",
+    "roleID",
+    "username",
+    "password",
+    "email",
+    "fullname",
+    "birthday",
+    "address",
+    "phone",
+})
 @NamedQueries({
     @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a")
     , @NamedQuery(name = "Account.findByAccountID", query = "SELECT a FROM Account a WHERE a.accountID = :accountID")
@@ -46,31 +61,50 @@ public class Account implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "accountID", nullable = false)
+    @XmlElement
     private Integer accountID;
+    
     @Basic(optional = false)
     @Column(name = "username", nullable = false, length = 50)
+    @XmlElement(required = true)
     private String username;
+    
     @Basic(optional = false)
     @Column(name = "password", nullable = false, length = 50)
+    @XmlTransient
     private String password;
+    
     @Column(name = "email", length = 100)
+    @XmlElement(required = true)
     private String email;
+    
     @Column(name = "fullname", length = 50)
+    @XmlElement
     private String fullname;
+    
     @Column(name = "birthday")
     @Temporal(TemporalType.DATE)
+    @XmlElement
     private Date birthday;
+    
     @Column(name = "address", length = 100)
+    @XmlElement
     private String address;
+    
     @Column(name = "phone", length = 50)
+    @XmlElement
     private String phone;
+    
     @OneToMany(mappedBy = "accountID")
     private Collection<Favorite> favoriteCollection;
+    
     @JoinColumn(name = "roleID", referencedColumnName = "roleID", nullable = false)
     @ManyToOne(optional = false)
     private Role roleID;
+    
     @OneToMany(mappedBy = "accountID")
     private Collection<Comment> commentCollection;
+    
     @OneToMany(mappedBy = "accountID")
     private Collection<ViewHistory> viewHistoryCollection;
 
