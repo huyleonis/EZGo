@@ -15,10 +15,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import project.ezgo.BLO.AccountMng;
 import project.ezgo.Entity.Account;
 import project.ezgo.Entity.ListAccount;
+import project.ezgo.JAXB.JAXBValidationHandler;
 
 /**
  *
@@ -47,20 +50,13 @@ public class RegisterServlet extends HttpServlet {
         String error = "";
         String url = registerPage;
         try {
-            Account account = new Account();
-            account.setUsername(username);
-            account.setEmail(email);
-            account.setPassword(password);
-            
-            ListAccount listAccounts = new ListAccount();
-            listAccounts.getList().add(account);
-            
-            JAXBContext context = JAXBContext.newInstance(account.getClass(), listAccounts.getClass());
-            Marshaller marshaller = context.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            marshaller.marshal(listAccounts, new File("src/conf/java/project/ezgo/XML/accounts.xml"));
-            
+            // không thể check validate do javascript không thể ghi file ở server
+            // unmarshall & validate data
+//            JAXBContext context = JAXBContext.newInstance("project.ezgo.JAXB");          
+//            Unmarshaller unmarshaller = context.createUnmarshaller();
+//            unmarshaller.setEventHandler(new JAXBValidationHandler());
+//            File file = new File("src/conf/java/project/ezgo/XML/accounts.xml");
+//            Account account = (Account) unmarshaller.unmarshal(file);
             
             // lưu xuống DB
             AccountMng manager = new AccountMng();
@@ -77,6 +73,7 @@ public class RegisterServlet extends HttpServlet {
                 }
             }
         } catch(Exception e){
+            e.printStackTrace();
             log("Registration fail - Error: " + e);
             error = "Xảy ra lỗi, xin hãy thử lại sau!";
         } finally{

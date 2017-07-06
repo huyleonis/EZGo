@@ -113,15 +113,13 @@
         <div class="tabcontent" id="manage-acc" >
             <div class="search-bar">
                 <label><h3> Quản lý tài khoản: </h3></label>
+                <script type="text/javascript" src="../js/search.js">
+                    reqObj = '${requestScope.ACCOUNTLIST}'
+                </script>
                 <form>
-                    <input type="text" name="kw" placeholder="Nhập từ khóa..." class="form-control" style="width:60%; display: inline;">
-                    <select name="category">
-                        <option>Tìm kiếm theo...</option>
-                        <option value="findusername">Tên đăng nhập</option>
-                        <option value="findemail">Email</option>
-                        <option value="findname">Họ tên</option>
-                    </select>
-                    <button type="submit" name="action" value="SearchAccount" class="btn btn-default">
+                    <input type="text" name="kw" placeholder="Tên đăng nhập" class="form-control" style="width:60%; display: inline;">
+                    <button type="button" onclick="return searchProcess('table')" 
+                            name="action" value="SearchAccount" class="btn btn-default">
                         Tìm kiếm
                     </button>
                 </form>
@@ -129,7 +127,7 @@
                 <c:set var="accountList" value="${requestScope.LISTACCOUNT}"/>
                 <c:if test="${not empty accountList}">
                     <div class="table-wrapper">
-                        <div class="table">
+                        <div class="table" id="table">
                             <div class="row header">
                                 <div class="cell">
                                     Username
@@ -147,31 +145,6 @@
                                     Action
                                 </div>
                             </div>
-
-                            <c:forEach var="item" items="${userList}">
-                                <form action="process" method="POST">
-                                    <div class="row">
-                                        <div class="cell">
-                                            ${item.username}
-                                            <input type="hidden" name="accountID" value="${item.accountID}" />
-                                        </div>
-                                        <div class="cell">
-                                            ${item.email}
-                                        </div>
-                                        <div class="cell">
-                                            ${item.fullname}
-                                        </div>
-                                        <div class="cell">
-                                            ${item.roleID}
-                                        </div>
-                                        <div class="cell">
-                                            <button type="submit" class="btn btn-orange" 
-                                                    name="action" value="RemoveAccount">Xóa</button>
-                                        </div>
-                                    </div>
-                                </form>
-
-                            </c:forEach>
 
 
 

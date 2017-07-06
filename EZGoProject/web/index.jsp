@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="css/main.css"/>  
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
         <script type="text/javascript" src="js/main.js"></script>
+        <script type="text/javascript" src="js/register.js"></script>
         <title>EZGo | Easy Go, Easy Travel, Easy Discover the World</title>
         <link href="img/logo.png" rel="shortcut icon" type="image/x-icon" />
     </head>

@@ -26,9 +26,9 @@ import project.ezgo.Entity.Account;
 public class AccountMng implements Serializable {
 
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("EZGoProjectPU");
+    EntityManager em = emf.createEntityManager();
 
     public void persist(Object object) {
-        EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(object);
@@ -42,8 +42,6 @@ public class AccountMng implements Serializable {
     }
 
     public boolean checkLogin(String username, String password) {
-        EntityManager em = emf.createEntityManager();
-
         String jpql = "SELECT a.password FROM Account a WHERE a.username = :username OR a.email = :email";
         Query query = em.createQuery(jpql);
 
@@ -61,8 +59,6 @@ public class AccountMng implements Serializable {
     }
 
     public Account findAccount(String username) {
-        EntityManager em = emf.createEntityManager();
-
         String jpql = "SELECT a FROM Account a WHERE a.username = :username OR a.email = :email";
         Query query = em.createQuery(jpql);
 
@@ -81,8 +77,6 @@ public class AccountMng implements Serializable {
     }
 
     public Account getAccountById(String id) {
-        EntityManager em = emf.createEntityManager();
-
         Account result = em.find(Account.class, Integer.parseInt(id));
 
         return result;
@@ -100,7 +94,6 @@ public class AccountMng implements Serializable {
 
     public boolean removeAccount(String accountID) {
         try {
-            EntityManager em = emf.createEntityManager();
             Account account = em.find(Account.class, accountID);
             if (account != null) {
                 em.getTransaction();
@@ -116,8 +109,6 @@ public class AccountMng implements Serializable {
     }
 
     public List findAccountByUsername(String username) {
-        EntityManager em = emf.createEntityManager();
-
         String jpql = "SELECT a FROM Account a WHERE a.username LIKE :username";
         Query query = em.createQuery(jpql);
 
@@ -127,8 +118,6 @@ public class AccountMng implements Serializable {
     }
 
     public List findAccountByEmail(String email) {
-        EntityManager em = emf.createEntityManager();
-
         String jpql = "SELECT a FROM Account a WHERE a.email = :email";
         Query query = em.createQuery(jpql);
 
@@ -138,8 +127,6 @@ public class AccountMng implements Serializable {
     }
 
     public List findAccountByFullname(String fullname) {
-        EntityManager em = emf.createEntityManager();
-
         String jpql = "SELECT a FROM Account a WHERE a.fullname = :fullname";
         Query query = em.createQuery(jpql);
 
@@ -150,7 +137,6 @@ public class AccountMng implements Serializable {
 
     public boolean updatePassword(String accountID, String newPassword) {
         try {
-            EntityManager em = emf.createEntityManager();
             Account account = em.find(Account.class, Integer.parseInt(accountID));
             account.setPassword(newPassword);
             em.getTransaction().begin();
@@ -165,7 +151,6 @@ public class AccountMng implements Serializable {
 
     public boolean updateinfo(String accountID, String birthday, String phone, String email) {
         try {
-            EntityManager em = emf.createEntityManager();
             Account account = em.find(Account.class, Integer.parseInt(accountID));
             SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
             account.setBirthday(formatter.parse(birthday));
@@ -179,5 +164,11 @@ public class AccountMng implements Serializable {
             System.out.println(ex);
             return false;
         }
+    }
+    
+    public List getAllAccounts(){
+        Query query = em.createNamedQuery("Account.findAll");
+        List listAccounts = query.getResultList();
+        return listAccounts;
     }
 }

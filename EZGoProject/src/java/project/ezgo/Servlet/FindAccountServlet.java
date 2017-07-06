@@ -37,19 +37,11 @@ public class FindAccountServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String choice = request.getParameter("category").trim();
         String findValue = request.getParameter("kw").trim();
         try{
             AccountMng manager = new AccountMng();
             List listAccount = new ArrayList();
-            if(choice.equalsIgnoreCase("findusername")){
-                listAccount = manager.findAccountByUsername(findValue);
-            } else if(choice.equalsIgnoreCase("findemail")){
-                listAccount = manager.findAccountByEmail(findValue);
-                System.out.println(listAccount.toString());
-            } else{
-                listAccount = manager.findAccountByFullname(findValue);
-            }
+            listAccount = manager.findAccountByUsername(findValue);
             request.setAttribute("LISTACCOUNT", listAccount);
             request.setAttribute("currentTab", "manage-acc");
         } finally{

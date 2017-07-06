@@ -11,6 +11,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -44,6 +46,9 @@ import javax.xml.bind.annotation.XmlType;
     "birthday",
     "address",
     "phone",
+    "favoriteCollection",
+    "viewHistoryCollection",
+    "commentCollection",
 })
 @NamedQueries({
     @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a")
@@ -61,7 +66,7 @@ public class Account implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "accountID", nullable = false)
-    @XmlElement
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer accountID;
     
     @Basic(optional = false)
@@ -71,7 +76,7 @@ public class Account implements Serializable {
     
     @Basic(optional = false)
     @Column(name = "password", nullable = false, length = 50)
-    @XmlTransient
+    @XmlElement
     private String password;
     
     @Column(name = "email", length = 100)

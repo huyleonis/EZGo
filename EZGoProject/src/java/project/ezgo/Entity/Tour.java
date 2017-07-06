@@ -41,12 +41,14 @@ import javax.xml.bind.annotation.XmlType;
     "duration",
     "price",
     "oldPrice",
+    "schedule",
     "currency",
     "departure",
     "agenda",
     "agendaId",
     "link",
     "popularity",
+    "policy",
     "regionType",
 })
 @NamedQueries({
@@ -65,7 +67,7 @@ public class Tour implements Serializable {
     private Region region;
 
     @Column(name = "popularity")
-    @XmlTransient
+    @XmlElement
     private Integer popularity;
 
     @Column(name = "oldPrice")
