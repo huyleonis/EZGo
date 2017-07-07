@@ -7,14 +7,20 @@ package project.ezgo.Servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.bind.JAXBException;
 import project.ezgo.BLO.AccountMng;
+import project.ezgo.BLO.FavoriteMng;
 import project.ezgo.Entity.Account;
+import project.ezgo.Entity.ListFavorite;
+import project.ezgo.Util.XMLUtil;
 
 /**
  *
@@ -55,11 +61,17 @@ public class Login extends HttpServlet {
                 if (result) {
                     Account a = mng.findAccount(email);
 
+                    Integer accountId = a.getAccountID();
+                    FavoriteMng favMng = new FavoriteMng();
+                    ListFavorite lst = new ListFavorite(accountId, favMng.getFavoriteByAccount(accountId));                    
+
                     HttpSession session = request.getSession(true);
                     session.setAttribute("ACCOUNT_ID", a.getAccountID());
                     session.setAttribute("ACCOUNT_FULLNAME", a.getFullname());
+                    session.setAttribute("LIST_FAVORITE", lst.toString());
+
                     url = index;
-                    
+
                     if (remember != null) {
                         Cookie ckUsename = new Cookie("ACC_USERNAME", a.getUsername());
                         Cookie ckPassword = new Cookie("ACC_PASSWORD", a.getPassword());
@@ -76,12 +88,12 @@ public class Login extends HttpServlet {
             } else { //end if check null
                 error = "Email/Mật khẩu không gửi được";
             }// end else check null
-            
+
             if (error != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("LOGIN_ERROR", error);
             }
-            
+
             response.sendRedirect(url);
         } finally {
             out.close();

@@ -30,7 +30,8 @@ public class EzgoContextListener implements ServletContextListener {
         String realPath = context.getRealPath("/");
         
         scheduler = Executors.newSingleThreadScheduledExecutor();
-        scheduler.scheduleAtFixedRate(new SaigonToursParser(realPath), 0, 30, TimeUnit.DAYS);
+        //Thread will begin after 2-min delay, after that it will repeat every day (60 min * 24 hour)
+        scheduler.scheduleAtFixedRate(new SaigonToursParser(realPath), 0, 1, TimeUnit.DAYS);
 //        scheduler.scheduleAtFixedRate(new VietSunTravel(realPath), 0, 30, TimeUnit.DAYS);
     }
 

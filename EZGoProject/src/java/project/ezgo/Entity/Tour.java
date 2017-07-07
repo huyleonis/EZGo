@@ -43,6 +43,7 @@ import javax.xml.bind.annotation.XmlType;
     "oldPrice",
     "currency",
     "departure",
+    "departureDay",
     "agenda",
     "agendaId",
     "link",
@@ -65,7 +66,7 @@ public class Tour implements Serializable {
     private Region region;
 
     @Column(name = "popularity")
-    @XmlTransient
+    @XmlElement
     private Integer popularity;
 
     @Column(name = "oldPrice")
@@ -104,16 +105,16 @@ public class Tour implements Serializable {
     private Integer rating;
 
     @Column(name = "schedule", length = 4000)
-    @XmlElement
+    @XmlTransient
     private String schedule;
     
     @Column(name = "policy", length = 4000)
-    @XmlElement
+    @XmlTransient
     private String policy;
 
     @Column(name = "departureDay")
     @Temporal(TemporalType.DATE)
-    @XmlTransient
+    @XmlElement(required = true)
     private Date departureDay;
     
     @Column(name = "link", length = 500)
@@ -325,7 +326,7 @@ public class Tour implements Serializable {
     
     @XmlElement(name = "currency")
     public String getCurrency() {
-        if (price.longValue() > 1000000) {
+        if (price.longValue() > 100000) {
             return "VND";
         } else {
             return "USD";

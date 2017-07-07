@@ -20,5 +20,5 @@
         <listener-class>
             project.ezgo.Config.EzgoContextListener
         </listener-class>
-    </listener>
+    </listener>   
 </web-app>

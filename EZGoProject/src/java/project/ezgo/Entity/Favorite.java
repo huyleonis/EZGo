@@ -10,6 +10,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,7 +20,11 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
@@ -26,29 +32,37 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "Favorite", catalog = "EZGo", schema = "dbo")
-@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "favorite", propOrder = {
+    "tourId"
+})
 @NamedQueries({
     @NamedQuery(name = "Favorite.findAll", query = "SELECT f FROM Favorite f")
     , @NamedQuery(name = "Favorite.findByFavoriteID", query = "SELECT f FROM Favorite f WHERE f.favoriteID = :favoriteID")
-    , @NamedQuery(name = "Favorite.findByFavoriteTime", query = "SELECT f FROM Favorite f WHERE f.favoriteTime = :favoriteTime")
-    , @NamedQuery(name = "Favorite.findByLimit", query = "SELECT f FROM Favorite f WHERE f.limit = :limit")})
+    , @NamedQuery(name = "Favorite.findByFavoriteTime", query = "SELECT f FROM Favorite f WHERE f.favoriteTime = :favoriteTime")})
 public class Favorite implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @Column(name = "favoriteID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @XmlTransient
     private Integer favoriteID;
+
     @Column(name = "favoriteTime")
     @Temporal(TemporalType.TIMESTAMP)
+    @XmlTransient
     private Date favoriteTime;
-    @Column(name = "limit")
-    private Integer limit;
+
     @JoinColumn(name = "accountID", referencedColumnName = "accountID")
     @ManyToOne
+    @XmlTransient
     private Account accountID;
+
     @JoinColumn(name = "tourID", referencedColumnName = "tourID")
     @ManyToOne
+    @XmlTransient
     private Tour tourID;
 
     public Favorite() {
@@ -56,6 +70,11 @@ public class Favorite implements Serializable {
 
     public Favorite(Integer favoriteID) {
         this.favoriteID = favoriteID;
+    }
+
+    @XmlElement(name = "tour-id")
+    public String getTourId() {        
+        return this.tourID.getTourID();
     }
 
     public Integer getFavoriteID() {
@@ -72,14 +91,6 @@ public class Favorite implements Serializable {
 
     public void setFavoriteTime(Date favoriteTime) {
         this.favoriteTime = favoriteTime;
-    }
-
-    public Integer getLimit() {
-        return limit;
-    }
-
-    public void setLimit(Integer limit) {
-        this.limit = limit;
     }
 
     public Account getAccountID() {
@@ -122,5 +133,5 @@ public class Favorite implements Serializable {
     public String toString() {
         return "project.ezgo.Entity.Favorite[ favoriteID=" + favoriteID + " ]";
     }
-    
+
 }
