@@ -1,5 +1,6 @@
 var favXml;
 var favRoot;
+var favChange = false;
 
 var serializer = new XMLSerializer(); //use to serialize DOM Object to XML String
 var accId;
@@ -45,6 +46,9 @@ function destroy() {
 
 function saveFavorite() {    
     var request = getXMLRequest();
+    if (!favChange) {
+        return;
+    }
     if (request === null) {
         alert("Trình duyệt không hỗ trợ tính năng \"Lưu danh sách yêu thích\".\nHãy thay đổi trình duyệt và thực hiện lại.");
         return;
@@ -53,7 +57,10 @@ function saveFavorite() {
     request.open("POST","process", true);
     request.onreadystatechange = function() {
         if (request.readyState === 4) {            
-            createFavXml();                        
+            createFavXml();
+            if (request.responseText === "true") {
+                //alert("Danh sách yêu thích đã được cập nhật");
+            }
         }
     }
     
@@ -61,7 +68,7 @@ function saveFavorite() {
     alert(xmlString);
     xmlString = '<?xml version="1.0" encoding="UTF-8"?>' + xmlString;
     
-    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
     var url = "action=SaveFavorite&xml=" + xmlString;
     
     request.send(url);
@@ -154,7 +161,7 @@ function openAccountInfoTab(evt, tabName) {
 }
 
 function toggleFavorite(id, img) {
-    
+    favChange = true;
     if (img.getAttribute("status") === "Off") {
         //toggle On
         
@@ -206,5 +213,5 @@ function toggleFavorite(id, img) {
         img.setAttribute("status", "Off");
     }
     
-    alert(serializer.serializeToString(favXml));
+    //alert(serializer.serializeToString(favXml));
 }

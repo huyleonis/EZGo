@@ -5,8 +5,11 @@
  */
 package project.ezgo.Util;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.StringReader;
+import java.io.StringWriter;
 import javax.xml.transform.Templates;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
@@ -38,4 +41,21 @@ public class TrAXUtil {
         
     }
     
+    public static String transformGetXmlString(String xmlSource, String xslFile) throws TransformerConfigurationException, TransformerException {
+        
+        TransformerFactory tf = TransformerFactory.newInstance();
+        
+        
+        StreamSource xsl = new StreamSource(new File(xslFile));        
+        Templates template = tf.newTemplates(xsl);
+        Transformer trans = template.newTransformer();
+        
+        StreamSource xml = new StreamSource(new StringReader(xmlSource));
+        StringWriter sw = new StringWriter();
+        StreamResult result = new StreamResult(sw);
+        trans.transform(xml, result);
+        
+        return sw.toString();
+    }
+                
 }

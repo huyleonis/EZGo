@@ -44,7 +44,7 @@ public class IndexServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             
-            HttpSession session = request.getSession();
+            HttpSession session = request.getSession(false);
             
             boolean stillAvailable = false;
             
@@ -59,12 +59,19 @@ public class IndexServlet extends HttpServlet {
                     if (diffDay < 1) {
                         stillAvailable = true;
                     }
-                }                
+                }    
+                
             }
             
-            if (!stillAvailable) {
+            if (!stillAvailable) {                
                 TourMng tourMng = new TourMng();
-                ListTour list = new ListTour(tourMng.getPopularTour());
+                ListTour list;
+                if (session != null && session.getAttribute("ACCOUNT_ID") != null) {
+                    Integer accId = (Integer) session.getAttribute("ACCOUNT_ID");
+                    list = new ListTour(tourMng.getFavoriteTours(accId));
+                } else {
+                    list = new ListTour(tourMng.getPopularTour());
+                }                 
 
                 String xml = XMLUtil.marshalToXmlString(list);
 

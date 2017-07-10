@@ -23,8 +23,7 @@ import project.ezgo.Util.XMLUtil;
 public class RequestServletListener implements ServletRequestListener {
 
     @Override
-    public void requestDestroyed(ServletRequestEvent sre) {
-        System.out.println("Request destroyed!");
+    public void requestDestroyed(ServletRequestEvent sre) {        
     }
 
     @Override

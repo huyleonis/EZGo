@@ -7,6 +7,7 @@ package project.ezgo.BLO;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import project.ezgo.Entity.Account;
 import project.ezgo.Entity.Favorite;
 import project.ezgo.Entity.Tour;
 import project.ezgo.Entity.ViewHistory;
@@ -113,12 +115,41 @@ public class TourMng implements Serializable {
         return true;
     }
 
-    public List<Tour> getPopularTour() {
-        String sql = "SELECT t FROM Tour t ORDER BY t.popularity DESC";
+    public List<Tour> getPopularTour(int maxSize) {
+        String sql = "SELECT t FROM Tour t WHERE t.region.regionID = 1 ORDER BY t.popularity DESC ";
         Query q = em.createQuery(sql);
-        q.setMaxResults(70);
-        List<Tour> result = q.getResultList();
+        q.setMaxResults(maxSize/2);
+        List<Tour> list1 = q.getResultList();
+        
+        String sql2 = "SELECT t FROM Tour t WHERE t.region.regionID = 2 ORDER BY t.popularity DESC ";
+        Query q2 = em.createQuery(sql2);
+        q2.setMaxResults(maxSize/2);
+        
+        List<Tour> list2 = q2.getResultList();
+        
+        List<Tour> result = new ArrayList<>();        
+        int i = 0, j = 0;
+        int n = list1.size(), m = list2.size();
+        
+        while (i < n || j < m) {
+            if (i >= n) {
+                result.add(list2.get(j++));
+            } else if (j >= m) {
+                result.add(list1.get(i++));
+            } else {
+                if (list1.get(i).getPopularity() < list2.get(j).getPopularity()) {
+                    result.add(list2.get(j++));
+                } else {
+                    result.add(list1.get(i++));
+                }
+            }
+        }
+                
         return result;
+    }
+    
+    public List<Tour> getPopularTour() {
+        return getPopularTour(100);
     }
 
     public List<Tour> getPromotion() {
@@ -144,4 +175,40 @@ public class TourMng implements Serializable {
         return result;
     }
 
+    public List<Tour> getFavoriteTours(Integer accId) {
+        Account acc = em.find(Account.class, accId);
+        
+        String sql = "SELECT t FROM Tour t WHERE t.tourID IN " +
+                        "(SELECT f.tourID.tourID FROM Favorite f WHERE f.accountID = :acc)";
+        
+        Query q = em.createQuery(sql);
+        q.setParameter("acc", acc);
+        q.setMaxResults(100);
+        
+        List<Tour> result = (List<Tour>) q.getResultList();
+        
+        String sql2 = "SELECT t FROM Tour t WHERE t.tourID NOT IN " +
+                        "(SELECT f.tourID.tourID FROM Favorite f WHERE f.accountID = :acc) AND t.tourID IN " +
+                        "(SELECT v.tourID.tourID FROM ViewHistory v WHERE v.accountID = :acc)";
+        
+        Query q2 = em.createQuery(sql2);
+        q2.setParameter("acc", acc);
+        q2.setMaxResults(100);
+        
+        result.addAll(q2.getResultList());
+        int n = 100 - result.size();
+        
+        if (n > 30) {
+            String sql3 = "SELECT t FROM Tour t WHERE t.tourID NOT IN " +
+                        "(SELECT f.tourID.tourID FROM Favorite f WHERE f.accountID = :acc) AND t.tourID NOT IN " +
+                        "(SELECT v.tourID.tourID FROM ViewHistory v WHERE v.accountID = :acc) ORDER BY t.popularity DESC";
+            Query q3 = em.createQuery(sql3);
+            q3.setParameter("acc", acc);
+            q3.setMaxResults(n);
+            
+            result.addAll(q3.getResultList());
+        }
+        
+        return result;
+    }
 }
