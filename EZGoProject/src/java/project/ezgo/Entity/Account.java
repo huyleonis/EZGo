@@ -46,9 +46,6 @@ import javax.xml.bind.annotation.XmlType;
     "birthday",
     "address",
     "phone",
-    "favoriteCollection",
-    "viewHistoryCollection",
-    "commentCollection",
 })
 @NamedQueries({
     @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a")
@@ -101,6 +98,7 @@ public class Account implements Serializable {
     private String phone;
     
     @OneToMany(mappedBy = "accountID")
+    @XmlTransient
     private Collection<Favorite> favoriteCollection;
     
     @JoinColumn(name = "roleID", referencedColumnName = "roleID", nullable = false)
@@ -108,9 +106,11 @@ public class Account implements Serializable {
     private Role roleID;
     
     @OneToMany(mappedBy = "accountID")
+    @XmlTransient
     private Collection<Comment> commentCollection;
     
     @OneToMany(mappedBy = "accountID")
+    @XmlTransient
     private Collection<ViewHistory> viewHistoryCollection;
 
     public Account() {

@@ -280,7 +280,7 @@ public class SaigonToursParser implements Runnable {
         for (int i = 0; i < pages.length; i++) {
             System.out.println("Begin get tours' urls from page: " + pages[i]);
             urls = new ArrayList<>();
-            for (int j = 1; j <= 15; j++) {
+            for (int j = 1; j <= 1; j++) {
                 try {
                     urls.addAll(getListTourLink(pages[i] + "?curPg=" + j));
                 } catch (IOException | XMLStreamException e) {
