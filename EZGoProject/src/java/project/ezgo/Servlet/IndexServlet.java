@@ -79,7 +79,6 @@ public class IndexServlet extends HttpServlet {
             
         } catch (JAXBException ex) {
             log("JAXB Exception: " + ex.getMessage());
-            ex.printStackTrace();
         } finally {
             out.close();
         }

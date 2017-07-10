@@ -26,6 +26,7 @@ public class ProcessServlet extends HttpServlet {
     private final String registerServlet = "/register";
     private final String findAccountServlet = "/findacc";
     private final String tourDetailServlet = "/tour-detail";
+    private final String saveFavoriteServlet = "/save-favorite";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -54,6 +55,8 @@ public class ProcessServlet extends HttpServlet {
                 url = findAccountServlet;
             } else if(btn.equals("TourDetail")) {
                 url = tourDetailServlet;
+            } else if(btn.equals("SaveFavorite")) {
+                url = saveFavoriteServlet;
             }
             
         } finally {

@@ -19,7 +19,7 @@
         <title>EZGo | Easy Go, Easy Travel, Easy Discover the World</title>
         <link href="img/logo.png" rel="shortcut icon" type="image/x-icon" />
     </head>
-    <body>
+    <body onload="initial()" onbeforeunload="destroy()">
         <c:import url="view/navigator.jsp" charEncoding="utf-8"/>
         <c:set value="${param.p}" var="page"/>
         <c:choose>
@@ -41,5 +41,9 @@
         </c:choose>        
         
         <c:import url="view/footer.jsp" charEncoding="utf-8"/>
+        <img src="img/star1.png" style="display: none;"/>
+        <c:if test="${not empty sessionScope.ACCOUNT_ID}">
+            <input type="hidden" name="accountId" id="accountId" value="${sessionScope.ACCOUNT_ID}" />
+        </c:if>
     </body>
 </html>

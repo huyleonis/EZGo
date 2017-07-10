@@ -79,7 +79,6 @@ public class ViewHistoryMng {
             em.merge(history);
             em.getTransaction().commit();
         } catch (NoResultException e) {
-            e.printStackTrace();
             saveHistory(idTour, idAccount);
         }                        
         return true;
