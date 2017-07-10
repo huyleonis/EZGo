@@ -4,29 +4,30 @@
  * and open the template in the editor.
  */
 
-function sendRegisterForm(){
+var accountsObj;
+var saveFile;
+var xmlDOM = new ActiveXObject("Microsoft.XMLDOM");
+var email = document.registration.email;
+var username = document.registration.username;
+var password = document.registration.password;
+var repassword = document.registration.repassword;
+var errorRegister = document.getElementById("registerError");
+
+function sendRegisterForm() {
     var email = document.registration.email;
     var username = document.registration.username;
     var password = document.registration.password;
-    
-    
-    
+
+
+
 }
 
 function checkrepassword() {
-    var password = document.registration.password;
-    var errorRegister = document.getElementById("registerError");
-    var repassword = document.registration.repassword;
-    
     if (repassword.value != password.value) {
         return false;
     }
     return true;
 }
-
-var accountsObj;
-var xmlDOM = new ActiveXObject("Microsoft.XMLDOM");
-var count = 0;
 
 function searchIfUsernameExist(node, strSearch) {
     if (node == null) {
@@ -62,19 +63,17 @@ function searchIfEmailExist(node, strSearch) {
     }
 }
 
-function validateForm(){
-    var errorRegister = document.getElementById("registerError");
-    var repassword = document.registration.repassword;
+function validateForm() {
     alert(accountsObj);
-    
+
     var checkRepass = checkrepassword();
-    if(!checkRepass){
+    if (!checkRepass) {
         errorRegister.innerHTML = "Lỗi: Mật khẩu xác nhận không hợp lệ.";
         repassword.focus();
         errorRegister.style.display = 'block';
         return false;
     }
-    
+
     if (!accountsObj) { // is null
         return false;
     }
@@ -83,15 +82,34 @@ function validateForm(){
         xmlDOM.loadXML(accountsObj);
         if (xmlDOM.parseError.errorCode != 0) {
             alert("Error: " + xmlDoc.parseError.reason);
-        } else { 
+        } else {
             var ifUsernameExist = searchIfUsernameExist(xmlDOM, document.registration.username.value);
             var ifEmailExist = searchIfEmailExist(xmlDOM, document.registration.email.value);
-            if(ifUsernameExist || ifEmailExist){
+            if (ifUsernameExist || ifEmailExist) {
                 errorRegister.innerHTML = 'Lỗi: Tên đăng nhập đã tổn tại.';
                 errorRegister.style.display = 'block';
                 return false;
-            } 
+            }
         }
     }
+    writeXML();
     return true;
 }
+
+function writeXML()
+{
+    if (saveFile != null) {
+        var fso = new ActiveXObject("Scripting.FileSystemObject");
+        var file = fso.OpenTextFile(saveFile, 8, true);
+        file.WriteLine('<?xml version="1.0" encoding="utf-8"?>');
+        file.WriteLine('<account>');
+        file.WriteLine('<username>' + username + '</username>');
+        file.WriteLine('<password>' + password + '</password>');
+        file.WriteLine('<email>' + email + '</email>');
+        file.WriteLine('</account>');
+        file.Close();
+    } else{
+        alert(saveFile);
+    }
+
+} 

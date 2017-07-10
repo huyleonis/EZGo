@@ -16,6 +16,7 @@
         <form action="process" method="POST" name="registration" onsubmit="return validateForm();">
             <script>
                 var accountsObj = '${requestScope.ACCOUNTLIST}';
+                var saveFile = "WEB_INF/account.xml";
             </script>
             
             <h3 class="title">Đăng ký mới</h3>

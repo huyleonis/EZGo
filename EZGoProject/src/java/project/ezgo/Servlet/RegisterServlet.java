@@ -50,12 +50,12 @@ public class RegisterServlet extends HttpServlet {
         String error = "";
         String url = registerPage;
         try {
-            // không thể check validate do javascript không thể ghi file ở server
+            
             // unmarshall & validate data
 //            JAXBContext context = JAXBContext.newInstance("project.ezgo.JAXB");          
 //            Unmarshaller unmarshaller = context.createUnmarshaller();
 //            unmarshaller.setEventHandler(new JAXBValidationHandler());
-//            File file = new File("src/conf/java/project/ezgo/XML/accounts.xml");
+//            File file = new File("web/WEB-INF/account.xml");
 //            Account account = (Account) unmarshaller.unmarshal(file);
             
             // lưu xuống DB
