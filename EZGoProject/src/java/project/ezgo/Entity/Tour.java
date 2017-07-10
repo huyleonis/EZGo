@@ -37,19 +37,15 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "tour", propOrder = {    
     "tourID",
     "name",
-    "picture",
-    "duration",
+    "picture",    
     "price",
-    "oldPrice",
-    "schedule",
+    "oldPrice",    
     "currency",
     "departure",
-    "departureDay",
     "agenda",
     "agendaId",
     "link",
-    "popularity",
-    "policy",
+    "popularity",    
     "regionType",
 })
 @NamedQueries({
@@ -95,7 +91,7 @@ public class Tour implements Serializable {
     private String departure;
 
     @Column(name = "duration", length = 20)
-    @XmlElement(required = true)
+    @XmlTransient
     private String duration;
 
     @Column(name = "price")
@@ -116,7 +112,7 @@ public class Tour implements Serializable {
 
     @Column(name = "departureDay")
     @Temporal(TemporalType.DATE)
-    @XmlElement(required = true)
+    @XmlTransient
     private Date departureDay;
     
     @Column(name = "link", length = 500)

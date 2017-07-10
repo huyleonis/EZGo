@@ -26,9 +26,7 @@
                     <xsl:if test="$accId != ''">
                         <xsl:if test="$favList != ''">                            
                             <xsl:variable name="tourId" select=".//id"/>                            
-                            <xsl:value-of select="$favList"/>
                             <br/>
-                            <xsl:value-of select="$tourId"/>
                             <xsl:if test="contains($favList, $tourId)">
                                 <img src="img/star1.png" width="80" height="80" 
                                     class="favorite" title="Thêm vào danh sách yêu thích" style="opacity:1;"
