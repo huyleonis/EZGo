@@ -103,11 +103,11 @@ public class Tour implements Serializable {
     private Integer rating;
 
     @Column(name = "schedule", length = 4000)
-    @XmlElement
+    @XmlTransient
     private String schedule;
     
     @Column(name = "policy", length = 4000)
-    @XmlElement
+    @XmlTransient
     private String policy;
 
     @Column(name = "departureDay")

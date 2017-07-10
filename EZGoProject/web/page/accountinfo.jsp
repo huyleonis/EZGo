@@ -114,7 +114,7 @@
             <div class="search-bar">
                 <label><h3> Quản lý tài khoản: </h3></label>
                 <script type="text/javascript" src="../js/search.js">
-                    reqObj = '${requestScope.ACCOUNTLIST}'
+               reqObj = '${requestScope.ACCOUNTLIST}'
                 </script>
                 <form>
                     <input type="text" name="kw" placeholder="Tên đăng nhập" class="form-control" style="width:60%; display: inline;">
@@ -124,8 +124,8 @@
                     </button>
                 </form>
 
-                <c:set var="accountList" value="${requestScope.LISTACCOUNT}"/>
-                <c:if test="${not empty accountList}">
+                <c:set var="list" value="${requestScope.LISTACCOUNT}"/>
+                <c:if test="${not empty list}">
                     <div class="table-wrapper">
                         <div class="table" id="table">
                             <div class="row header">
@@ -146,31 +146,17 @@
                                 </div>
                             </div>
 
+                            <c:import charEncoding="utf-8" url="xslt/accountListView.xsl" var="accountListView" />           
+                            <x:transform doc="${list}" xslt="${accountListView}">
+                                <x:param name="accId" value="${sessionScope.ACCOUNT_ID}"/>          
+                            </x:transform>
 
-
-<!--                            <div class="row">
-                                <div class="cell">
-                                    LukePeter
-                                </div>
-                                <div class="cell">
-                                    FreelancerLuke@gmail.com
-                                </div>
-                                <div class="cell">
-                                    Luke Peters
-                                </div>
-                                <div class="cell">
-                                    User
-                                </div>
-                                <div class="cell">
-                                    <button type="submit" class="btn btn-orange" 
-                                            name="action" value="changepass">Xóa</button>
-                                </div>
-                            </div>-->
                         </div> <!--End table div-->
                     </div> <!--End table wrapper div-->
-                </div> <!--End search div-->
-            </div> <!--End manage account tab div-->
-        </c:if>
+                </c:if>
+
+            </div> <!--End search div-->
+        </div> <!--End manage account tab div-->      
     </div>
 </div>
 <br/>

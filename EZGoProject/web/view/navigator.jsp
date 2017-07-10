@@ -17,7 +17,7 @@
     <a href="#" >Giới thiệu</a>
     <a href="#" >Tour trong nước</a>
     <a href="#" >Tour nước ngoài</a>
-    <a href="#" >Khuyến mãi</a>
+    <a href="?p=promotion" >Khuyến mãi</a>
     <div class="dropdown">
         <a class="dropdown-btn" >
             <i class="fa fa-user-circle" style="font-size: 21px;"></i> 

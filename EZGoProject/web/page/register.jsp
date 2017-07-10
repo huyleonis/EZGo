@@ -13,10 +13,10 @@
 
 <div class="container"> 
     <div class="login-card register-card" id="registerCard">
-        <form action="process" method="POST" name="registration" onsubmit="return validateForm();">
+        <form action="process" method="POST" name="registration">
             <script>
                 var accountsObj = '${requestScope.ACCOUNTLIST}';
-                var saveFile = "WEB_INF/account.xml";
+                var saveFile = '${requestScope.FILEPATH}';
             </script>
             
             <h3 class="title">Đăng ký mới</h3>
@@ -34,8 +34,8 @@
             
             <font color="red" id="registerError" style="display:none;">Lỗi: Email không đúng cú pháp</font>
             
-            <button type="submit" class="btn btn-green" onclick="checkIfExist()" value="Register">Gửi</button>
-            <a href="?p=login"><font color="red" id="registerError" style="display:none;">Bạn đã đăng ký thành công. Bấm vào đây để đăng nhập.</font></a>
+            <button type="submit" class="btn btn-green" onclick="validateForm(event);" name="action" value="Register">Gửi</button>
+            <a href="?p=login"><font color="red" id="loginMes" style="display:none;">Bạn đã đăng ký thành công. Bấm vào đây để đăng nhập.</font></a>
         </form>
     </div>
 </div>
