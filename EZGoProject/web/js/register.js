@@ -6,102 +6,53 @@
 
 var accountsObj;
 var saveFile;
-var xmlDOM = new ActiveXObject("Microsoft.XMLDOM");
-var email = document.registration.email;
-var username = document.registration.username;
-var password = document.registration.password;
-var repassword = document.registration.repassword;
-var errorRegister = document.getElementById("registerError");
-var loginMes = document.getElementById("loginMes");
 
-function checkrepassword() {
+function checkrepassword(password, repassword) {
+    var errorRegister = document.getElementById("registerError");
     if (repassword.value != password.value) {
-        return false;
-    }
-    return true;
-}
-
-function searchIfUsernameExist(node, strSearch) {
-    if (node == null) {
-        return;
-    }
-    if (node.tagName == "username") {
-        var tmp = node.firstChild.nodeValue;
-        if (tmp.indexOf(strSearch, 0) > -1) {
-            return true;
-        }
-        var childs = node.childNodes;
-        for (var i = 0; i < childs.length; i++) {
-            searchIfUsernameExist(childs[i], strSearch);
-        }
-        return false;
-    }
-}
-
-function searchIfEmailExist(node, strSearch) {
-    if (node == null) {
-        return;
-    }
-    if (node.tagName == "email") {
-        var tmp = node.firstChild.nodeValue;
-        if (tmp.indexOf(strSearch, 0) > -1) {
-            return true;
-        }
-        var childs = node.childNodes;
-        for (var i = 0; i < childs.length; i++) {
-            searchIfEmailExist(childs[i], strSearch);
-        }
-        return false;
-    }
-}
-
-function validateForm(evt) {
-    var checkRepass = checkrepassword();
-    if (!checkRepass) {
         errorRegister.innerHTML = "Lỗi: Mật khẩu xác nhận không hợp lệ.";
         repassword.focus();
         errorRegister.style.display = 'block';
+    }
+}
 
-        evt.preventDefault();
-        returnToPreviousPage();
-        return false;
+function clearError(){
+    var errorRegister = document.getElementById("registerError");
+    errorRegister.innerHTML = '';
+    errorRegister.style.display = "none";
+}
+
+function validateForm() {
+
+    var email = document.registration.email;
+    var username = document.registration.username;
+    var errorRegister = document.getElementById("registerError");
+    var password = document.registration.password;
+    var repassword = document.registration.repassword;
+    
+    checkrepassword(password.value, repassword.value);
+
+    var searchEmail = "<email>" + email.value + "</email>";
+    var searchUsername = "<username>" + username.value + "</username>";
+    if (accountsObj.indexOf(searchEmail) > -1) {
+        errorRegister.innerHTML = 'Lỗi: Email này đã được dùng.';
+        errorRegister.style.display = 'block';
+        email.focus();
+    }
+    if (accountsObj.indexOf(searchUsername) > -1) {
+        errorRegister.innerHTML = 'Lỗi: Tên đăng nhập này đã được dùng.';
+        errorRegister.style.display = 'block';
+        username.focus();
     }
 
-    if (!accountsObj) { // is null
-        evt.preventDefault();
-
-        returnToPreviousPage();
-        return false;
+    if (errorRegister.innerHTML == '') {
+//        writeXML();
+        document.registration.action = "process?action=Register&" + 
+                "email=" + email.value + 
+                "&username=" + username.value +
+                "&password=" + password.value;
+        document.registration.submit();
     }
-    if (accountsObj) { // not null
-        xmlDOM.async = false;
-        xmlDOM.loadXML(accountsObj);
-        if (xmlDOM.parseError.errorCode != 0) {
-            alert("Error: " + xmlDoc.parseError.reason);
-        } else {
-            var ifUsernameExist = searchIfUsernameExist(xmlDOM, username);
-            var ifEmailExist = searchIfEmailExist(xmlDOM, email);
-            if (ifUsernameExist) {
-                errorRegister.innerHTML = 'Lỗi: Tên đăng nhập đã tồn tại.';
-                errorRegister.style.display = 'block';
-
-                evt.preventDefault();
-                returnToPreviousPage();
-                return false;
-            }
-            if (ifEmailExist) {
-                errorRegister.innerHTML = 'Lỗi: Email đã tồn tại.';
-                errorRegister.style.display = 'block';
-
-                evt.preventDefault();
-                returnToPreviousPage();
-                return false;
-            }
-        }
-    }
-    writeXML();
-    loginMes.style.display = 'block';
-    return true;
 }
 
 function writeXML()
@@ -121,3 +72,30 @@ function writeXML()
     }
 
 } 
+
+function checkTabChangePass(passCheck){
+    var oldpassword = document.tabchangepass.oldpass;
+    var password = document.tabchangepass.newpass;
+    var repassword = document.tabchangepass.renewpass;
+    var errorRegister = document.getElementById("registerError");
+    if (password.value != repassword.value) {
+        errorRegister.innerHTML = "Lỗi: Mật khẩu xác nhận không hợp lệ.";
+        repassword.focus();
+        errorRegister.style.display = 'block';
+    }
+    if (oldpassword.value != passCheck){
+        errorRegister.innerHTML = "Lỗi: Mật khẩu hiện tại không hợp lệ.";
+        oldpassword.focus();
+        errorRegister.style.display = 'block';
+    }
+    if(oldpassword.value == password.value){
+        errorRegister.innerHTML = "Lỗi: Mật khẩu mới không trùng với mật khẩu cũ.";
+        oldpassword.focus();
+        errorRegister.style.display = 'block';
+    }
+    if(errorRegister.innerHTML == ''){
+        document.tabchangepass.action = "process?action=changepass" + 
+                "&oldpass=" + oldpassword.value + "&newpass=" + password.value;
+        document.tabchangepass.submit();
+    }
+}

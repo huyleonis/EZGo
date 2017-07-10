@@ -40,7 +40,6 @@ import javax.xml.bind.annotation.XmlType;
     "accountID",
     "roleID",
     "username",
-    "password",
     "email",
     "fullname",
     "birthday",
@@ -73,7 +72,7 @@ public class Account implements Serializable {
     
     @Basic(optional = false)
     @Column(name = "password", nullable = false, length = 50)
-    @XmlElement
+    @XmlTransient
     private String password;
     
     @Column(name = "email", length = 100)
@@ -126,11 +125,12 @@ public class Account implements Serializable {
         this.password = password;
     }
     
-    public Account(Integer accountID, String username, String password, String email) {
+    public Account(Integer accountID, String username, String password, String email, Role roleID) {
         this.accountID = accountID;
         this.username = username;
         this.password = password; 
         this.email = email;
+        this.roleID = roleID;
     }
 
     public Integer getAccountID() {

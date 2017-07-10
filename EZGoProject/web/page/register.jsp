@@ -21,20 +21,27 @@
             
             <h3 class="title">Đăng ký mới</h3>
             <label>Email <span style="color: red;">*</span></label>
-            <input type="email" class="form-control" name="email" placeholder="Email" required="required" />
+            <input type="email" class="form-control" name="email" onchange="clearError()" placeholder="Email" required="required" />
 
             <label>Tên Đăng nhập <span style="color: red;">*</span></label>
-            <input type="text" class="form-control" name="username" placeholder="Tên đăng nhập" required="required" />
+            <input type="text" class="form-control" name="username" onchange="clearError()" placeholder="Tên đăng nhập" required="required" />
 
             <label>Mật khẩu <span style="color: red;">*</span></label>
-            <input type="password" class="form-control" name="password" placeholder="Mật khẩu" required="required" />
+            <input type="password" class="form-control" name="password" onchange="clearError()" placeholder="Mật khẩu" required="required" />
 
             <label>Xác nhận mật khẩu <span style="color: red;">*</span></label>
-            <input type="password" class="form-control" name="repassword" placeholder="Xác nhận mật khẩu" required="required" />
+            <input type="password" class="form-control" name="repassword" onchange="clearError()" placeholder="Xác nhận mật khẩu" required="required" />
             
-            <font color="red" id="registerError" style="display:none;">Lỗi: Email không đúng cú pháp</font>
+            <c:set var="errorMes" value="${requestScope.ERROR}"/>
+            <c:if test="${not empty errorMes}">
+                <font color="red" id="registerError" style="display:none;">${errorMes}</font>
+            </c:if>
+            <c:if test="${empty errorMes}">
+                <font color="red" id="registerError" style="display:none;"></font>
+            </c:if>
             
-            <button type="submit" class="btn btn-green" onclick="validateForm(event);" name="action" value="Register">Gửi</button>
+            
+            <button type="button" name="action" class="btn btn-green" onclick="validateForm()" value="Register">Gửi</button>
             <a href="?p=login"><font color="red" id="loginMes" style="display:none;">Bạn đã đăng ký thành công. Bấm vào đây để đăng nhập.</font></a>
         </form>
     </div>
