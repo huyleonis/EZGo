@@ -21,9 +21,11 @@ import project.ezgo.Util.XMLUtil;
  * @author Dells
  */
 public class RequestServletListener implements ServletRequestListener {
-
+    private final String xmlFile = "WEB-INF/account.xml";
+    
     @Override
-    public void requestDestroyed(ServletRequestEvent sre) {        
+    public void requestDestroyed(ServletRequestEvent sre) {
+        System.out.println("Request destroyed!");
     }
 
     @Override
@@ -39,23 +41,27 @@ public class RequestServletListener implements ServletRequestListener {
                 String strAccount = XMLUtil.marshalToXmlString(accounts);
                 System.out.println("Account string " + strAccount);
                 sre.getServletRequest().setAttribute("ACCOUNTLIST", strAccount);
+                String realPath = sre.getServletContext().getRealPath("/");
+                String xmlOutputFile = realPath + xmlFile;
+                sre.getServletRequest().setAttribute("FILEPATH", xmlOutputFile);
             } catch (JAXBException ex) {
                 System.out.println("Error eeeeeeeee: " + ex);
             }
-        } else if("accountinfo".equals(servletPath)){
-            System.out.println("Request initialized!");
-            TourMng tourManager = new TourMng();
-            tourManager.getAllTours();
-            ListTour tours = new ListTour(tourManager.getAllTours());
-            
-            try {
-                String strTour = XMLUtil.marshalToXmlString(tours);
-                System.out.println("Tour string " + strTour);
-                sre.getServletRequest().setAttribute("TOURLIST", strTour);
-            } catch (JAXBException ex) {
-                System.out.println("Error eeeeeeeee: " + ex);
-            }
-        }
+        } 
+//        else if("accountinfo".equals(servletPath)){
+//            System.out.println("Request initialized!");
+//            TourMng tourManager = new TourMng();
+//            tourManager.getAllTours();
+//            ListTour tours = new ListTour(tourManager.getAllTours());
+//            
+//            try {
+//                String strTour = XMLUtil.marshalToXmlString(tours);
+//                System.out.println("Tour string " + strTour);
+//                sre.getServletRequest().setAttribute("TOURLIST", strTour);
+//            } catch (JAXBException ex) {
+//                System.out.println("Error eeeeeeeee: " + ex);
+//            }
+//        }
 
     }
 }

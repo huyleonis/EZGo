@@ -13,7 +13,11 @@
 <c:import url="view/logo.jsp" charEncoding="utf-8"/>
 <hr/>
 <br/>
-<div class="container">
+<c:set var="currentTab" value="${requestScope.currentTab}"/>
+<c:if test="${empty currentTab}">
+    <c:set var="currentTab" value="edit-acc-info"/>
+</c:if>
+<div class="container" onload="openAccountInfoTab(event, '${currentTab}')">
     <div class="vertical-menu">
         <a href="#" class="tablinks active"
            onclick="openAccountInfoTab(event, 'view-acc-info'); return false;">Thông tin cá nhân</a>
@@ -21,13 +25,17 @@
            onclick="openAccountInfoTab(event, 'edit-acc-info'); return false;">Sửa thông tin cá nhân</a>
         <a href="#" class="tablinks"
            onclick="openAccountInfoTab(event, 'change-pass'); return false;">Đổi mật khẩu</a>
-        <hr/>
-        <a href="#" class="tablinks"
-           onclick="openAccountInfoTab(event, 'manage-acc'); return false;">Quản lý tài khoản</a>
-        <a href="#" class="tablinks"
-           onclick="openAccountInfoTab(event, 'manage-tour'); return false;">Quản lý Tour</a>
-        <a href="#" class="tablinks"
-           onclick="openAccountInfoTab(event, 'manage-agenda'); return false;">Quản lý Công ty du lịch</a>
+        <c:set var="roleID" value="${sessionScope.ROLEID}"/>
+        <c:if test="${roleID == '1'}">
+            <hr/>
+            <a href="#" class="tablinks"
+               onclick="openAccountInfoTab(event, 'manage-acc'); return false;">Quản lý tài khoản</a>
+            <a href="#" class="tablinks"
+               onclick="openAccountInfoTab(event, 'manage-tour'); return false;">Quản lý Tour</a>
+            <a href="#" class="tablinks"
+               onclick="openAccountInfoTab(event, 'manage-agenda'); return false;">Quản lý Công ty du lịch</a>
+        </c:if>
+
     </div>
 
     <div class="profile-info login-card">            
@@ -79,9 +87,6 @@
                 <label>Ngày sinh <span style="color: red;">*</span></label>
                 <input type="date" class="form-control" 
                        name="birthday" required="required" />
-                <!--                <label>Tiểu sử <span style="color: red;">*</span></label>
-                                <textarea class="form-control" name="description" rows="10" 
-                                          cols="50" placeholder="Tiểu sử"></textarea>-->
                 <label>Di động <span style="color: red;">*</span></label>
                 <input type="number" class="form-control" name="phone" 
                        placeholder="Số di động" required="required" />
@@ -93,84 +98,89 @@
 
         <!--------------------- Tab change password ------------------>
         <div id="change-pass" class="tabcontent">
-            <form action="" method="POST">						
+            <c:set var="oldpassword" value="${account.password}"/>
+            <form action="process" name="tabchangepass" method="POST">						
                 <h3 class="title">Đổi mật khẩu</h3>
                 <label>Mật khẩu cũ <span style="color: red;">*</span></label>
-                <input type="password" class="form-control" 
+                <input type="password" class="form-control" onchange="clearError()" 
                        name="oldpass" required="required" />
                 <label>Mật khẩu mới <span style="color: red;">*</span></label>
-                <input type="password" class="form-control" 
+                <input type="password" class="form-control" onchange="clearError()" 
                        name="newpass" required="required" />
                 <label>Xác nhận mật khẩu <span style="color: red;">*</span></label>
-                <input type="password" class="form-control" 
+                <input type="password" class="form-control" onchange="clearError()" 
                        name="renewpass" required="required" />
-                <button type="submit" class="btn btn-yellow" 
+
+                <c:set var="errorMes" value="${requestScope.ERROR}"/>
+                <c:if test="${not empty errorMes}">
+                    <font color="red" id="registerError" style="display:none;">${errorMes}</font>
+                </c:if>
+                <c:if test="${empty errorMes}">
+                    <font color="red" id="registerError" style="display:none;"></font>
+                </c:if>
+
+                <button type="button" class="btn btn-yellow" onclick="checkTabChangePass('${oldpassword}')"
                         name="action" value="changepass">Đổi mật khẩu</button>
+
             </form>
         </div>
 
-        <!--------------------- Tab manage account ------------------>
-        <div class="tabcontent" id="manage-acc" >
-            <div class="search-bar">
-                <label><h3> Quản lý tài khoản: </h3></label>
-                <script type="text/javascript" src="../js/search.js">
-                    reqObj = '${requestScope.ACCOUNTLIST}'
-                </script>
-                <form>
-                    <input type="text" name="kw" placeholder="Tên đăng nhập" class="form-control" style="width:60%; display: inline;">
-                    <button type="button" onclick="return searchProcess('table')" 
-                            name="action" value="SearchAccount" class="btn btn-default">
-                        Tìm kiếm
-                    </button>
-                </form>
+        <c:if test="${roleID == '1'}">
+            <!--------------------- Tab manage account ------------------>
+            <div class="tabcontent" id="manage-acc" >
+                <div class="search-bar">
+                    <label><h3> Quản lý tài khoản: </h3></label>
+                    <script type="text/javascript" src="../js/search.js">
+                   reqObj = '${requestScope.ACCOUNTLIST}'
+                    </script>
+                    <form>
+                        <input type="text" name="kw" placeholder="Tên đăng nhập" class="form-control" style="width:60%; display: inline;">
+                        <button type="button" onclick="return searchProcess('table')" 
+                                name="action" value="SearchAccount" class="btn btn-default">
+                            Tìm kiếm
+                        </button>
+                    </form>
 
-                <c:set var="accountList" value="${requestScope.LISTACCOUNT}"/>
-                <c:if test="${not empty accountList}">
-                    <div class="table-wrapper">
-                        <div class="table" id="table">
-                            <div class="row header">
-                                <div class="cell">
-                                    Username
+                    <c:set var="list" value="${requestScope.LISTACCOUNT}"/>
+                    <c:if test="${not empty list}">
+                        <div class="table-wrapper">
+                            <div class="table" id="table">
+                                <div class="row header">
+                                    <div class="cell">
+                                        Username
+                                    </div>
+                                    <div class="cell">
+                                        Email
+                                    </div>
+                                    <div class="cell">
+                                        Fullname
+                                    </div>
+                                    <div class="cell">
+                                        Role
+                                    </div>
+                                    <div class="cell">
+                                        Action
+                                    </div>
                                 </div>
-                                <div class="cell">
-                                    Email
-                                </div>
-                                <div class="cell">
-                                    Fullname
-                                </div>
-                                <div class="cell">
-                                    Role
-                                </div>
-                                <div class="cell">
-                                    Action
-                                </div>
-                            </div>
 
+                                <c:import charEncoding="utf-8" url="xslt/accountListView.xsl" var="accountListView" />           
+                                <x:transform doc="${list}" xslt="${accountListView}">
+                                    <x:param name="accId" value="${sessionScope.ACCOUNT_ID}"/>          
+                                </x:transform>
 
+                            </div> <!--End table div-->
+                        </div> <!--End table wrapper div-->
+                    </c:if>
 
-<!--                            <div class="row">
-                                <div class="cell">
-                                    LukePeter
-                                </div>
-                                <div class="cell">
-                                    FreelancerLuke@gmail.com
-                                </div>
-                                <div class="cell">
-                                    Luke Peters
-                                </div>
-                                <div class="cell">
-                                    User
-                                </div>
-                                <div class="cell">
-                                    <button type="submit" class="btn btn-orange" 
-                                            name="action" value="changepass">Xóa</button>
-                                </div>
-                            </div>-->
-                        </div> <!--End table div-->
-                    </div> <!--End table wrapper div-->
                 </div> <!--End search div-->
-            </div> <!--End manage account tab div-->
+            </div> <!--End manage account tab div-->    
+
+
+
+
+
         </c:if>
+
     </div>
 </div>
 <br/>

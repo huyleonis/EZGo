@@ -19,6 +19,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import project.ezgo.BLO.AccountMng;
+import project.ezgo.BLO.RoleMng;
+import project.ezgo.BLO.TourMng;
 import project.ezgo.Entity.Account;
 import project.ezgo.Entity.ListAccount;
 import project.ezgo.JAXB.JAXBValidationHandler;
@@ -29,8 +31,10 @@ import project.ezgo.JAXB.JAXBValidationHandler;
  */
 @WebServlet(name = "RegisterServlet", urlPatterns = {"/register"})
 public class RegisterServlet extends HttpServlet {
+
     private String loginPage = "?p=login";
     private String registerPage = "?p=register";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -50,33 +54,31 @@ public class RegisterServlet extends HttpServlet {
         String error = "";
         String url = registerPage;
         try {
-            
+
             // unmarshall & validate data
 //            JAXBContext context = JAXBContext.newInstance("project.ezgo.JAXB");          
 //            Unmarshaller unmarshaller = context.createUnmarshaller();
 //            unmarshaller.setEventHandler(new JAXBValidationHandler());
 //            File file = new File("web/WEB-INF/account.xml");
 //            Account account = (Account) unmarshaller.unmarshal(file);
-            
+
             // lưu xuống DB
             AccountMng manager = new AccountMng();
-            if (manager.findAccount(email)!=null) {
-                error = "Lỗi: Email này đã tồn tại!";
-            } else if (manager.findAccount(username)!=null) {
-                error = "Lỗi: Tên đăng nhập này đã tồn tại!";
+            RoleMng rolemng = new RoleMng();
+            
+            boolean createResult = manager.createNewAccount(new Account(Integer.BYTES, 
+                    username, password, email, rolemng.getRoleByID(2)));
+            if (!createResult) {
+                error = "Xảy ra lỗi, xin vui lòng thử lại sau!";
             } else {
-                boolean createResult = manager.createNewAccount(new Account(Integer.BYTES, username, password, email));
-                if (!createResult) {
-                    error = "Xảy ra lỗi, xin vui lòng thử lại sau!";
-                } else {
-                    url = loginPage;
-                }
+                url = loginPage;
             }
-        } catch(Exception e){
+
+        } catch (Exception e) {
             e.printStackTrace();
             log("Registration fail - Error: " + e);
             error = "Xảy ra lỗi, xin hãy thử lại sau!";
-        } finally{
+        } finally {
             request.setAttribute("ERROR", error);
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

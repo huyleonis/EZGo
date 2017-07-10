@@ -23,7 +23,9 @@ import project.ezgo.Entity.Account;
  */
 @WebServlet(name = "ChangePasswordServlet", urlPatterns = {"/changepass"})
 public class ChangePasswordServlet extends HttpServlet {
-    String managePage = "?p=accountinfo";
+
+    String managePage = "?p=account";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,23 +39,27 @@ public class ChangePasswordServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String oldpass = request.getParameter("");
-        String newpass =  request.getParameter("");
+        String oldpass = request.getParameter("oldpass");
+        String newpass = request.getParameter("newpass");
         HttpSession session = request.getSession();
-        String accountID = (String) session.getAttribute("ACCOUNT_ID");
+        String accountID = session.getAttribute("ACCOUNT_ID").toString();
         try {
             AccountMng manager = new AccountMng();
             Account account = manager.getAccountById(accountID);
-            if(oldpass.equals(account.getPassword())){
+            if (oldpass.equals(account.getPassword())) {
                 boolean result = manager.updatePassword(accountID, newpass);
-                if(!result){
+                if (!result) {
                     request.setAttribute("ERROR", "Lỗi xảy ra, vui lòng thử lại sau!");
+                } else {
+                    request.setAttribute("ERROR", "Đã đổi mật khẩu thành công!");
+                    request.setAttribute("ACCOUNT", account);
                 }
             }
-        } catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Error: " + e);
             request.setAttribute("ERROR", "Lỗi xảy ra, vui lòng thử lại sau!");
-        } finally{
+        } finally {
+            request.setAttribute("currentTab", "change-pass");
             RequestDispatcher rd = request.getRequestDispatcher(managePage);
             rd.forward(request, response);
             out.close();

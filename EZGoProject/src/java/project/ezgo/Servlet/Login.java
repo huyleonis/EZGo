@@ -71,6 +71,7 @@ public class Login extends HttpServlet {
                     session.setAttribute("ACCOUNT_ID", a.getAccountID());
                     session.setAttribute("ACCOUNT_FULLNAME", a.getFullname());
                     session.setAttribute("LIST_FAVORITE", lst.toString());
+                    session.setAttribute("ROLEID", a.getRoleID().getRoleID());
                     session.removeAttribute("LAST_UPDATE");
 
                     url = index;

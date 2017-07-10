@@ -40,15 +40,11 @@ import javax.xml.bind.annotation.XmlType;
     "accountID",
     "roleID",
     "username",
-    "password",
     "email",
     "fullname",
     "birthday",
     "address",
     "phone",
-    "favoriteCollection",
-    "viewHistoryCollection",
-    "commentCollection",
 })
 @NamedQueries({
     @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a")
@@ -76,7 +72,7 @@ public class Account implements Serializable {
     
     @Basic(optional = false)
     @Column(name = "password", nullable = false, length = 50)
-    @XmlElement
+    @XmlTransient
     private String password;
     
     @Column(name = "email", length = 100)
@@ -101,6 +97,7 @@ public class Account implements Serializable {
     private String phone;
     
     @OneToMany(mappedBy = "accountID")
+    @XmlTransient
     private Collection<Favorite> favoriteCollection;
     
     @JoinColumn(name = "roleID", referencedColumnName = "roleID", nullable = false)
@@ -108,9 +105,11 @@ public class Account implements Serializable {
     private Role roleID;
     
     @OneToMany(mappedBy = "accountID")
+    @XmlTransient
     private Collection<Comment> commentCollection;
     
     @OneToMany(mappedBy = "accountID")
+    @XmlTransient
     private Collection<ViewHistory> viewHistoryCollection;
 
     public Account() {
@@ -126,11 +125,12 @@ public class Account implements Serializable {
         this.password = password;
     }
     
-    public Account(Integer accountID, String username, String password, String email) {
+    public Account(Integer accountID, String username, String password, String email, Role roleID) {
         this.accountID = accountID;
         this.username = username;
         this.password = password; 
         this.email = email;
+        this.roleID = roleID;
     }
 
     public Integer getAccountID() {
