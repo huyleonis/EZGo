@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x"%>
 
 <c:set var="account" value="${requestScope.ACCOUNT}" />
 
@@ -32,8 +32,8 @@
                onclick="openAccountInfoTab(event, 'manage-acc'); return false;">Quản lý tài khoản</a>
             <a href="#" class="tablinks"
                onclick="openAccountInfoTab(event, 'manage-tour'); return false;">Quản lý Tour</a>
-            <a href="#" class="tablinks"
-               onclick="openAccountInfoTab(event, 'manage-agenda'); return false;">Quản lý Công ty du lịch</a>
+            <!--            <a href="#" class="tablinks"
+                           onclick="openAccountInfoTab(event, 'manage-agenda'); return false;">Quản lý Công ty du lịch</a>-->
         </c:if>
 
     </div>
@@ -131,7 +131,7 @@
                 <div class="search-bar">
                     <label><h3> Quản lý tài khoản: </h3></label>
                     <script type="text/javascript" src="../js/search.js">
-                   reqObj = '${requestScope.ACCOUNTLIST}'
+                    reqObj = '${requestScope.ACCOUNTLIST}'
                     </script>
                     <form>
                         <input type="text" name="kw" placeholder="Tên đăng nhập" class="form-control" style="width:60%; display: inline;">
@@ -141,44 +141,36 @@
                         </button>
                     </form>
 
-                    <c:set var="list" value="${requestScope.LISTACCOUNT}"/>
+                    <c:set var="list" value="${requestScope.ACCOUNTLIST}"/>
                     <c:if test="${not empty list}">
-                        <div class="table-wrapper">
-                            <div class="table" id="table">
-                                <div class="row header">
-                                    <div class="cell">
-                                        Username
-                                    </div>
-                                    <div class="cell">
-                                        Email
-                                    </div>
-                                    <div class="cell">
-                                        Fullname
-                                    </div>
-                                    <div class="cell">
-                                        Role
-                                    </div>
-                                    <div class="cell">
-                                        Action
-                                    </div>
-                                </div>
-
-                                <c:import charEncoding="utf-8" url="xslt/accountListView.xsl" var="accountListView" />           
-                                <x:transform doc="${list}" xslt="${accountListView}">
-                                    <x:param name="accId" value="${sessionScope.ACCOUNT_ID}"/>          
-                                </x:transform>
-
-                            </div> <!--End table div-->
-                        </div> <!--End table wrapper div-->
+                        <c:import charEncoding="UTF-8" url="xslt/accountListView.xsl" var="accountListView" />           
+                        <x:transform doc="${list}" xslt="${accountListView}"/>
                     </c:if>
 
                 </div> <!--End search div-->
             </div> <!--End manage account tab div-->    
 
+            
+            <!--------------------- Tab manage tour ------------------>
+            <div class="tabcontent" id="manage-tour" >
+                <div class="search-bar">
+                    <label><h3> Quản lý tài tour: </h3></label>
+                    <form>
+                        <input type="text" name="kw" placeholder="Tên tour" class="form-control" style="width:60%; display: inline;">
+                        <button type="button" onclick="return searchProcess('table')" 
+                                name="action" value="SearchTour" class="btn btn-default">
+                            Tìm kiếm
+                        </button>
+                    </form>
 
+                    <c:set var="tourList" value="${requestScope.TOURLIST}" />
+                    <c:if test="${not empty tourList}">
+                        <c:import charEncoding="UTF-8" url="xslt/tourListView.xsl" var="tourListView" />           
+                        <x:transform doc="${tourList}" xslt="${tourListView}"/>
+                    </c:if>
 
-
-
+                </div> <!--End search div-->
+            </div> <!--End manage account tab div-->    
         </c:if>
 
     </div>

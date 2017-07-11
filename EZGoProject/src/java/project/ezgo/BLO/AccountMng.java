@@ -166,9 +166,9 @@ public class AccountMng implements Serializable {
         }
     }
     
-    public List getAllAccounts(){
+    public List<Account> getAllAccounts(){
         Query query = em.createNamedQuery("Account.findAll");
-        List listAccounts = query.getResultList();
+        List<Account> listAccounts = query.getResultList();
         return listAccounts;
     }
 }

@@ -67,7 +67,7 @@ public class RegisterServlet extends HttpServlet {
             RoleMng rolemng = new RoleMng();
             
             boolean createResult = manager.createNewAccount(new Account(Integer.BYTES, 
-                    username, password, email, rolemng.getRoleByID(2)));
+                    username, password, email, rolemng.getRoleByID(1)));
             if (!createResult) {
                 error = "Xảy ra lỗi, xin vui lòng thử lại sau!";
             } else {

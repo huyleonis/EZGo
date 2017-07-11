@@ -1,60 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-    Document   : accountListView.xsl
-    Created on : July 10, 2017, 9:40 AM
+    Document   : tourListView.xsl
+    Created on : July 11, 2017, 8:04 PM
     Author     : Dells
     Description:
         Purpose of transformation follows.
 -->
 
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"
+                xmlns:exsl="http://exslt.org/common"
+                xmlns:fn="http://www.w3.org/2005/xpath-functions">
     
     <xsl:output method="html" indent="yes" encoding="UTF-8"/>
 
-    <xsl:template match="accounts">
+    <xsl:template match="tours">
         <div class="table-wrapper">
             <div class="table" id="table">
                 <div class="row header">
                     <div class="cell">
-                        Username
+                        ID
                     </div>
                     <div class="cell">
-                        Email
+                        Tên
                     </div>
                     <div class="cell">
-                        Fullname
+                        Giá
                     </div>
                     <div class="cell">
-                        Role
+                        Xuất phát
                     </div>
                     <div class="cell">
-                        Action
+                        Công ty
                     </div>
                 </div>
-                <xsl:for-each select="account[position()&lt;10]">          
-                    <xsl:variable name="link">process?action=DeleteAccount&amp;accountID=<xsl:value-of select=".//accountID"/></xsl:variable>
+                <xsl:for-each select="tour[position()]">          
+                    <xsl:variable name="link">process?action=TourDetail&amp;id=<xsl:value-of select=".//id"/></xsl:variable>
                     <div class="row">
                         <div class="cell">
-                            <xsl:value-of select=".//username"/>
+                            <a href="$link">
+                                <xsl:value-of select=".//id"/>
+                            </a>
                         </div>
                         <div class="cell">
-                            <xsl:value-of select=".//email"/>
+                            <xsl:value-of select=".//name"/>
                         </div>
                         <div class="cell">
-                            <xsl:value-of select=".//fullname"/>
+                            <xsl:value-of select=".//current-price"/>
                         </div>
                         <div class="cell">
-                            <xsl:value-of select=".//roleID//name"/>
+                            <xsl:value-of select=".//departure"/>
                         </div>
                         <div class="cell">
-                            <xsl:variable name="roleID" select="string(.//roleID/roleID)" />
-                            <xsl:if test="$roleID='1'">
-                                <a href="{$link}">
-                                    <button type="button" class="btn btn-orange" 
-                                            name="action" value="DeleteAccount">Xóa</button>
-                                </a>
-                            </xsl:if>
+                            <xsl:value-of select=".//agendaID"/>
                         </div>
                     </div>
             
@@ -65,5 +63,3 @@
     
     </xsl:template>
 </xsl:stylesheet>
-
-
