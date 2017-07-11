@@ -65,11 +65,14 @@ public class Login extends HttpServlet {
                     FavoriteMng favMng = new FavoriteMng();
                     ListFavorite lst = new ListFavorite(accountId, favMng.getFavoriteByAccount(accountId));                    
 
+                    
+                    
                     HttpSession session = request.getSession(true);
                     session.setAttribute("ACCOUNT_ID", a.getAccountID());
                     session.setAttribute("ACCOUNT_FULLNAME", a.getFullname());
                     session.setAttribute("LIST_FAVORITE", lst.toString());
                     session.setAttribute("ROLEID", a.getRoleID().getRoleID());
+                    session.removeAttribute("LAST_UPDATE");
 
                     url = index;
 

@@ -84,18 +84,15 @@ public class SaveFavoriteServlet extends HttpServlet {
                     HttpSession session = request.getSession();
                     session.setAttribute("LIST_FAVORITE", lst.toString());
                 }
-
             }
 
             out.print("true");
 
         } catch (JAXBException ex) {
             log("JAXB Exception: " + ex.getMessage());
-            ex.printStackTrace();
             out.print("false");
         } catch (SAXException ex) {
             log("SAX Parser Exception: " + ex.getMessage());
-            ex.printStackTrace();
             out.print("false");
         } finally {
             out.close();

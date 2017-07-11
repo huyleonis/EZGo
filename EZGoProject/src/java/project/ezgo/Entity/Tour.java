@@ -47,6 +47,11 @@ import javax.xml.bind.annotation.XmlType;
     "link",
     "popularity",    
     "regionType",
+    "policy",
+    "schedule",
+    "departureDay",
+    "duration",
+    "rating",
 })
 @NamedQueries({
     @NamedQuery(name = "Tour.findAll", query = "SELECT t FROM Tour t")
@@ -91,7 +96,7 @@ public class Tour implements Serializable {
     private String departure;
 
     @Column(name = "duration", length = 20)
-    @XmlTransient
+    @XmlElement(required = true)
     private String duration;
 
     @Column(name = "price")
@@ -99,20 +104,20 @@ public class Tour implements Serializable {
     private BigInteger price;
 
     @Column(name = "rating")
-    @XmlTransient
+    @XmlElement(required = true)
     private Integer rating;
 
     @Column(name = "schedule", length = 4000)
-    @XmlTransient
+    @XmlElement(required = true)
     private String schedule;
     
     @Column(name = "policy", length = 4000)
-    @XmlTransient
+    @XmlElement(required = true)
     private String policy;
 
     @Column(name = "departureDay")
     @Temporal(TemporalType.DATE)
-    @XmlTransient
+    @XmlElement(required = true)
     private Date departureDay;
     
     @Column(name = "link", length = 500)

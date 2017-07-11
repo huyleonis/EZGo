@@ -91,7 +91,6 @@
 
 
 <h1 style="text-align: center; font-size: 2.5em;">Các tour nổi bật</h1>
-${sessionScope.LIST_FAVORITE}
 <div id="list_tours">
     <c:set var="list" value="${sessionScope.LIST_TOUR}"/>
     <c:set var="favList" value="${sessionScope.LIST_FAVORITE}"/>

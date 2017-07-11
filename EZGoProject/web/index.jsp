@@ -35,6 +35,16 @@
             <c:when test="${page == 'tourDetail'}">
                 <c:import url="page/tourdetail.jsp" charEncoding="utf-8" />
             </c:when>
+            <c:when test="${page == 'domestic'}">                
+                <c:import url="page/tourRegion.jsp" charEncoding="utf-8">
+                    <c:param name="region" value="1"/>
+                </c:import>
+            </c:when>
+            <c:when test="${page == 'abroad'}">
+                <c:import url="page/tourRegion.jsp" charEncoding="utf-8">
+                    <c:param name="region" value="2"/>
+                </c:import>
+            </c:when>
             <c:otherwise>
                 <c:import url="page/index.jsp" charEncoding="utf-8" />
             </c:otherwise>

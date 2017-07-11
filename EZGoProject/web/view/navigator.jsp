@@ -15,8 +15,8 @@
 
     <a href="." ><i class="fa fa-home" style="font-size: 21px;"></i></a>
     <a href="#" >Giới thiệu</a>
-    <a href="#" >Tour trong nước</a>
-    <a href="#" >Tour nước ngoài</a>
+    <a href="?p=domestic" >Tour trong nước</a>
+    <a href="?p=abroad" >Tour nước ngoài</a>
     <a href="?p=promotion" >Khuyến mãi</a>
     <div class="dropdown">
         <a class="dropdown-btn" >
@@ -44,4 +44,3 @@
     <a class="icon" onclick="openMenu()">&#9776;</a>
 
 </div>
-
